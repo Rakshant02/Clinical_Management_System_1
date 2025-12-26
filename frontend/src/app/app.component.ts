@@ -2,12 +2,12 @@ import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { NavbarComponent } from "./shared/navbar/navbar.component";
 import { FooterComponent } from "./shared/footer/footer.component";
-import { ConsentFormComponent } from "./modules/enrollment/components/consent-form/consent-form.component";
+import { AuditLogTableComponent } from "./modules/compliance/components/audit-log-table/audit-log-table.component";
 
 @Component({
   selector: 'app-root',
-  standalone: true,
-  imports: [RouterOutlet, NavbarComponent, FooterComponent, ConsentFormComponent],
+  imports: [RouterOutlet, NavbarComponent, FooterComponent, AuditLogTableComponent],
+  standalone:true,
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })

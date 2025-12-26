@@ -1,9 +1,10 @@
 import { Component } from '@angular/core';
-import { AnalyticsRoutingModule } from "../../modules/analytics/analytics-routing.module";
+import { RouterLink, RouterLinkActive } from '@angular/router';
 
 @Component({
   selector: 'app-navbar',
-  imports: [AnalyticsRoutingModule],
+  imports: [RouterLink, RouterLinkActive],
+  standalone:true,
   templateUrl: './navbar.component.html',
   styleUrl: './navbar.component.css'
 })
