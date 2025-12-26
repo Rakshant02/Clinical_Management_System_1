@@ -1,0 +1,24 @@
+<h2>Manage Consent</h2>
+
+<div *ngIf="error" class="error">{{ error }}</div>
+
+<div *ngIf="participant">
+  <div class="summary">
+    <strong>Participant:</strong> {{ participant.name }} (ID: {{ participant.id || '—' }})
+    <span class="chip">Eligibility: {{ participant.eligibilityStatus }}</span>
+    <span class="chip">Consent: {{ participant.consentStatus }}</span>
+  </div>
+
+  <bt-consent-form
+    [participantName]="participant.name"
+    (signConsent)="onSign($event)"
+    (withdrawConsent)="onWithdraw()"
+  ></bt-consent-form>
+
+  <div *ngIf="consent" class="status">
+  Current consent status: <strong>{{ consent.status }}</strong>
+  <span *ngIf="consent.signedDate"> (Signed: {{ consent.signedDate }})</span>
+  </div>
+</div>
+
+<div *ngIf="!participant && !error && loading">Loading...</div>

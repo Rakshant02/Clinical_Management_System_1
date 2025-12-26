@@ -1,0 +1,110 @@
+h2{
+  text-align: center;
+  color: #2c3e50;
+  margin-bottom: 20px;
+}
+/* Participant form wrapper */
+bt-participant-form {
+  display: block;
+  max-width: 480px;
+  margin: 0 auto;
+  padding: 20px;
+  background: #fff;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+}
+
+/* Form layout */
+bt-participant-form form {
+  display: grid;
+  gap: 16px;
+}
+
+/* Labels */
+bt-participant-form label {
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 4px;
+  display: block;
+}
+
+/* Inputs & selects */
+bt-participant-form input,
+bt-participant-form select {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 14px;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+bt-participant-form input:focus,
+bt-participant-form select:focus {
+  border-color: #1976d2;
+  outline: none;
+  box-shadow: 0 0 4px rgba(25, 118, 210, 0.3);
+}
+
+/* Error messages */
+bt-participant-form .error {
+  color: #c0392b;
+  font-size: 0.85rem;
+  margin-top: -6px;
+}
+
+/* Actions */
+bt-participant-form .actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 12px;
+}
+
+/* Buttons */
+bt-participant-form button {
+  padding: 8px 14px;
+  background: #1976d2;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: background 0.3s ease, transform 0.2s ease;
+}
+
+bt-participant-form button:hover:not(:disabled) {
+  background: #1565c0;
+  transform: translateY(-2px);
+}
+
+bt-participant-form button:disabled {
+  background: #aaa;
+  cursor: not-allowed;
+}
+
+/* Responsive tweaks */
+@media (max-width: 480px) {
+  bt-participant-form {
+    padding: 15px;
+  }
+
+  bt-participant-form button {
+    width: 100%;
+    font-size: 14px;
+  }
+
+  bt-participant-form .actions {
+    flex-direction: column;
+    align-items: stretch;
+  }
+}
+/* Success message */
+bt-participant-form .success-message { 
+    background: #dff0d8;
+    color: #3c763d;
+    padding: 10px;
+    border-radius: 6px;
+    margin-top: 12px;
+    }                    

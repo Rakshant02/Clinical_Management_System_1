@@ -1,0 +1,12 @@
+<form (ngSubmit)="onSubmit()" #form="ngForm" class="bt-form">
+  <label>Name:</label>
+  <input [(ngModel)]="participant.name" name="name" required />
+
+  <label>Date of Birth:</label>
+  <input type="date" [(ngModel)]="participant.dob" name="dob" required />
+
+  <label>Contact Info:</label>
+  <input [(ngModel)]="participant.contactInfo" name="contactInfo" required />
+
+  <button type="submit">Save Participant</button>
+</form>

@@ -1,0 +1,46 @@
+<h2>Participants</h2>
+<div *ngIf="loading">Loading participants...</div>
+
+<table *ngIf="participants.length > 0" class="participant-table">
+  <thead>
+    <tr>
+      <th>Participant ID</th>
+      <th>Name</th>
+      <th>DOB</th>
+      <th>Contact</th>
+      <th>Eligibility</th>
+      <th>Enrollment Status</th>
+      <th>Latest Consent</th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let p of participants">
+      <td>{{ p.id }}</td>
+      <td>{{ p.name }}</td>
+      <td>{{ p.dob }}</td>
+      <td>{{ p.contactInfo }}</td>
+      <td>{{ p.eligibilityStatus }}</td>
+      <td>{{ p.enrollmentStatus }}</td>
+      <td>
+        <!-- Show latest consent if available -->
+        <span *ngIf="p.latestConsent">
+          {{ p.latestConsent.status }} ({{ p.latestConsent.signedDate | date:'shortDate' }})
+        </span>
+        <span *ngIf="!p.latestConsent">No consent</span>
+      </td>
+      <td>
+        <button (click)="manageConsent(p.id)">Manage Consent</button>
+        <!-- <button (click)="edit(p.id)">Edit</button> -->  
+      <!-- </td>
+      <td> -->
+        <button (click)="delete(p.id)">Delete</button>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<div *ngIf="!loading && participants.length === 0">No participants found.</div>
+<button (click)="create()" class="create-btn">➕ Add New Participant</button>
+<br>
+<br>
