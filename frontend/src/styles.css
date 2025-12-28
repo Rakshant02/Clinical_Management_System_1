@@ -158,3 +158,6 @@ html, body {
 .bt-gap-sm { gap: .5rem; }
 .bt-gap-md { gap: .75rem; }
 .bt-gap-lg { gap: 1rem; }
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
