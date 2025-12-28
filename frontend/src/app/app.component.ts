@@ -6,7 +6,7 @@ import { NavbarComponent } from './shared/navbar/navbar.component';
 import { FooterComponent } from './shared/footer/footer.component';
 import { ProtocolDashboardComponent } from './modules/protocol/protocol-dashboard/protocol-dashboard.component';
 // If you have a footer component, import it similarly
-
+import { AuditLogTableComponent } from "./modules/compliance/components/audit-log-table/audit-log-table.component";
 @Component({
   selector: 'app-root',
   standalone: true,
@@ -15,4 +15,6 @@ import { ProtocolDashboardComponent } from './modules/protocol/protocol-dashboar
   styleUrls: ['./app.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class AppComponent {}
+export class AppComponent {
+   title = 'frontend';
+}
