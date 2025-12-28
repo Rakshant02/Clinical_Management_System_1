@@ -1,1 +1,160 @@
 /* You can add global styles to this file, and also import other style files */
+
+/* ===== BioTrack High-End Theme (Global) ===== */
+
+:root {
+  --bt-primary: #146ebe;      /* deep professional blue */
+  --bt-primary-600: #0f5ca1;
+  --bt-primary-700: #0a4a82;
+  --bt-accent: #6f42c1;       /* elegant purple accent */
+  --bt-success: #13a884;
+  --bt-warning: #f59f00;
+  --bt-danger: #d64545;
+
+  --bt-bg: #f7f8fb;
+  --bt-card-bg: #ffffff;
+  --bt-card-border: #e7eaf0;
+
+  --bt-text: #1f2937;
+  --bt-muted: #6b7280;
+}
+
+html, body {
+  background-color: var(--bt-bg);
+  color: var(--bt-text);
+}
+
+/* Page shell */
+.bt-page {
+  padding: 1rem 0 2rem;
+  min-height: calc(100vh - 64px);
+}
+
+/* Toolbar (page actions) */
+.bt-toolbar {
+  display: flex;
+  gap: .75rem;
+  align-items: center;
+  flex-wrap: wrap;
+}
+.bt-toolbar .btn {
+  border-radius: .5rem;
+}
+
+/* Cards */
+.bt-card {
+  background: var(--bt-card-bg);
+  border: 1px solid var(--bt-card-border);
+  border-radius: .8rem;
+  box-shadow: 0 4px 14px rgba(16, 24, 40, 0.06);
+}
+.bt-card-header {
+  padding: .9rem 1.2rem;
+  border-bottom: 1px solid var(--bt-card-border);
+  background: linear-gradient(180deg, #ffffff 0%, #fbfcff 100%);
+}
+.bt-card-body { padding: 1.2rem; }
+.bt-card-footer {
+  border-top: 1px solid var(--bt-card-border);
+  padding: .9rem 1.2rem;
+}
+
+/* Table polish */
+.table {
+  border-radius: .6rem;
+  overflow: hidden;
+}
+.table thead th {
+  font-weight: 600;
+  letter-spacing: .2px;
+}
+.table-hover tbody tr:hover {
+  background-color: #f8fbff;
+}
+.table td, .table th {
+  vertical-align: middle;
+}
+.table .badge {
+  font-size: .75rem;
+  padding: .35rem .6rem;
+  border-radius: .4rem;
+}
+
+/* Chips */
+.bt-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: .35rem;
+  font-size: .8rem;
+  background: #eef4ff;
+  color: var(--bt-primary-700);
+  padding: .25rem .6rem;
+  border-radius: 999px;
+  border: 1px solid #dbe7ff;
+}
+
+/* Inputs (floating) */
+.form-floating > label {
+  color: var(--bt-muted);
+}
+
+/* Buttons */
+.btn-primary {
+  background-color: var(--bt-primary);
+  border-color: var(--bt-primary);
+}
+.btn-primary:hover {
+  background-color: var(--bt-primary-600);
+  border-color: var(--bt-primary-600);
+}
+
+/* Page header area */
+.bt-page-header {
+  border-bottom: 1px solid var(--bt-card-border);
+  background: #ffffff;
+  position: sticky;
+  top: 0;
+  z-index: 1030;
+}
+.bt-page-header .container-xxl {
+  padding-top: .75rem;
+  padding-bottom: .75rem;
+}
+
+/* Breadcrumbs */
+.bt-breadcrumb {
+  color: var(--bt-muted);
+  font-size: .9rem;
+}
+.bt-breadcrumb a { color: var(--bt-primary-700); text-decoration: none; }
+
+/* Stat cards */
+.bt-stat {
+  border: 1px solid var(--bt-card-border);
+  background: #fff;
+  border-radius: .8rem;
+  padding: 1rem;
+}
+.bt-stat .label { color: var(--bt-muted); font-size: .8rem; }
+.bt-stat .value { font-weight: 700; font-size: 1.25rem; }
+
+/* Navbar polish */
+.navbar.bg-body-tertiary {
+  backdrop-filter: saturate(180%) blur(6px);
+  border-bottom: 1px solid var(--bt-card-border);
+}
+.navbar .nav-link.active {
+  font-weight: 600;
+  color: var(--bt-primary) !important;
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+.navbar-brand {
+  font-weight: 700;
+  letter-spacing: .3px;
+}
+
+/* Utility spacing */
+.bt-gap-sm { gap: .5rem; }
+.bt-gap-md { gap: .75rem; }
+.bt-gap-lg { gap: 1rem; }

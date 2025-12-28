@@ -1,0 +1,33 @@
+<p>site-list works!</p>
+
+<div class="d-flex justify-content-between align-items-center mb-3">
+  <h6 class="mb-0">Study Sites</h6>
+    
+<a class="btn btn-primary" routerLink="/protocol/sites/create">
+  <i class="bi bi-building-add me-1"></i> Add Site
+</a>
+
+
+</div>
+
+<div class="bt-card">
+  <div class="bt-card-header"><strong>Sites</strong></div>
+  <div class="table-responsive">
+    <table class="table table-striped mb-0">
+      <thead class="table-light">
+        <tr>
+          <th style="width: 120px;">Site ID</th>
+          <th>Location</th>
+          <th>Investigator</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let s of (sites$ | async) ?? []">
+          <td><span class="bt-chip"><i class="bi bi-hash"></i> {{ s.siteId }}</span></td>
+          <td>{{ s.location }}</td>
+          <td>{{ s.investigatorName }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

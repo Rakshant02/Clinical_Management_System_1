@@ -1,0 +1,74 @@
+
+<div class="bt-card mb-3">
+  <div class="bt-card-body">
+    <div class="row g-3 align-items-center">
+      <div class="col-md-6">
+        <div class="input-group">
+          <span class="input-group-text bg-white"><i class="bi bi-search"></i></span>
+          <input
+            type="text"
+            class="form-control"
+            placeholder="Search by Title or Protocol ID…"
+            [formControl]="filterForm.controls.searchTerm"
+          >
+        </div>
+      </div>
+      <div class="col-md-3">
+        <select class="form-select" [formControl]="filterForm.controls.phase">
+          <option value="">All Phases</option>
+          <option *ngFor="let p of phases" [value]="p">{{ p }}</option>
+        </select>
+      </div>
+      <div class="col-md-3">
+        <select class="form-select" [formControl]="filterForm.controls.status">
+          <option value="">All Status</option>
+          <option *ngFor="let s of statuses" [value]="s">{{ s }}</option>
+        </select>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="d-flex justify-content-between align-items-center mb-3">
+  <h6 class="mb-0">Protocols</h6>
+  <a class="btn btn-primary" routerLink="/protocol/create"><i class="bi bi-plus-lg me-1"></i> Create</a>
+</div>
+
+<div class="bt-card">
+  <div class="bt-card-header"><strong>All Protocols</strong></div>
+  <div class="table-responsive">
+    <table class="table table-hover align-middle mb-0">
+      <thead class="table-light">
+        <tr>
+          <th>Protocol ID</th><th>Title</th><th>Phase</th><th>Status</th>
+          <th>Version</th><th>Start</th><th>End</th><th>Sites</th><th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let p of (display$ | async) ?? []">
+          <td><span class="bt-chip"><i class="bi bi-hash"></i> {{ p.protocolId }}</span></td>
+          <td class="fw-semibold">{{ p.title }}</td>
+          <td><span class="badge text-bg-info">{{ p.phase }}</span></td>
+          <td>
+            <span class="badge" [class.text-bg-success]="p.status==='ACTIVE'"
+                               [class.text-bg-secondary]="p.status==='COMPLETED'">
+              {{ p.status }}
+            </span>
+          </td>
+          <td>{{ p.version ?? 1 }}</td>
+          <td>{{ p.startDate | date:'mediumDate' }}</td>
+          <td>{{ p.endDate | date:'mediumDate' }}</td>
+          <td>{{ p.studySiteIds?.length ?? 0 }}</td>
+          <td class="text-nowrap">
+            <a class="btn btn-sm btn-outline-primary me-2" [routerLink]="['/protocol', p.protocolId]">
+              <i class="bi bi-eye"></i> View
+            </a>
+            <a class="btn btn-sm btn-outline-secondary" [routerLink]="['/protocol', p.protocolId, 'edit']">
+              <i class="bi bi-pencil"></i> Edit
+            </a>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

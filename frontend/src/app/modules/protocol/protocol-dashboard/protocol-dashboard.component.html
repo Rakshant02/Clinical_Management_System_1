@@ -1,0 +1,58 @@
+
+<header class="bt-page-header">
+  <div class="container-xxl d-flex justify-content-between align-items-center">
+    <div>
+      <div class="bt-breadcrumb">
+        <a routerLink="/">Home</a> / <span>Protocol</span>
+      </div>
+      <h1 class="h4 mb-0">Trial Protocol &amp; Study Design</h1>
+    </div>
+    <div class="bt-toolbar">
+      
+<a class="btn btn-outline-secondary me-2" routerLink="/protocol/list">All Protocols</a>
+<a class="btn btn-primary me-2" routerLink="/protocol/create">New Protocol</a>
+<a class="btn btn-outline-info" routerLink="/protocol/sites">Study Sites</a>
+
+    
+    </div>
+  </div>
+</header>
+
+<main class="bt-page">
+  <div class="container-xxl">
+    <!-- Stats row -->
+    <div class="row g-3 mb-3">
+      <div class="col-md-3">
+        <div class="bt-stat">
+          <div class="label">Active Protocols</div>
+          <div class="value">12</div>
+        </div>
+      </div>
+      <div class="col-md-3">
+        <div class="bt-stat">
+          <div class="label">Phase II</div>
+          <div class="value">7</div>
+        </div>
+      </div>
+      <div class="col-md-3">
+        <div class="bt-stat">
+          <div class="label">Study Sites</div>
+          <div class="value">24</div>
+        </div>
+      </div>
+      <div class="col-md-3">
+        <div class="bt-stat">
+          <div class="label">Investigators</div>
+          <div class="value">18</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Child routes render here -->
+    <div class="bt-card">
+      <div class="bt-card-body">
+        <router-outlet></router-outlet>
+      </div>
+    </div>
+  </div>
+</main>
