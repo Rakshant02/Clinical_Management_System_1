@@ -1,0 +1,23 @@
+<div class="consent-manage" *ngIf="participant">
+  <h2>Manage Consent for {{ participant.name }}</h2>
+  <p><strong>Participant ID:</strong> {{ participant.id }}</p>
+  <p><strong>Enrollment Status:</strong> {{ participant.enrollmentStatus }}</p>
+
+  <section class="actions">
+    <button (click)="signConsent()">✅ Sign Consent</button>
+    <button (click)="withdrawConsent()">❌ Withdraw Consent</button>
+  </section>
+
+  <section class="history">
+    <h3>Consent History</h3>
+    <ul *ngIf="consentHistory.length > 0">
+      <li *ngFor="let c of consentHistory">
+        {{ c.status }} on {{ c.signedDate | date:'short' }}
+      </li>
+    </ul>
+    <p *ngIf="consentHistory.length === 0">No consent records found.</p>
+  </section>
+</div>
+<div *ngIf="!participant">
+  <p>Loading participant data...</p>
+</div>

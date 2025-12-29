@@ -1,0 +1,32 @@
+<div class="dashboard">
+  <header class="header">
+    <h1>Enrollment & Consent Dashboard</h1>
+  </header>
+
+  <section class="stats">
+    <div class="card">
+      <h2>Total Participants</h2>
+      <p>{{ totalParticipants }}</p>
+    </div>
+    
+    <div class="card">
+      <h2>Enrolled</h2>
+      <p>{{ enrolledCount }}</p>
+    </div>
+    
+    <div class="card">
+      <h2>Withdrawn</h2>
+      <p>{{ withdrawnCount }}</p>
+    </div>
+
+    <div class="card">
+      <h2>Consents Signed</h2>
+      <p>{{ signedConsents }}</p>
+    </div>
+  </section>
+
+  <section class="actions">
+    <button (click)="goToParticipants()">📋 View Participants</button>
+    <button (click)="goToCreate()">➕ Add Participant</button>
+  </section>
+</div>

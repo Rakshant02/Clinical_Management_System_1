@@ -1,0 +1,138 @@
+
+ /* General page styling */
+body {
+  font-family: Arial, sans-serif;
+  background-color: #f9fafc;
+  margin: 20px;
+  color: #333;
+}
+
+h2 {
+  text-align: center;
+  color: #2c3e50;
+  margin-bottom: 20px;
+}
+
+/* Table styling */
+.participant-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 20px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  background-color: #fff;
+}
+
+.participant-table th, 
+.participant-table td {
+  padding: 12px 15px;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+}
+
+.participant-table th {
+  background-color: #34495e;
+  color: #efe7e7;
+  font-weight: 600;
+}
+
+.participant-table tr:nth-child(even) {
+  background-color: #f2f2f2;
+}
+
+.participant-table tr:hover {
+  background-color: #eaf2f8;
+  transition: background-color 0.3s ease;
+}
+
+/* Buttons */
+button {
+  padding: 8px 12px;
+  margin: 2px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+button:hover {
+  opacity: 0.9;
+  background-color: #1565c0;
+}
+
+button:first-of-type {
+  background-color: #3498db;
+  color: white;
+}
+
+button:last-of-type {
+  background-color: #e74c3c;
+  color: white;
+}
+
+button.create-btn {
+  display: block;
+  margin: 0 auto;
+  background-color: #2ecc71;
+  color: white;
+  font-size: 16px;
+  padding: 10px 16px;
+}
+
+/* Loading and empty states */
+div[ngIf="loading"],
+div[ngIf="!loading && participants.length === 0"] {
+  text-align: center;
+  font-style: italic;
+  color: #7f8c8d;
+  margin-top: 15px;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .participant-table {
+    display: block;
+    overflow-x: auto;
+    white-space: nowrap;
+  }
+
+  .participant-table th, 
+  .participant-table td {
+    padding: 10px;
+    font-size: 13px;
+  }
+
+  button {
+    display: block;
+    width: 100%;
+    margin: 5px 0;
+  }
+
+  button.create-btn {
+    width: 90%;
+    font-size: 15px;
+  }
+}
+
+@media (max-width: 480px) {
+  h2 {
+    font-size: 20px;
+  }
+
+  .participant-table th, 
+  .participant-table td {
+    font-size: 12px;
+    padding: 8px;
+  }
+
+  button.create-btn {
+    width: 100%;
+    font-size: 14px;
+  }
+}
+
+
+.status-badge { padding: 4px 8px; border-radius: 12px; color: #fff; font-size: 0.85rem; }
+.status-enrolled { background-color: #4caf50; }
+.status-not-enrolled { background-color: #f44336; }
+.status-withdrawn { background-color: #ff9800; }
+.status-completed { background-color: #2196f3; }
