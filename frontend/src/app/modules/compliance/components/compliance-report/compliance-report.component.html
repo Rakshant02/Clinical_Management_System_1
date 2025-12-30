@@ -1,0 +1,31 @@
+
+<table mat-table [dataSource]="complianceReports" class="mat-elevation-z8">
+
+  <!-- Report ID Column -->
+  <ng-container matColumnDef="reportID">
+    <th mat-header-cell *matHeaderCellDef> Report ID </th>
+    <td mat-cell *matCellDef="let report"> {{ report.reportID }} </td>
+  </ng-container>
+
+  <!-- Deviations Column -->
+  <ng-container matColumnDef="deviationCount">
+    <th mat-header-cell *matHeaderCellDef> Deviations </th>
+    <td mat-cell *matCellDef="let report"> {{ report.deviationCount }} </td>
+  </ng-container>
+
+  <!-- Adherence Rate Column -->
+  <ng-container matColumnDef="adherenceRate">
+    <th mat-header-cell *matHeaderCellDef> Adherence Rate </th>
+    <td mat-cell *matCellDef="let report"> {{ report.adherenceRate }} </td>
+  </ng-container>
+
+  <!-- Generated Date Column -->
+  <ng-container matColumnDef="generatedDate">
+    <th mat-header-cell *matHeaderCellDef> Generated Date </th>
+    <td mat-cell *matCellDef="let report"> {{ report.generatedDate }} </td>
+  </ng-container>
+
+  <!-- Header and Row Declarations -->
+  <tr mat-header-row *matHeaderRowDef="['reportID','deviationCount','adherenceRate','generatedDate']"></tr>
+  <tr mat-row *matRowDef="let row; columns: ['reportID','deviationCount','adherenceRate','generatedDate'];"></tr>
+</table>

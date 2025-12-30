@@ -1,0 +1,232 @@
+/* Dashboard container */
+.dashboard {
+  padding: 2rem;
+  font-family: 'Segoe UI', Arial, sans-serif;
+  background-color: #f9fafc;
+  min-height: 100vh;
+}
+
+/* Header */
+.header {
+  margin-bottom: 2rem;
+  text-align: center;
+}
+
+.header h1 {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #2c3e50;
+}
+
+/* Stats cards */
+.stats {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.card {
+  flex: 1;
+  min-width: 200px;
+  background: #fff;
+  padding: 1.5rem;
+  border-radius: 8px;
+  text-align: center;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.12);
+}
+
+.card h2 {
+  margin-bottom: 0.5rem;
+  font-size: 1.1rem;
+  color: #555;
+}
+
+.card p {
+  font-size: 1.8rem;
+  font-weight: bold;
+  color: #1976d2;
+}
+
+/* Actions */
+.actions {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+}
+
+.actions button {
+  padding: 0.75rem 1.25rem;
+  border: none;
+  border-radius: 6px;
+  background: #1976d2;
+  color: #fff;
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: background 0.3s ease, transform 0.2s ease;
+}
+
+.actions button:hover {
+  background: #1565c0;
+  transform: translateY(-2px);
+}
+
+/* Table */
+.table-container {
+  margin-top: 2rem;
+  overflow-x: auto;
+}
+
+.table-container table {
+  width: 100%;
+  border-collapse: collapse;
+  background: #fff;
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+.table-container th, 
+.table-container td {
+  border: 1px solid #ddd;
+  padding: 0.75rem;
+  text-align: left;
+}
+
+.table-container th {
+  background-color: #f5f5f5;
+  font-weight: 600;
+}
+
+.table-container tr:nth-child(even) {
+  background-color: #fafafa;
+}
+
+.table-container tr:hover {
+  background-color: #f1f1f1;
+}
+
+/* Participant details */
+.participant-name {
+  font-weight: 600;
+}
+
+.participant-id {
+  color: #666;
+  font-size: 0.9rem;
+}
+
+/* Status badges */
+.status-badge {
+  padding: 4px 10px;
+  border-radius: 12px;
+  color: #fff;
+  font-size: 0.85rem;
+  font-weight: 500;
+}
+
+.status-enrolled { background-color: #4caf50; }
+.status-not-enrolled { background-color: #f44336; }
+.status-signed { background-color: #2196f3; }
+.status-not-signed { background-color: #ff9800; }
+.status-withdrawn { background-color: #9e9e9e; }
+.status-completed { background-color: #673ab7; }
+
+/* Participant actions */
+.participant-actions button {
+  margin-right: 0.5rem;
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 4px;
+  color: #fff;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.participant-actions .view-button { background: #2196f3; }
+.participant-actions .view-button:hover { background: #1976d2; }
+
+.participant-actions .edit-button { background: #4caf50; }
+.participant-actions .edit-button:hover { background: #388e3c; }
+
+.participant-actions .delete-button { background: #f44336; }
+.participant-actions .delete-button:hover { background: #d32f2f; }
+
+/* Consent forms */
+.consent-form {
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  padding: 16px;
+  margin-bottom: 16px;
+  background-color: #fff;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+}
+
+.consent-form h3 {
+  margin-top: 0;
+  font-size: 1.2rem;
+  color: #2c3e50;
+}
+
+.consent-form p {
+  margin: 8px 0;
+  color: #444;
+}
+
+.consent-form .actions {
+  margin-top: 16px;
+  display: flex;
+  gap: 10px;
+}
+
+.consent-form .actions button {
+  padding: 8px 12px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.consent-form .actions .sign-button {
+  background-color: #4caf50;
+  color: #fff;
+}
+.consent-form .actions .sign-button:hover {
+  background-color: #45a049;
+}
+
+.consent-form .actions .withdraw-button {
+  background-color: #f44336;
+  color: #fff;
+}
+.consent-form .actions .withdraw-button:hover {
+  background-color: #d32f2f;
+}
+
+.consent-form .actions .view-button {
+  background-color: #2196f3;
+  color: #fff;
+}
+.consent-form .actions .view-button:hover {
+  background-color: #1976d2;
+}
+
+/* Responsive tweaks */
+@media (max-width: 768px) {
+  .stats {
+    flex-direction: column;
+  }
+
+  .actions {
+    flex-direction: column;
+  }
+
+  .actions button {
+    width: 100%;
+  }
+}

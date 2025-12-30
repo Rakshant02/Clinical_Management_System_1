@@ -1,0 +1,37 @@
+<table mat-table [dataSource]="correctiveActions" class="mat-elevation-z8">
+
+  <!-- Action ID Column -->
+  <ng-container matColumnDef="actionID">
+    <th mat-header-cell *matHeaderCellDef> Action ID </th>
+    <td mat-cell *matCellDef="let action"> {{ action.actionID }} </td>
+  </ng-container>
+
+  <!-- Description Column -->
+  <ng-container matColumnDef="description">
+    <th mat-header-cell *matHeaderCellDef> Description </th>
+    <td mat-cell *matCellDef="let action"> {{ action.description }} </td>
+  </ng-container>
+
+  <!-- Assigned To Column -->
+  <ng-container matColumnDef="assignedTo">
+    <th mat-header-cell *matHeaderCellDef> Assigned To </th>
+    <td mat-cell *matCellDef="let action"> {{ action.assignedTo }} </td>
+  </ng-container>
+
+  <!-- Status Column -->
+  <ng-container matColumnDef="status">
+    <th mat-header-cell *matHeaderCellDef> Status </th>
+    <td mat-cell *matCellDef="let action"> {{ action.status }} </td>
+  </ng-container>
+
+  <!-- Due Date Column -->
+  <ng-container matColumnDef="dueDate">
+    <th mat-header-cell *matHeaderCellDef> Due Date </th>
+    <td mat-cell *matCellDef="let action"> {{ action.dueDate }} </td>
+  </ng-container>
+
+  <!-- Header and Row Declarations -->
+  <tr mat-header-row *matHeaderRowDef="['actionID','description','assignedTo','status','dueDate']"></tr>
+  <tr mat-row *matRowDef="let row; columns: ['actionID','description','assignedTo','status','dueDate'];"></tr>
+</table>
+

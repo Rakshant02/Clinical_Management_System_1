@@ -1,0 +1,141 @@
+/* Consent Management Container */
+.consent-manage {
+  max-width: 720px;
+  margin: 20px auto;
+  padding: 20px;
+  background: #fff;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+}
+
+.consent-manage h2 {
+  margin-bottom: 12px;
+  color: #2c3e50;
+  font-size: 22px;
+  font-weight: 600;
+}
+
+.consent-manage p {
+  margin: 6px 0;
+  font-size: 15px;
+  color: #333;
+}
+
+.consent-manage strong {
+  color: #2c3e50;
+}
+
+/* Actions */
+.actions {
+  display: flex;
+  gap: 12px;
+  margin-top: 16px;
+}
+
+.actions button {
+  padding: 8px 14px;
+  border: none;
+  border-radius: 6px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.actions button:first-child {
+  background: #27ae60; /* green */
+  color: #fff;
+}
+
+.actions button:first-child:hover {
+  background: #219150;
+}
+
+.actions button:last-child {
+  background: #e74c3c; /* red */
+  color: #fff;
+}
+
+.actions button:last-child:hover {
+  background: #c0392b;
+}
+
+.actions button:disabled {
+  background: #aaa;
+  cursor: not-allowed;
+}
+
+/* Consent History */
+.history {
+  margin-top: 20px;
+}
+
+.history h3 {
+  margin-bottom: 8px;
+  color: #34495e;
+  font-size: 18px;
+}
+
+.history ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.history li {
+  background: #f9f9f9;
+  padding: 8px 12px;
+  margin-bottom: 6px;
+  border-radius: 4px;
+  border: 1px solid #eee;
+  font-size: 14px;
+}
+
+/* Status Chips */
+.chip {
+  display: inline-block;
+  padding: 4px 10px;
+  border-radius: 12px;
+  font-size: 13px;
+  font-weight: 500;
+}
+
+/* Status Variants (you already defined colors, just refine spacing) */
+.withdrawn, .enrolled, .not-enrolled,
+.signed, .not-signed, .completed,
+.incomplete, .pending, .failed,
+.processing, .loading, .disabled {
+  padding: 10px;
+  border-radius: 6px;
+  margin-top: 10px;
+}
+
+/* Selected highlight */
+.selected {
+  border: 2px solid #007bff;
+  box-shadow: 0 0 6px rgba(0,123,255,0.3);
+}
+
+/* Loading state */
+div[ngIf="!participant"] {
+  text-align: center;
+  font-style: italic;
+  color: #7f8c8d;
+  margin-top: 20px;
+}
+
+/* Responsive tweaks */
+@media (max-width: 480px) {
+  .consent-manage {
+    padding: 15px;
+  }
+
+  .actions {
+    flex-direction: column;
+  }
+
+  .actions button {
+    width: 100%;
+    font-size: 13px;
+  }
+}

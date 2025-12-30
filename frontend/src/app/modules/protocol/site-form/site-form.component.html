@@ -1,0 +1,39 @@
+
+<form [formGroup]="form" (ngSubmit)="submit()" class="bt-card">
+  <div class="bt-card-header d-flex justify-content-between align-items-center">
+    <strong>Add Study Site</strong>
+    <div class="bt-toolbar">
+      <a class="btn btn-outline-secondary" routerLink="/protocol/sites"><i class="bi bi-arrow-left"></i> Back</a>
+      <button type="submit" class="btn btn-primary"><i class="bi bi-check2-circle"></i> Save</button>
+    </div>
+  </div>
+
+  <div class="bt-card-body">
+    <div class="row g-4">
+      <div class="col-md-4">
+        <div class="form-floating">
+          <input type="text" class="form-control" id="siteId" formControlName="siteId" placeholder="S-001">
+          <label for="siteId">Site ID</label>
+        </div>
+        <small class="text-muted">Format: S-### (e.g., S-007)</small>
+      </div>
+      <div class="col-md-4">
+        <div class="form-floating">
+          <input type="text" class="form-control" id="location" formControlName="location" placeholder="Location">
+          <label for="location">Location</label>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="form-floating">
+          <input type="text" class="form-control" id="investigatorName" formControlName="investigatorName" placeholder="Investigator Name">
+          <label for="investigatorName">Investigator Name</label>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="bt-card-footer d-flex justify-content-end gap-2">
+    <a class="btn btn-outline-secondary" routerLink="/protocol/sites"><i class="bi bi-x-lg"></i> Cancel</a>
+    <button type="submit" class="btn btn-primary"><i class="bi bi-check2-circle"></i> Save</button>
+  </div>
+</form>

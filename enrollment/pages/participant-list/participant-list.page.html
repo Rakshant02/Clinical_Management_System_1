@@ -1,0 +1,38 @@
+<h2>Participants</h2>
+
+<!-- Show loading indicator -->
+<div *ngIf="loading">Loading participants...</div>
+
+<!-- Show table only if participants exist -->
+<table *ngIf="participants.length > 0" class="participant-table">
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Date of Birth</th>
+      <th>Contact Info</th>
+      <th>Eligibility</th>
+      <th>Consent</th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let p of participants">
+      <td>{{ p.name }}</td>
+      <td>{{ p.dob }}</td>
+      <td>{{ p.contactInfo }}</td>
+      <td>{{ p.eligibilityStatus }}</td>
+      <td>{{ p.consentStatus }}</td>
+      <td>
+        <button (click)="manageConsent(p.id)">Manage Consent</button>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<!-- If no participants -->
+<div *ngIf="!loading && participants.length === 0">
+  No participants found.
+</div>
+
+<!-- Button to create new participant -->
+<button (click)="create()">Add New Participant</button>

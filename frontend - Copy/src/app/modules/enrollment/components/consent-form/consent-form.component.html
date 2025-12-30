@@ -1,0 +1,25 @@
+<div class="consent" *ngIf="participant; else noParticipant">
+  <p><strong>Name:</strong> {{ participant?.name }}</p>
+  <p><strong>DOB:</strong> {{ participant?.dob }}</p>
+  <p><strong>Contact:</strong> {{ participant?.contactInfo }}</p>
+  <p><strong>Eligibility:</strong> {{ participant?.eligibilityStatus }}</p>
+  <p><strong>Enrollment Status:</strong> {{ participant?.enrollmentStatus }}</p>
+
+  <section class="actions">
+    <button (click)="sign()">✅ Sign Consent</button>
+    <button (click)="withdraw()">❌ Withdraw Consent</button>
+  </section>
+
+  <section class="history" *ngIf="consentHistory.length > 0">
+    <h3>Consent History</h3>
+    <ul>
+      <li *ngFor="let c of consentHistory">
+        {{ c.status }} on {{ c.signedDate | date:'short' }}
+      </li>
+    </ul>
+  </section>
+  <p *ngIf="!consentHistory || consentHistory.length === 0">No consent records found.</p>
+</div>
+<ng-template #noParticipant> 
+  <p>No participant found.</p> 
+</ng-template>

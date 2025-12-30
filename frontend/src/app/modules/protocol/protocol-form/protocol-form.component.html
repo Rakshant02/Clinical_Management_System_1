@@ -1,0 +1,174 @@
+
+<form [formGroup]="form" (ngSubmit)="submit()" class="bt-card">
+  <div class="bt-card-header d-flex justify-content-between align-items-center">
+    <strong>{{ isEdit ? 'Edit Protocol' : 'Create Protocol' }}</strong>
+    <div class="bt-toolbar">
+      <a class="btn btn-outline-secondary" routerLink="/protocol/list"><i class="bi bi-arrow-left"></i> Back</a>
+      <button
+        type="submit"
+        class="btn btn-primary"
+        [disabled]="form.invalid || (isEdit && !form.dirty)"
+      >
+        <i class="bi bi-check2-circle"></i>
+        {{ isEdit ? 'Save Changes' : 'Create Protocol' }}
+      </button>
+    </div>
+  </div>
+
+  <div class="bt-card-body">
+    <div class="row g-4">
+      <!-- Identity -->
+      <div class="col-md-4">
+        <div class="form-floating">
+          <input type="text" class="form-control" id="protocolId" formControlName="protocolId" placeholder="P-1001" [readonly]="isEdit">
+          <label for="protocolId">Protocol ID</label>
+        </div>
+        <small class="text-muted">Format: P-#### (e.g., P-1006)</small>
+      </div>
+
+      <div class="col-md-8">
+        <div class="form-floating">
+          <input type="text" class="form-control" id="title" formControlName="title" placeholder="Title">
+          <label for="title">Title</label>
+        </div>
+      </div>
+
+      <!-- Meta -->
+      <div class="col-md-3">
+        <div class="form-floating">
+          <select class="form-select" id="phase" formControlName="phase">
+            <option *ngFor="let p of phases" [value]="p">{{ p }}</option>
+          </select>
+          <label for="phase">Phase</label>
+        </div>
+      </div>
+      <div class="col-md-3">
+        <div class="form-floating">
+          <select class="form-select" id="status" formControlName="status">
+            <option *ngFor="let s of statuses" [value]="s">{{ s }}</option>
+          </select>
+          <label for="status">Status</label>
+        </div>
+      </div>
+      <div class="col-md-3">
+        <div class="form-floating">
+          <input type="date" class="form-control" id="startDate" formControlName="startDate" placeholder="Start">
+          <label for="startDate">Start Date</label>
+        </div>
+      </div>
+      <div class="col-md-3">
+        <div class="form-floating">
+          <input type="date" class="form-control" id="endDate" formControlName="endDate" placeholder="End">
+          <label for="endDate">End Date</label>
+        </div>
+      </div>
+
+      <!-- Objectives & Criteria -->
+      <div class="col-12">
+        <div class="form-floating">
+          <textarea class="form-control" id="objectives" style="height: 120px;" formControlName="objectives"></textarea>
+          <label for="objectives">Objectives</label>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="form-floating">
+          <textarea class="form-control" id="inclusion" style="height: 120px;" formControlName="inclusionCriteria"></textarea>
+          <label for="inclusion">Inclusion Criteria</label>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="form-floating">
+          <textarea class="form-control" id="exclusion" style="height: 120px;" formControlName="exclusionCriteria"></textarea>
+          <label for="exclusion">Exclusion Criteria</label>
+        </div>
+      </div>
+
+      <!-- Investigators -->
+      <div class="col-12">
+        <div class="d-flex justify-content-between align-items-center mb-2">
+          <h6 class="mb-0">Investigators</h6>
+          <button type="button" class="btn btn-sm btn-outline-primary" (click)="addInvestigator()">
+            <i class="bi bi-person-plus"></i> Add Investigator
+          </button>
+        </div>
+
+        <div class="list-group">
+          <!-- cast AbstractControl -> FormGroup using $any(inv) for strict mode -->
+          <div class="list-group-item p-3" *ngFor="let inv of investigators.controls; let i = index" [formGroup]="$any(inv)">
+            <div class="row g-3 align-items-end">
+              <div class="col-md-4">
+                <div class="form-floating">
+                  <input class="form-control" id="invName{{i}}" formControlName="name" placeholder="Name">
+                  <label [for]="'invName'+i">Name</label>
+                </div>
+              </div>
+              <div class="col-md-4">
+                <div class="form-floating">
+                  <input type="email" class="form-control" id="invEmail{{i}}" formControlName="email" placeholder="Email">
+                  <label [for]="'invEmail'+i">Email (optional)</label>
+                </div>
+              </div>
+              <div class="col-md-3">
+                <div class="form-floating">
+                  <select class="form-select" id="siteId{{i}}" formControlName="siteId">
+                    <option [ngValue]="null">— Assign to site —</option>
+                    <option *ngFor="let s of sites" [ngValue]="s.siteId">{{ s.siteId }} — {{ s.location }}</option>
+                  </select>
+                  <label [for]="'siteId'+i">Study Site</label>
+                </div>
+              </div>
+              <div class="col-md-1 text-end">
+                <button type="button" class="btn btn-outline-danger" (click)="removeInvestigator(i)"><i class="bi bi-trash"></i></button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Assign Study Sites -->
+      <div class="col-12">
+        <h6>Assign Study Sites</h6>
+        <div class="row g-2">
+          <div class="col-md-3" *ngFor="let s of sites">
+            <div class="form-check bt-chip w-100">
+              <!-- use template reference for checked to avoid strict errors -->
+              <input
+                class="form-check-input"
+                type="checkbox"
+                [id]="s.siteId"
+                #siteCk
+                [checked]="$any(studySiteIds).value?.includes(s.siteId)"
+                (change)="toggleSite(s.siteId, siteCk.checked)"
+              >
+              <label class="form-check-label w-100 d-flex justify-content-between align-items-center" [for]="s.siteId">
+                <span>{{ s.siteId }} — {{ s.location }}</span>
+                <small class="text-muted">{{ s.investigatorName }}</small>
+              </label>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Optional: document upload -->
+      <div class="col-md-6" *ngIf="isEdit">
+        <label class="form-label">Upload Protocol Document</label>
+        <div class="input-group">
+          <span class="input-group-text"><i class="bi bi-file-earmark-arrow-up"></i></span>
+          <input type="file" class="form-control" (change)="onFileSelected($event)">
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="bt-card-footer d-flex justify-content-end gap-2">
+    <a class="btn btn-outline-secondary" routerLink="/protocol/list"><i class="bi bi-x-lg"></i> Cancel</a>
+    <button
+      type="submit"
+      class="btn btn-primary"
+      [disabled]="form.invalid || (isEdit && !form.dirty)"
+    >
+      <i class="bi bi-check2-circle"></i>
+      {{ isEdit ? 'Save Changes' : 'Create Protocol' }}
+    </button>
+  </div>
+</form>
