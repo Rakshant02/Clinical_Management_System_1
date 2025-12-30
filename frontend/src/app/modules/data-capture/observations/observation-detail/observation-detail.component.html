@@ -1,0 +1,57 @@
+
+<!-- Loading & error states -->
+<div *ngIf="loading" class="text-center my-5">
+  <div class="spinner-border" role="status"></div>
+</div>
+
+<div *ngIf="error" class="alert alert-danger">{{ error }}</div>
+
+<!-- Main content (guarded) -->
+<div *ngIf="observation as o" class="card">
+  <div class="card-header d-flex justify-content-between align-items-center">
+    <span>Observation #{{ o.observationId }}</span>
+    <button class="btn btn-outline-secondary btn-sm" routerLink="/data-capture/observations">Back</button>
+  </div>
+
+  <div class="card-body">
+    <!-- Top meta -->
+    <div class="row g-3">
+      <div class="col-md-3">
+        <strong>Participant:</strong> {{ o.participantId }}
+      </div>
+      <div class="col-md-3">
+        <!-- If you import CommonModule/DatePipe, change to: {{ o.visitDate | date }} -->
+        <strong>Visit Date:</strong> {{ o.visitDate }}
+      </div>
+    </div>
+
+    <hr class="my-3">
+
+    <!-- Vitals -->
+    <h6>Vitals</h6>
+    <div class="row g-3">
+      <div class="col-md-2"><strong>HR:</strong> {{ o.dataPoints?.vitals?.heartRate ?? '-' }}</div>
+      <div class="col-md-2"><strong>BP:</strong> {{ o.dataPoints?.vitals?.bloodPressure ?? '-' }}</div>
+      <div class="col-md-2"><strong>Temp:</strong> {{ o.dataPoints?.vitals?.temperature ?? '-' }}</div>
+      <div class="col-md-2"><strong>RR:</strong> {{ o.dataPoints?.vitals?.respiratoryRate ?? '-' }}</div>
+      <div class="col-md-2"><strong>SpO₂:</strong> {{ o.dataPoints?.vitals?.spo2 ?? '-' }}</div>
+    </div>
+
+    <!-- Lab Results -->
+    <div class="mt-3">
+      <h6>Lab Results</h6>
+      <!-- If CommonModule (json pipe) is not imported, this will still render as [object Object]. 
+           Safer: pre block shows JSON if available. -->
+      <pre class="bg-light p-3 border rounded">
+{{ o.dataPoints?.labResults ? (o.dataPoints?.labResults | json) : '-' }}
+      </pre>
+    </div>
+
+    <!-- Audit info -->
+    <div class="mt-3 text-muted small">
+      <div><strong>Created By:</strong> {{ o.createdBy ?? '-' }}</div>
+      <!-- If you import CommonModule/DatePipe, change to: {{ o.createdAt | date:'medium' }} -->
+      <div><strong>Created At:</strong> {{ o.createdAt ?? '-' }}</div>
+    </div>
+  </div>
+</div>

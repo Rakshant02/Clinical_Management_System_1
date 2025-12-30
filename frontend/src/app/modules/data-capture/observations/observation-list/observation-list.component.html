@@ -1,0 +1,38 @@
+
+<header class="list-header">
+  <h3>Observations</h3>
+  <a routerLink="/data-capture/observations/new" class="btn primary">New Observation</a>
+</header>
+
+<table class="table" *ngIf="observations.length; else noData">
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>Participant</th>
+      <th>Visit Date</th>
+      <th>Data Points</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let obs of observations">
+      <td>{{ obs.observationID }}</td>
+      <td>{{ obs.participantID }}</td>
+      <td>{{ obs.visitDate }}</td>
+      <td>
+        <ul class="dp">
+          <li *ngIf="obs.dataPoints.vitals?.heartRate !== undefined">
+            HR: {{ obs.dataPoints.vitals?.heartRate }} bpm
+          </li>
+          <li *ngIf="obs.dataPoints.vitals?.bp">BP: {{ obs.dataPoints.vitals?.bp }}</li>
+          <li *ngIf="obs.dataPoints.vitals?.temperature !== undefined">
+            Temp: {{ obs.dataPoints.vitals?.temperature }} °C
+          </li>
+        </ul>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<ng-template #noData>
+  <p>No observations yet.</p>
+</ng-template>

@@ -1,0 +1,51 @@
+
+<div class="container mt-3">
+  <div class="d-flex justify-content-between align-items-center mb-3">
+    <h4>Protocol Deviations</h4>
+    <button class="btn btn-danger" (click)="newDeviation()">New Deviation</button>
+  </div>
+
+  <ng-container *ngIf="!loading; else loadingTpl">
+    <div class="card">
+      <div class="card-body p-0">
+        <table class="table table-striped mb-0">
+          <thead class="table-light">
+            <tr>
+              <th>ID</th>
+              <th>Participant</th>
+              <th>Protocol</th>
+              <th>Severity</th>
+              <th>Status</th>
+              <th>Reported</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let d of deviations">
+              <td>{{ d.deviationId }}</td>
+              <td>{{ d.participantId }}</td>
+              <td>{{ d.protocolId }}</td>
+              <td>
+                <span class="badge"
+                  [ngClass]="{
+                    'bg-secondary': d.severity === 'MINOR',
+                    'bg-warning text-dark': d.severity === 'MAJOR',
+                    'bg-danger': d.severity === 'CRITICAL'
+                  }">{{ d.severity }}</span>
+              </td>
+              <td>{{ d.status }}</td>
+              <td>{{ d.reportedDate | date:'medium' }}</td>
+              <td>
+                <button class="btn btn-outline-secondary btn-sm" (click)="openDetail(d.deviationId)">View</button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </ng-container>
+
+  <ng-template #loadingTpl>
+    <div class="text-muted">Loading deviations…</div>
+  </ng-template>
+</div>

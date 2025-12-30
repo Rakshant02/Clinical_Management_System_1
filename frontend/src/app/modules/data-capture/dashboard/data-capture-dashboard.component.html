@@ -1,0 +1,118 @@
+
+<!-- ↓↓↓ APPEND this block at the BOTTOM of your existing dashboard template ↓↓↓ -->
+
+<div class="container mt-3">
+
+  <!-- Header -->
+  <div class="d-flex justify-content-between align-items-center mb-2">
+    <h3 class="mb-0">BioTrack – Data Capture Dashboard</h3>
+    <div class="btn-group pills">
+      <a routerLink="/data-capture/observations" class="btn btn-outline-primary">Observations</a>
+      <a routerLink="/data-capture/observations/new" class="btn btn-primary">New Observation</a>
+      <a routerLink="/data-capture/adverse-events" class="btn btn-danger">Adverse Events</a>
+      <a routerLink="/data-capture/adverse-events/new" class="btn btn-danger">Report AE</a>
+      <a routerLink="/data-capture/deviations" class="btn btn-danger">Protocol Deviations</a>
+    </div>
+  </div>
+
+  <!-- KPI Cards -->
+  <div class="row g-3 mb-3">
+    <div class="col-md-3">
+      <div class="card kpi">
+        <div class="card-body">
+          <h6 class="card-title">Observations Today</h6>
+          <div class="display-6">{{ observationsToday }}</div>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-3">
+      <div class="card kpi">
+        <div class="card-body">
+          <h6 class="card-title">Open Adverse Events</h6>
+          <div class="display-6">{{ openAdverseEvents }}</div>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-3">
+      <div class="card kpi">
+        <div class="card-body">
+          <h6 class="card-title">Severe/Critical</h6>
+          <div class="display-6 text-danger">{{ severeCritical }}</div>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-3">
+      <div class="card kpi">
+        <div class="card-body">
+          <h6 class="card-title">Last Updated</h6>
+        <div>{{ lastUpdated | date:'MMM d, y, h:mm:ss a' }}</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Feature Cards -->
+  <div class="row g-3">
+    <div class="col-md-6">
+      <div class="card feature">
+        <div class="card-body">
+          <h5>Observations</h5>
+          <p>Capture vitals and lab results, and review recorded observations.</p>
+          <a routerLink="/data-capture/observations" class="btn btn-outline-primary me-2">View List</a>
+          <a routerLink="/data-capture/observations/new" class="btn btn-primary">New Observation</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-6">
+      <div class="card feature">
+        <div class="card-body">
+          <h5>Adverse Events</h5>
+          <p>Monitor and report adverse events, track severity and status.</p>
+          <a routerLink="/data-capture/adverse-events" class="btn btn-outline-danger me-2">View List</a>
+          <a routerLink="/data-capture/adverse-events/new" class="btn btn-danger">Report AE</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer (keep your existing HTML here if you already have it) -->
+
+</div>
+
+<div class="card mt-3">
+  <div class="card-header d-flex justify-content-between align-items-center">
+    <h5 class="mb-0">Recent Audit Trails</h5>
+    <button class="btn btn-sm btn-outline-secondary" (click)="refreshAudit()">Refresh</button>
+  </div>
+  <div class="card-body">
+    <div class="d-flex gap-3 mb-3">
+      <div><b>Observations:</b> {{ counts.Observation }}</div>
+      <div><b>Adverse Events:</b> {{ counts.AdverseEvent }}</div>
+      <div><b>Protocol Deviations:</b> {{ counts.ProtocolDeviation }}</div>
+    </div>
+
+    <table class="table table-sm" *ngIf="auditLogs.length > 0; else noLogs">
+      <thead>
+        <tr>
+          <th>Time</th>
+          <th>Entity</th>
+          <th>Action</th>
+          <th>User</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let log of auditLogs">
+          <td>{{ log.changedAt | date:'short' }}</td>
+          <td>{{ log.entityType }}</td>
+          <td>{{ log.action }}</td>
+          <td>{{ log.changedBy }}</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <ng-template #noLogs>
+      <div class="text-muted">No audit records yet.</div>
+    </ng-template>
+  </div>
+</div>
