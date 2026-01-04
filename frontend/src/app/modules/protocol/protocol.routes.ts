@@ -7,7 +7,7 @@ import { ProtocolDetailComponent } from './protocol-detail/protocol-detail.compo
 import { SiteListComponent } from './site-list/site-list.component';
 import { SiteFormComponent } from './site-form/site-form.component';
 
-export const PROTOCOL_ROUTES: Routes = [
+export const protocolRoutes: Routes = [
   {
     path: '',
     component: ProtocolDashboardComponent,

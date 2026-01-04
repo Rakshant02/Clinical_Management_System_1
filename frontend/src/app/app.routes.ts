@@ -25,6 +25,12 @@ export const routes: Routes = [
       import('./modules/enrollment/enrollment-routing').then(m => m.Enrollmentroutes)
   },
 
+  {
+    path: 'protocol',
+    loadChildren: () =>
+      import('./modules/protocol/protocol.routes').then(m => m.protocolRoutes)
+  },
+
   // Compliance module (lazy loaded)
   {
     path: 'compliance',
