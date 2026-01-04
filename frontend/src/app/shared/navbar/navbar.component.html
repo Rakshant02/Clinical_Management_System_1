@@ -2,18 +2,12 @@
   <div class="container-fluid justify-content-center">
     <!-- Brand name updated -->
     <a class="navbar-brand mx-3" routerLink="/">Biotrack</a>
-    <button
-      class="navbar-toggler"
-      type="button"
-      data-bs-toggle="collapse"
-      data-bs-target="#navbarNavDropdown"
-      aria-controls="navbarNavDropdown"
-      aria-expanded="false"
-      aria-label="Toggle navigation"
-    >
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+            data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown"
+            aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
-
+ 
     <!-- Center aligned navbar items -->
     <div
       class="collapse navbar-collapse justify-content-center"
@@ -27,55 +21,17 @@
         </li>
 
         <li class="nav-item mx-3">
-          <a class="nav-link" routerLink="/enrollment">Enrollment & Consent</a>
+          <a class="nav-link" routerLink="/enrollment" routerLinkActive="active">Enrollment & Consent</a>
         </li>
 
         <li class="nav-item mx-3">
-          <a class="nav-link" routerLink="/data-capture">Data Capture</a>
+          <a class="nav-link" routerLink="/data-capture" routerLinkActive="active">Data Capture</a>
         </li>
+        <!-- <li class="nav-item mx-3">
+          <a class="nav-link" routerLink="/compliance" routerLinkActive="active">Compliance & Audit</a>
+        </li> -->
 
         <li class="nav-item dropdown mx-3">
-          <a
-            class="nav-link dropdown-toggle"
-            href="#"
-            role="button"
-            data-bs-toggle="dropdown"
-            aria-expanded="false"
-          >
-            Compliance & Audit
-          </a>
-          <ul class="dropdown-menu">
-            <li>
-              <a
-                class="dropdown-item"
-                routerLink="/compliance/audit-log"
-                routerLinkActive="active"
-              >
-                Audit Logs
-              </a>
-            </li>
-            <li>
-              <a
-                class="dropdown-item"
-                routerLink="/compliance/reports"
-                routerLinkActive="active"
-              >
-                Compliance Reports
-              </a>
-            </li>
-            <li>
-              <a
-                class="dropdown-item"
-                routerLink="/compliance/actions"
-                routerLinkActive="active"
-              >
-                Corrective Actions
-              </a>
-            </li>
-          </ul>
-        </li>
-
-        <!-- <li class="nav-item dropdown mx-3">
           <a
             class="nav-link dropdown-toggle"
             href="#"
@@ -113,7 +69,7 @@
               </a>
             </li>
           </ul>
-        </li> -->
+        </li>
 
         <!-- Dropdown for Analytics -->
         <li class="nav-item dropdown mx-3">
@@ -127,6 +83,7 @@
             Analytics & Reports
           </a>
           <ul class="dropdown-menu">
+<<<<<<< HEAD
             <li>
               <a class="dropdown-item" routerLink="analytics/researcher"
                 >ReseacherDashboard</a
@@ -142,6 +99,11 @@
                 >Reports</a
               >
             </li>
+=======
+            <li><a class="dropdown-item" routerLink="/analytics/dashboards" routerLinkActive="active">Dashboards</a></li>
+            <li><a class="dropdown-item" routerLink="/analytics/reports" routerLinkActive="active">Reports</a></li>
+            <li><a class="dropdown-item" routerLink="/analytics/visualizations" routerLinkActive="active">Visualizations</a></li>
+>>>>>>> e17ec8760bcffe5dfb63c3686fbb904f7f86bef5
           </ul>
         </li>
       </ul>

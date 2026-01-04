@@ -1,18 +1,35 @@
+
 import { Routes } from '@angular/router';
 import { complianceRoutes } from './modules/compliance/compliance-routing';
 import { AdminDashboardComponent } from './modules/analytics/analytics/components/admin-dashboard/admin-dashboard.component';
 import { ResearcherDashboardComponent } from './modules/analytics/analytics/components/researcher-dashboard/researcher-dashboard.component';
 
 export const routes: Routes = [
-//   ...complianceRoutes,
-//   { path: '', redirectTo: '/compliance/audit-log', pathMatch: 'full' },
+  //{ path: '', redirectTo: '/data-capture', pathMatch: 'full' },
+  {
+    path: 'data-capture',
+    loadChildren: () =>
+      import('./modules/data-capture/data-capture.routes')
+        .then(m => m.DATA_CAPTURE_ROUTES)
+  },
 
+
+  // { path: '', redirectTo: '/data-capture', pathMatch: 'full' },
+  // { path: '**', redirectTo: '/data-capture' },
+  
+
+  // Enrollment module (lazy loaded)
+  {
+    path: 'enrollment',
+    loadChildren: () =>
+      import('./modules/enrollment/enrollment-routing').then(m => m.Enrollmentroutes)
+  },
+
+  // Compliance module (lazy loaded)
   {
     path: 'compliance',
     loadChildren: () =>
-      import('./modules/compliance/compliance-routing').then(
-        (m) => m.complianceRoutes
-      ),
+      import('./modules/compliance/compliance-routing').then(m => m.complianceRoutes)
   },
 
 {

@@ -1,18 +1,19 @@
-import { Component } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
-import { NavbarComponent } from "./shared/navbar/navbar.component";
-import { FooterComponent } from "./shared/footer/footer.component";
-import { AuditLogTableComponent } from "./modules/compliance/components/audit-log-table/audit-log-table.component";
-import { AdminDashboardComponent } from "./modules/analytics/analytics/components/admin-dashboard/admin-dashboard.component";
-import { ResearcherDashboardComponent } from "./modules/analytics/analytics/components/researcher-dashboard/researcher-dashboard.component";
 
+// src/app/app.component.ts
+import { Component, ChangeDetectionStrategy } from '@angular/core';
+import { RouterOutlet } from '@angular/router';
+import { NavbarComponent } from './shared/navbar/navbar.component';
+import { FooterComponent } from './shared/footer/footer.component';
+import { ProtocolDashboardComponent } from './modules/protocol/protocol-dashboard/protocol-dashboard.component';
+// If you have a footer component, import it similarly
+import { AuditLogTableComponent } from "./modules/compliance/components/audit-log-table/audit-log-table.component";
 @Component({
   selector: 'app-root',
   imports: [RouterOutlet, NavbarComponent,],
   standalone:true,
   templateUrl: './app.component.html',
-  styleUrl: './app.component.css'
+  styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  title = 'frontend';
+  
 }

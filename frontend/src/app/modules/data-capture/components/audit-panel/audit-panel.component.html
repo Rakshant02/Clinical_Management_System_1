@@ -1,0 +1,69 @@
+
+<section class="card mt-3">
+  <div class="card-header d-flex justify-content-between align-items-center">
+    <div>
+      <h5 class="mb-0">Audit Trail</h5>
+      <small class="text-muted">{{entityType}} • {{entityId}}</small>
+    </div>
+    <div class="btn-group">
+      <button class="btn btn-sm btn-outline-secondary" (click)="refresh()">Refresh</button>
+      <button class="btn btn-sm btn-outline-primary" (click)="verifyChain()" [disabled]="verifying">
+        {{ verifying ? 'Verifying...' : 'Verify Chain' }}
+      </button>
+      <button class="btn btn-sm btn-outline-success" (click)="exportCsv()">Export CSV</button>
+      <button class="btn btn-sm btn-outline-dark" (click)="exportJson()">Export JSON</button>
+    </div>
+  </div>
+
+  <div class="card-body">
+    <div *ngIf="verifyStatus" class="alert" [ngClass]="verifyStatus.ok ? 'alert-success' : 'alert-danger'">
+      <ng-container *ngIf="verifyStatus.ok; else broken">
+        Hash chain intact ✅
+      </ng-container>
+      <ng-template #broken>
+        Hash chain broken at Log {{ verifyStatus?.brokenAt }} ❌
+      </ng-template>
+    </div>
+
+    <ul class="timeline">
+      <li *ngFor="let log of logs">
+        <div class="timeline-badge" [ngClass]="log.action.toLowerCase()">{{ log.action }}</div>
+        <div class="timeline-panel">
+          <div class="timeline-heading">
+            <span class="timestamp">{{ log.changedAt | date:'medium' }}</span>
+            <span class="author">by <strong>{{ log.changedBy }}</strong></span>
+            <span class="meta">Req: {{ log.requestId }}</span>
+          </div>
+          <div class="timeline-body">
+            <div *ngIf="log.reason" class="reason"><strong>Reason:</strong> {{ log.reason }}</div>
+            <div class="diff" *ngIf="log.action === 'UPDATE'">
+              <div class="json-pair">
+                <label>Old</label>
+                <pre>{{ log.oldValues | json }}</pre>
+              </div>
+              <div class="json-pair">
+                <label>New</label>
+                <pre>{{ log.newValues | json }}</pre>
+              </div>
+            </div>
+            <div class="json-pair" *ngIf="log.action === 'CREATE'">
+              <label>Created</label>
+              <pre>{{ log.newValues | json }}</pre>
+            </div>
+            <div class="json-pair" *ngIf="log.action === 'DELETE'">
+              <label>Deleted</label>
+              <pre>{{ log.oldValues | json }}</pre>
+            </div>
+          </div>
+          <div class="timeline-footer">
+            <small>hash: {{ log.hash | slice:0:16 }}… • prev: {{ (log.prevHash ?? '') | slice:0:16 }}…</small>
+          </div>
+        </div>
+      </li>
+    </ul>
+
+    <div *ngIf="logs.length === 0" class="text-muted text-center py-3">
+      No audit records yet.
+    </div>
+  </div>
+</section>

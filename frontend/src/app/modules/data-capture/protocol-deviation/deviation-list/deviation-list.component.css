@@ -1,0 +1,204 @@
+
+/* =========================================
+   Protocol Deviations List Styling
+   ========================================= */
+
+/* Theme tokens */
+:root {
+  --pdl-primary: #0d6efd;   /* Bootstrap primary */
+  --pdl-danger:  #dc3545;   /* Bootstrap danger */
+  --pdl-secondary: #6c757d; /* Bootstrap secondary */
+  --pdl-warning: #f59e0b;   /* amber for MAJOR */
+  --pdl-muted:   #6b7280;
+  --pdl-border:  #e7ebf0;
+  --pdl-focus:   #93c5fd;
+}
+
+/* Container spacing */
+.container.mt-3 {
+  margin-top: 1.2rem !important;
+}
+
+/* Header (title + New button) */
+.d-flex.justify-content-between.align-items-center.mb-3 h4 {
+  margin: 0;
+  font-weight: 700;
+  color: #0f172a;
+  letter-spacing: 0.2px;
+}
+
+.d-flex.justify-content-between.align-items-center.mb-3 .btn.btn-danger {
+  border-radius: 10px;
+  padding: 0.5rem 0.95rem;
+  font-weight: 600;
+  box-shadow: 0 6px 18px rgba(220, 53, 69, 0.25);
+  transition: background-color 0.2s ease, box-shadow 0.2s ease, transform 0.06s ease;
+}
+
+.d-flex.justify-content-between.align-items-center.mb-3 .btn.btn-danger:hover {
+  background-color: #bb2d3b;
+  border-color: #bb2d3b;
+  box-shadow: 0 8px 22px rgba(220, 53, 69, 0.35);
+}
+
+.d-flex.justify-content-between.align-items-center.mb-3 .btn.btn-danger:active {
+  transform: translateY(1px);
+}
+
+/* Card shell for table */
+.card {
+  border: 1px solid var(--pdl-border);
+  border-radius: 14px;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
+  overflow: hidden;
+}
+
+.card .card-body.p-0 {
+  padding: 0 !important;
+}
+
+/* Table */
+.table.table-striped.mb-0 {
+  margin-bottom: 0 !important;
+  border: none;
+}
+
+.table.table-striped thead.table-light {
+  background-color: #f9fafb;
+  border-bottom: 1px solid var(--pdl-border);
+}
+
+.table.table-striped th {
+  font-weight: 600;
+  color: #374151;
+  padding: 0.75rem;
+}
+
+.table.table-striped td {
+  vertical-align: middle;
+  padding: 0.75rem;
+}
+
+.table.table-striped tbody tr:hover {
+  background-color: rgba(13, 110, 253, 0.05);
+  cursor: pointer;
+}
+
+/* Severity badge (keeps your ngClass) */
+.badge {
+  font-size: 0.8rem;
+  font-weight: 700;
+  padding: 0.35rem 0.6rem;
+  border-radius: 999px;
+  letter-spacing: 0.2px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+.bg-secondary { background-color: var(--pdl-secondary) !important; }
+.bg-warning   { background-color: var(--pdl-warning) !important; }
+.bg-danger    { background-color: var(--pdl-danger) !important; }
+
+/* Status column hint (optional soft pill look if you add a class) */
+td:nth-child(5) {
+  white-space: nowrap;
+}
+
+/* View button */
+.btn.btn-outline-secondary.btn-sm {
+  border-radius: 8px;
+  padding: 0.35rem 0.7rem;
+  transition: background-color 0.2s ease, border-color 0.2s ease;
+}
+
+.btn.btn-outline-secondary.btn-sm:hover {
+  background-color: #f3f4f6;
+  border-color: #cbd5e1;
+}
+
+/* Loading template text */
+.text-muted {
+  color: var(--pdl-muted) !important;
+  font-size: 0.95rem;
+}
+
+/* Spinner (if you show one elsewhere) */
+.spinner-border {
+  color: var(--pdl-primary);
+  width: 1.5rem;
+  height: 1.5rem;
+  border-width: 0.2rem;
+  animation: pdl-spin 0.9s linear infinite;
+}
+@keyframes pdl-spin {
+  to { transform: rotate(360deg); }
+}
+
+/* Accessible focus rings */
+button:focus-visible,
+.btn:focus-visible {
+  outline: 2px solid var(--pdl-focus);
+  outline-offset: 2px;
+}
+
+/* Responsive tweaks */
+@media (max-width: 992px) {
+  .d-flex.justify-content-between.align-items-center.mb-3 {
+    gap: 0.6rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .container.mt-3 { margin-top: 0.9rem !important; }
+
+  .d-flex.justify-content-between.align-items-center.mb-3 {
+    flex-direction: column;
+    align-items: flex-start !important;
+    gap: 0.6rem;
+  }
+
+  /* Make table more compact on small screens */
+  .table { font-size: 0.92rem; }
+  .table th, .table td { padding: 0.6rem; }
+}
+
+/* Print-friendly */
+@media print {
+  .card {
+    box-shadow: none !important;
+    border: 1px solid #cccccc !important;
+  }
+  .btn {
+    display: none !important;
+  }
+  .table.table-striped tbody tr:hover {
+    background: none !important;
+  }
+}
+
+/* Optional Dark Mode */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --pdl-border: #1f2937;
+    --pdl-muted:  #9ca3af;
+  }
+
+  .card {
+    border-color: var(--pdl-border);
+    box-shadow: 0 10px 24px rgba(0, 0, 0, 0.6);
+    background: #0b1220;
+  }
+
+  .table.table-striped thead.table-light {
+    background-color: #0f172a;
+    border-bottom-color: var(--pdl-border);
+  }
+
+  .table.table-striped th,
+  .table.table-striped td {
+    color: #e5e7eb;
+  }
+
+  .text-muted {
+    color: var(--pdl-muted) !important;
+  }
+}

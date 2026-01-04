@@ -1,0 +1,17 @@
+<h3>Consent Form</h3>
+<p>Participant: {{ participantName }}</p>
+
+<form [formGroup]="form">
+  <label>
+    <input type="checkbox" formControlName="agree" />
+    I have read and understood the consent document.
+  </label>
+
+  <label>Signature</label>
+  <input formControlName="signatureData" placeholder="Type your name" />
+
+  <div>
+    <button type="button" (click)="onSign()" [disabled]="form.invalid">Sign</button>
+    <button type="button" (click)="onWithdraw()">Withdraw</button>
+  </div>
+</form>

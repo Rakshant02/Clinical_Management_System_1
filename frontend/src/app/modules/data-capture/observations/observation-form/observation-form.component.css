@@ -1,0 +1,314 @@
+
+/* =========================================
+   New Observation Form Styling (Bootstrap-friendly)
+   ========================================= */
+
+/* Theme tokens (easy to customize) */
+:root {
+  --nof-bg: #ffffff;
+  --nof-card: #f7f9fc;
+  --nof-border: #e7ebf0;
+  --nof-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
+
+  --nof-primary: #0d6efd;   /* Bootstrap primary */
+  --nof-danger:  #dc3545;   /* Bootstrap danger */
+  --nof-muted:   #6b7280;
+  --nof-focus:   #93c5fd;
+}
+
+/* Heading */
+h3 {
+  font-weight: 700;
+  color: #0f172a;
+  margin-bottom: 0.75rem;
+}
+
+/* Form wrapper */
+.form {
+  background: var(--nof-bg);
+  border: 1px solid var(--nof-border);
+  border-radius: 12px;
+  box-shadow: var(--nof-shadow);
+  padding: 1rem 1.25rem 1.25rem;
+}
+
+/* Simple row layout (label + input stacked) */
+.form .row {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0.4rem;
+  margin-bottom: 0.9rem;
+}
+
+/* Labels */
+.form label {
+  font-weight: 600;
+  color: #334155;
+}
+
+/* Inputs */
+.form input {
+  display: block;
+  width: 100%;
+  background: #ffffff;
+  border: 1px solid #d1d5db;
+  border-radius: 10px;
+  padding: 0.55rem 0.75rem;
+  font-size: 0.95rem;
+  color: #111827;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease, background-color 0.15s ease;
+}
+
+.form input::placeholder {
+  color: #9aa3af;
+}
+
+.form input:focus {
+  border-color: var(--nof-focus);
+  box-shadow: 0 0 0 0.25rem rgba(147, 197, 253, 0.35);
+  outline: none;
+}
+
+/* ---------------------------
+   Data Points header + button
+   --------------------------- */
+.dp-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: var(--nof-card);
+  border: 1px solid var(--nof-border);
+  border-radius: 10px;
+  padding: 0.6rem 0.8rem;
+  margin: 1rem 0 0.8rem;
+}
+
+.dp-header h4 {
+  margin: 0;
+  font-weight: 700;
+  color: #0f172a;
+  font-size: 1.05rem;
+}
+
+/* Base button style */
+.btn {
+  display: inline-flex;
+  gap: 0.4rem;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid #cbd5e1;
+  background: #ffffff;
+  color: #0f172a;
+  padding: 0.5rem 0.9rem;
+  border-radius: 10px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease, transform 0.06s ease;
+}
+
+.btn:hover {
+  background-color: #f3f4f6;
+  border-color: #cbd5e1;
+}
+
+.btn:active {
+  transform: translateY(1px);
+}
+
+/* Variant: primary */
+.btn.primary {
+  background: var(--nof-primary);
+  border-color: var(--nof-primary);
+  color: #ffffff;
+  box-shadow: 0 6px 18px rgba(13, 110, 253, 0.25);
+}
+
+.btn.primary:hover {
+  background: #0b5ed7; /* darker primary */
+  border-color: #0b5ed7;
+  box-shadow: 0 8px 22px rgba(13, 110, 253, 0.35);
+} 
+
+/* Variant: danger */
+.btn.danger {
+  background: #ffffff;
+  color: var(--nof-danger);
+  border-color: var(--nof-danger);
+}
+
+.btn.danger:hover {
+  background: rgba(220, 53, 69, 0.08);
+}
+
+/* Disabled look */
+.btn[disabled],
+.btn:disabled {
+  
+  cursor: not-allowed;
+  color:#130101
+}
+
+/* ---------------------------
+   Data Points list
+   --------------------------- */
+.dp-list {
+  display: grid;
+  gap: 0.75rem;
+}
+
+/* Each item card */
+.dp-item {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr) auto; /* code | label | value | unit | (extra) | remove */
+  gap: 0.6rem;
+  align-items: center;
+  background: #ffffff;
+  border: 1px solid var(--nof-border);
+  border-radius: 12px;
+  padding: 0.6rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+.dp-item input {
+  border-radius: 8px;
+  padding: 0.5rem 0.7rem;
+}
+
+/* Remove button aligned right */
+.dp-item .btn.danger {
+  justify-self: end;
+  padding: 0.45rem 0.8rem;
+}
+
+/* ---------------------------
+   Actions row
+   --------------------------- */
+.actions {
+  display: flex;
+  gap: 0.6rem;
+  margin-top: 1rem;
+}
+
+.actions .btn {
+  min-width: 120px;
+}
+
+/* Link-styled cancel button (still uses .btn) */
+.actions a.btn {
+  text-decoration: none;
+}
+
+/* ---------------------------
+   Accessibility & Focus
+   --------------------------- */
+button:focus-visible,
+a.btn:focus-visible,
+.btn:focus-visible {
+  outline: 2px solid var(--nof-focus);
+  outline-offset: 2px;
+}
+
+/* ---------------------------
+   Responsive tweaks
+   --------------------------- */
+@media (max-width: 1024px) {
+  .dp-item {
+    grid-template-columns: repeat(4, 1fr) auto; /* collapse columns on tablets */
+  }
+}
+
+@media (max-width: 768px) {
+  .form {
+    padding: 0.9rem;
+  }
+  .dp-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
+  .dp-item {
+    grid-template-columns: 1fr 1fr; /* stack fields on mobile */
+  }
+  .dp-item .btn.danger {
+    grid-column: 2 / 3;
+    justify-self: start;
+  }
+  .actions {
+    flex-direction: column;
+    align-items: stretch;
+  }
+}
+
+/* ---------------------------
+   Print-friendly
+   --------------------------- */
+@media print {
+  .form {
+    box-shadow: none !important;
+    border: 1px solid #cccccc !important;
+  }
+  .btn,
+  .dp-header {
+    display: none !important;
+  }
+}
+
+/* ---------------------------
+   Optional Dark Mode
+   --------------------------- */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --nof-bg: #0b1220;
+    --nof-card: #0f172a;
+    --nof-border: #1f2937;
+    --nof-shadow: 0 10px 24px rgba(0, 0, 0, 0.6);
+
+    --nof-muted: #9ca3af;
+  }
+
+  h3 { color: #e5e7eb; }
+
+  .form {
+    background: var(--nof-bg);
+    border-color: var(--nof-border);
+    box-shadow: var(--nof-shadow);
+  }
+
+  .form label { color: #e5e7eb; }
+
+  .form input {
+    background: #0b1220;
+    color: #e5e7eb;
+    border-color: #334155;
+  }
+
+  .form input::placeholder { color: #9ca3af; }
+
+  .dp-header {
+    background: var(--nof-card);
+    border-color: var(--nof-border);
+  }
+
+  .dp-item {
+    background: var(--nof-bg);
+    border-color: var(--nof-border);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.45);
+  }
+
+  .btn {
+    background: #0b1220;
+    color: #e5e7eb;
+    border-color: #334155;
+  }
+
+  .btn.primary {
+    background: var(--nof-primary);
+    border-color: var(--nof-primary);
+    color: #130101;
+  }
+
+  .btn.danger {
+    color: #fca5a5;
+    border-color: #ef4444;
+  }
+}

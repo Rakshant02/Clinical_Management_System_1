@@ -1,0 +1,34 @@
+
+<h3>New Observation</h3>
+
+<form [formGroup]="form" (ngSubmit)="submit()" class="form">
+  <div class="row">
+    <label>Participant ID</label>
+    <input formControlName="participantID" placeholder="P001" />
+  </div>
+
+  <div class="row">
+    <label>Visit Date</label>
+    <input type="date" formControlName="visitDate" />
+  </div>
+
+  <div class="dp-header">
+    <h4>Data Points</h4>
+    <button type="button" class="btn" (click)="addDataPoint()">Add Data Point</button>
+  </div>
+
+  <div formArrayName="dataPoints" class="dp-list">
+    <div *ngFor="let grp of dataPoints.controls; let i = index" [formGroupName]="i" class="dp-item">
+      <input placeholder="Code (e.g., HR, BP, TEMP)" formControlName="code" />
+      <input placeholder="Label (e.g., Heart Rate)" formControlName="label" />
+      <input placeholder="Value" formControlName="value" />
+      <input placeholder="Unit" formControlName="unit" />
+      <button type="button" class="btn danger" (click)="removeDataPoint(i)">Remove</button>
+    </div>
+  </div>
+
+  <div class="actions">
+    <button class="btn primary" type="submit" [disabled]="form.invalid">Save</button>
+    <a routerLink="/data-capture/observations" class="btn">Cancel</a>
+  </div>
+</form>

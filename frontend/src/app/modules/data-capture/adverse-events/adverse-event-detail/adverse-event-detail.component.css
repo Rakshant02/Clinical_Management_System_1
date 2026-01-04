@@ -1,0 +1,260 @@
+
+/* ================================
+   Adverse Event Details - Styling
+   Works with Bootstrap 5 classes.
+   Author: You :)
+   ================================ */
+
+/* Root theme tokens */
+:root {
+  --aed-card-bg: #ffffff;
+  --aed-card-border: #e7ebf0;
+  --aed-card-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
+
+  --aed-header-bg: #f7f9fc;
+  --aed-header-text: #0f172a;
+
+  --aed-text-muted: #6b7280;
+  --aed-section-title: #0d6efd; /* Bootstrap primary */
+  --aed-divider: #e5e7eb;
+
+  --aed-success: #22c55e;
+  --aed-warning: #f59e0b;
+  --aed-danger: #ef4444;
+  --aed-dark: #111827;
+}
+
+/* Container card */
+.card {
+  background: var(--aed-card-bg);
+  border: 1px solid var(--aed-card-border);
+  border-radius: 12px;
+  box-shadow: var(--aed-card-shadow);
+  overflow: hidden;
+  transition: box-shadow 0.25s ease, transform 0.12s ease;
+}
+
+.card:hover {
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.12);
+}
+
+/* Header */
+.card-header {
+  background: var(--aed-header-bg);
+  color: var(--aed-header-text);
+  padding: 0.85rem 1.25rem;
+  border-bottom: 1px solid var(--aed-card-border);
+}
+
+.card-header .btn.btn-outline-secondary.btn-sm {
+  /* Make tiny back button more tappable */
+  padding: 0.35rem 0.6rem;
+  border-radius: 8px;
+}
+
+/* Body spacing & rhythm */
+.card-body {
+  padding: 1.25rem 1.25rem 1rem;
+}
+
+/* Typography */
+.card-header span {
+  font-weight: 600;
+  letter-spacing: 0.2px;
+}
+
+h6 {
+  font-size: 0.95rem;
+  font-weight: 600;
+  margin-bottom: 0.35rem;
+  color: var(--aed-section-title);
+}
+
+p {
+  margin-bottom: 0.5rem;
+}
+
+/* Meta blocks */
+.row.g-3.mb-2,
+.row.g-3.mt-2,
+.row.g-3.mb-3 {
+  --bs-gutter-x: 1rem;
+  --bs-gutter-y: 0.75rem;
+}
+
+.text-muted.small {
+  color: var(--aed-text-muted) !important;
+}
+
+/* Divider for audit info */
+.border-top {
+  border-top: 1px dashed var(--aed-divider) !important;
+}
+
+/* Loading state */
+.text-center.my-5 .spinner-border {
+  width: 2.25rem;
+  height: 2.25rem;
+  border-width: 0.25rem;
+  color: var(--aed-section-title);
+  animation: aed-spin 0.9s linear infinite;
+}
+
+@keyframes aed-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Error alert */
+.alert.alert-danger {
+  border-left: 4px solid var(--aed-danger);
+  box-shadow: 0 2px 10px rgba(239, 68, 68, 0.08);
+}
+
+/* Badge styling (severity) */
+.badge {
+  font-weight: 600;
+  font-size: 0.8rem;
+  padding: 0.35rem 0.6rem;
+  border-radius: 999px;
+  letter-spacing: 0.3px;
+  box-shadow: 0 1px 0 rgba(0, 0, 0, 0.04) inset;
+}
+
+/* Override Bootstrap bg colors to match palette */
+.bg-success {
+  background-color: var(--aed-success) !important;
+}
+
+.bg-warning {
+  background-color: var(--aed-warning) !important;
+  color: #1f2937 !important; /* dark text on warning */
+}
+
+.bg-danger {
+  background-color: var(--aed-danger) !important;
+}
+
+.bg-dark {
+  background-color: var(--aed-dark) !important;
+}
+
+/* Key-value lines */
+.kv-line {
+  display: flex;
+  gap: 0.35rem;
+  align-items: baseline;
+}
+
+.kv-line strong {
+  color: #334155;
+}
+
+/* Subtle section separators */
+.section {
+  padding: 0.4rem 0;
+  border-radius: 8px;
+}
+
+.section:hover {
+  background: rgba(13, 110, 253, 0.03); /* primary tint */
+}
+
+/* Make long text readable */
+p.mb-2,
+p.mb-0 {
+  line-height: 1.5;
+  word-break: break-word;
+}
+
+/* Buttons: improve hover/focus */
+.btn-outline-secondary.btn-sm {
+  transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease,
+    box-shadow 0.2s ease, transform 0.06s ease;
+}
+
+.btn-outline-secondary.btn-sm:hover {
+  background-color: #f3f4f6;
+  border-color: #cbd5e1;
+}
+
+.btn-outline-secondary.btn-sm:active {
+  transform: translateY(1px);
+}
+
+/* Responsive tweaks */
+@media (max-width: 768px) {
+  .card-body {
+    padding: 1rem;
+  }
+  .row .col-md-3,
+  .row .col-md-6 {
+    flex: 0 0 100%;
+    max-width: 100%;
+  }
+  .badge {
+    display: inline-block;
+    margin-top: 0.25rem;
+  }
+}
+
+/* Accessible focus rings */
+button:focus-visible,
+.btn:focus-visible {
+  outline: 2px solid #93c5fd;
+  outline-offset: 2px;
+}
+
+/* Print-friendly */
+@media print {
+  .card {
+    box-shadow: none;
+    border: 1px solid #cccccc;
+  }
+  .btn,
+  .alert,
+  .spinner-border {
+    display: none !important;
+  }
+  .badge {
+    border: 1px solid #888;
+    color: #000 !important;
+    background: #fff !important;
+  }
+}
+
+/* Optional: dark mode */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --aed-card-bg: #0b1220;
+    --aed-card-border: #1f2937;
+    --aed-card-shadow: 0 10px 24px rgba(0, 0, 0, 0.6);
+
+    --aed-header-bg: #0f172a;
+    --aed-header-text: #e5e7eb;
+
+    --aed-text-muted: #9ca3af;
+    --aed-section-title: #60a5fa;
+    --aed-divider: #374151;
+
+    --aed-success: #22c55e;
+    --aed-warning: #f59e0b;
+    --aed-danger: #ef4444;
+    --aed-dark: #111827;
+  }
+
+  .card:hover {
+    box-shadow: 0 16px 32px rgba(0, 0, 0, 0.65);
+  }
+
+  .alert.alert-danger {
+    background: rgba(239, 68, 68, 0.1);
+    color: #fee2e2;
+    border-color: rgba(239, 68, 68, 0.35);
+  }
+
+  .border-top {
+    border-top-color: var(--aed-divider) !important;
+  }
+}

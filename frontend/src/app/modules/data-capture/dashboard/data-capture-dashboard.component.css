@@ -1,0 +1,374 @@
+
+/* =========================================================
+   BioTrack — Data Capture Dashboard Styling (Bootstrap 5)
+   ========================================================= */
+
+/* Theme tokens (easy to customize) */
+:root {
+  --dc-primary: #0d6efd;        /* Bootstrap primary */
+  --dc-danger:  #dc3545;        /* Bootstrap danger */
+  --dc-success: #198754;        /* Bootstrap success */
+  --dc-muted:   #6b7280;
+
+  --dc-card-bg: #ffffff;
+  --dc-card-border: #e7ebf0;
+  --dc-card-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
+
+  --dc-kpi-bg: linear-gradient(180deg, #ffffff, #f9fbff);
+  --dc-kpi-ring: #e5e7eb;
+  --dc-focus: #93c5fd;
+}
+
+/* Container rhythm */
+.container.mt-3 {
+  margin-top: 1.2rem !important;
+}
+
+/* ---------------------------
+   Header
+   --------------------------- */
+.d-flex.justify-content-between.align-items-center.mb-2 h3 {
+  margin: 0;
+  font-weight: 700;
+  letter-spacing: 0.2px;
+  color: #0f172a;
+}
+
+/* Header pill buttons */
+.btn-group.pills .btn {
+  border-radius: 999px;
+  padding: 0.45rem 0.95rem;
+  font-weight: 600;
+  transition: transform 0.06s ease, box-shadow 0.2s ease, background-color 0.2s ease, border-color 0.2s ease;
+}
+
+.btn-group.pills .btn-outline-primary:hover {
+  background-color: rgba(13, 110, 253, 0.08);
+  border-color: var(--dc-primary);
+  box-shadow: 0 8px 20px rgba(13, 110, 253, 0.18);
+}
+
+.btn-group.pills .btn-primary {
+  box-shadow: 0 8px 20px rgba(13, 110, 253, 0.25);
+}
+
+.btn-group.pills .btn-danger {
+  box-shadow: 0 8px 20px rgba(220, 53, 69, 0.25);
+}
+
+.btn-group.pills .btn:active {
+  transform: translateY(1px);
+}
+
+/* ---------------------------
+   KPI Cards
+   --------------------------- */
+.card.kpi {
+  background: var(--dc-kpi-bg);
+  border: 1px solid var(--dc-card-border);
+  border-radius: 16px;
+  box-shadow: var(--dc-card-shadow);
+  transition: box-shadow 0.25s ease, transform 0.06s ease;
+  overflow: hidden;
+  position: relative;
+}
+
+.card.kpi::after {
+  /* subtle ring accent at top-right */
+  content: "";
+  position: absolute;
+  top: -24px;
+  right: -24px;
+  width: 96px;
+  height: 96px;
+  border-radius: 50%;
+  border: 10px solid var(--dc-kpi-ring);
+  opacity: 0.5;
+}
+
+.card.kpi:hover {
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.12);
+}
+
+.card.kpi .card-body {
+  padding: 1rem 1.1rem 1rem;
+}
+
+.card.kpi .card-title {
+  font-weight: 600;
+  color: #334155;
+  margin-bottom: 0.35rem;
+}
+
+.card.kpi .display-6 {
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: 0.3px;
+}
+
+/* Emphasis for severe/critical KPI already in HTML via .text-danger */
+.card.kpi .display-6.text-danger {
+  text-shadow: 0 1px 0 rgba(0, 0, 0, 0.04);
+}
+
+/* ---------------------------
+   Feature Cards
+   --------------------------- */
+.card.feature {
+  border: 1px solid var(--dc-card-border);
+  border-radius: 16px;
+  box-shadow: var(--dc-card-shadow);
+  transition: box-shadow 0.25s ease, transform 0.06s ease, border-color 0.25s ease;
+}
+
+.card.feature:hover {
+  box-shadow: 0 14px 30px rgba(0, 0, 0, 0.12);
+  border-color: #dbe3ea;
+}
+
+.card.feature .card-body {
+  padding: 1.2rem 1.25rem;
+}
+
+.card.feature h5 {
+  font-weight: 700;
+  color: #0f172a;
+  margin-bottom: 0.4rem;
+}
+
+.card.feature p {
+  color: #475569;
+  margin-bottom: 0.9rem;
+}
+
+.card.feature .btn {
+  border-radius: 10px;
+  padding: 0.5rem 0.9rem;
+  transition: transform 0.06s ease, box-shadow 0.2s ease, background-color 0.2s ease, border-color 0.2s ease;
+}
+
+.card.feature .btn-outline-primary:hover {
+  background-color: rgba(13, 110, 253, 0.08);
+  border-color: var(--dc-primary);
+  box-shadow: 0 8px 20px rgba(13, 110, 253, 0.18);
+}
+
+.card.feature .btn-primary {
+  box-shadow: 0 8px 20px rgba(13, 110, 253, 0.25);
+}
+
+.card.feature .btn-outline-danger:hover {
+  background-color: rgba(220, 53, 69, 0.08);
+  border-color: var(--dc-danger);
+  box-shadow: 0 8px 20px rgba(220, 53, 69, 0.2);
+}
+
+.card.feature .btn-danger {
+  box-shadow: 0 8px 20px rgba(220, 53, 69, 0.28);
+}
+
+.card.feature .btn:active {
+  transform: translateY(1px);
+}
+
+/* ---------------------------
+   Recent Audit Trails Card
+   --------------------------- */
+.card.mt-3 {
+  border: 1px solid var(--dc-card-border);
+  border-radius: 14px;
+  box-shadow: var(--dc-card-shadow);
+}
+
+.card.mt-3 .card-header {
+  background-color: #f7f9fc;
+  border-bottom: 1px solid var(--dc-card-border);
+  padding: 0.85rem 1.2rem;
+}
+
+.card.mt-3 .card-header h5 {
+  margin: 0;
+  font-weight: 700;
+  color: #0f172a;
+}
+
+.card.mt-3 .card-body {
+  padding: 1rem 1.2rem;
+}
+
+.card.mt-3 .btn.btn-sm.btn-outline-secondary {
+  border-radius: 8px;
+  padding: 0.35rem 0.7rem;
+  transition: background-color 0.2s ease, border-color 0.2s ease, transform 0.06s ease;
+}
+
+.card.mt-3 .btn.btn-sm.btn-outline-secondary:hover {
+  background-color: #f3f4f6;
+  border-color: #cbd5e1;
+}
+
+.card.mt-3 .d-flex.gap-3.mb-3 > div {
+  color: #334155;
+}
+
+/* Table */
+.table.table-sm {
+  border: 1px solid #e5e7eb;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.table.table-sm thead {
+  background-color: #f9fafb;
+}
+
+.table.table-sm th {
+  font-weight: 600;
+  color: #374151;
+}
+
+.table.table-sm td,
+.table.table-sm th {
+  padding: 0.5rem 0.75rem;
+}
+
+.table.table-sm tbody tr:hover {
+  background-color: rgba(13, 110, 253, 0.05);
+}
+
+/* Empty state */
+.text-muted {
+  color: var(--dc-muted) !important;
+}
+
+/* ---------------------------
+   Spinner (if present nearby)
+   --------------------------- */
+.spinner-border {
+  color: var(--dc-primary);
+  width: 1.5rem;
+  height: 1.5rem;
+  border-width: 0.2rem;
+  animation: dc-spin 0.9s linear infinite;
+}
+
+@keyframes dc-spin {
+  to { transform: rotate(360deg); }
+}
+
+/* ---------------------------
+   Accessibility & Focus
+   --------------------------- */
+a:focus-visible,
+button:focus-visible,
+.btn:focus-visible {
+  outline: 2px solid var(--dc-focus);
+  outline-offset: 2px;
+}
+
+/* ---------------------------
+   Responsive Tweaks
+   --------------------------- */
+@media (max-width: 992px) {
+  .btn-group.pills {
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .container.mt-3 {
+    margin-top: 0.9rem !important;
+  }
+
+  .d-flex.justify-content-between.align-items-center.mb-2 {
+    flex-direction: column;
+    align-items: flex-start !important;
+    gap: 0.6rem;
+  }
+
+  .row.g-3 .col-md-3,
+  .row.g-3 .col-md-6 {
+    flex: 0 0 100%;
+    max-width: 100%;
+  }
+
+  .card.feature .card-body {
+    padding: 1rem;
+  }
+}
+
+/* ---------------------------
+   Print-friendly
+   --------------------------- */
+@media print {
+  .btn-group,
+  .btn,
+  .card .btn,
+  .table.table-sm tbody tr:hover {
+    box-shadow: none !important;
+    background: none !important;
+  }
+
+  .card,
+  .card.feature,
+  .card.kpi,
+  .card.mt-3 {
+    box-shadow: none !important;
+    border: 1px solid #cccccc !important;
+  }
+}
+
+/* ---------------------------
+   Optional Dark Mode
+   --------------------------- */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --dc-card-bg: #0b1220;
+    --dc-card-border: #1f2937;
+    --dc-card-shadow: 0 10px 24px rgba(0, 0, 0, 0.6);
+
+    --dc-muted:  #9ca3af;
+    --dc-kpi-bg: linear-gradient(180deg, #0b1220, #0f172a);
+  }
+
+  .d-flex.justify-content-between.align-items-center.mb-2 h3 {
+    color: #e5e7eb;
+  }
+
+  .card.kpi,
+  .card.feature,
+  .card.mt-3 {
+    background: var(--dc-card-bg);
+    border-color: var(--dc-card-border);
+    box-shadow: var(--dc-card-shadow);
+  }
+
+  .card.mt-3 .card-header {
+    background-color: #0f172a;
+    border-bottom-color: var(--dc-card-border);
+  }
+
+  .card.feature h5,
+  .card.mt-3 .card-header h5 {
+    color: #e5e7eb;
+  }
+
+  .card.feature p,
+  .card.mt-3 .d-flex.gap-3.mb-3 > div,
+  .table.table-sm th {
+    color: #cbd5e1;
+  }
+
+  .table.table-sm thead {
+    background-color: #0f172a;
+  }
+
+  .table.table-sm {
+    border-color: var(--dc-card-border);
+  }
+
+  .text-muted {
+    color: var(--dc-muted) !important;
+  }
+}
