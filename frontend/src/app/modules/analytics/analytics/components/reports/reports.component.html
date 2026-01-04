@@ -1,0 +1,97 @@
+
+<div class="reports-container">
+  <h2>Trial Reports</h2>
+  <p class="subtitle">Overview of generated reports with enrollment and completion metrics</p>
+
+  <!-- KPI Summary -->
+  <div class="kpi-grid">
+    <div class="kpi-card">
+      <div class="kpi-title">Average Enrollment Rate</div>
+      <div class="kpi-value">{{ avgEnrollmentRate | percent:'1.0-2' }}</div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-title">Average Completion Rate</div>
+      <div class="kpi-value">{{ avgCompletionRate | percent:'1.0-2' }}</div>
+    </div>
+  </div>
+
+  <!-- Reports Table -->
+  <div class="table-wrap">
+    <table class="reports-table">
+      <thead>
+        <tr>
+          <th>Report ID</th>
+          <th>Protocol</th>
+          <th>Enrollment Rate</th>
+          <th>Completion Rate</th>
+          <th>Generated Date</th>
+          <th>Details</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let r of reports" (click)="selectReport(r)" [class.active]="selectedReport?.reportId === r.reportId">
+          <td>{{ r.reportId }}</td>
+          <td>{{ r.protocolId }}</td>
+          <td>{{ r.metrics.enrollmentRate | percent:'1.0-2' }}</td>
+          <td>{{ r.metrics.completionRate | percent:'1.0-2' }}</td>
+          <td>{{ r.generatedDate }}</td>
+          <td>
+            
+
+<button
+  type="button"
+  class="btn-link"
+  (click)="onViewClick($event, r.reportId)"
+  [attr.aria-label]="'View details for report ' + r.reportId"
+>
+  View
+</button>
+
+
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Selected Report Details -->
+  <div class="details-panel" *ngIf="selectedReport">
+    <h3>Report Details</h3>
+    <div class="details-grid">
+      <div class="detail">
+        <div class="label">Report ID</div>
+        <div class="value">{{ selectedReport.reportId }}</div>
+      </div>
+      <div class="detail">
+        <div class="label">Protocol</div>
+        <div class="value">{{ selectedReport.protocolId }}</div>
+      </div>
+      <div class="detail">
+        <div class="label">Enrollment Rate</div>
+        <div class="value">{{ selectedReport.metrics.enrollmentRate | percent:'1.0-2' }}</div>
+      </div>
+      <div class="detail">
+        <div class="label">Completion Rate</div>
+        <div class="value">{{ selectedReport.metrics.completionRate | percent:'1.0-2' }}</div>
+      </div>
+      <div class="detail">
+        <div class="label">Generated Date</div>
+        <div class="value">{{ selectedReport.generatedDate }}</div>
+      </div>
+
+      <!-- Optional extras if present in service metrics -->
+      <ng-container *ngIf="selectedReport.metrics.retentionRate !== undefined">
+        <div class="detail">
+          <div class="label">Retention Rate</div>
+          <div class="value">{{ selectedReport.metrics.retentionRate | percent:'1.0-2' }}</div>
+        </div>
+      </ng-container>
+      <ng-container *ngIf="selectedReport.metrics.progressPercent !== undefined">
+        <div class="detail">
+          <div class="label">Progress</div>
+          <div class="value">{{ selectedReport.metrics.progressPercent | number:'1.0-2' }}%</div>
+        </div>
+      </ng-container>
+    </div>
+  </div>
+</div>

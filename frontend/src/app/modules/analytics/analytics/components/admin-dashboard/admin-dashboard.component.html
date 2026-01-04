@@ -1,0 +1,161 @@
+
+<div class="admin-container">
+  <h2>Admin Dashboard</h2>
+  <p class="subtitle">View compliance reports and generate analytics</p>
+
+  
+  <div class="toolbar">
+    <label for="protocolSel">Protocol</label>
+    
+<select
+  id="protocolSel"
+  [(ngModel)]="selectedProtocolId"
+  (ngModelChange)="onProtocolChange($event)"
+>
+  <option *ngFor="let p of protocols" [value]="p.protocolId">
+    {{ p.protocolId }} — {{ p.title }}
+  </option>
+</select>
+
+  </div>
+
+  
+  <div class="kpi-grid">
+    <div class="kpi-card">
+      <div class="kpi-title">Avg Enrollment Rate</div>
+      <div class="kpi-value">{{ avgEnrollmentRate | percent:'1.0-2' }}</div>
+      <div class="kpi-sub">Based on Trial Reports</div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-title">Avg Completion Rate</div>
+      <div class="kpi-value">{{ avgCompletionRate | percent:'1.0-2' }}</div>
+      <div class="kpi-sub">Based on Trial Reports</div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-title">HIPAA Compliant</div>
+      <div class="kpi-value">{{ hipaaCompliantCount }}/{{ totalComplianceReports }}</div>
+      <div class="kpi-sub">Compliance Reports</div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-title">GCP Compliant</div>
+      <div class="kpi-value">{{ gcpCompliantCount }}/{{ totalComplianceReports }}</div>
+      <div class="kpi-sub">Compliance Reports</div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-title">Open Compliance Issues</div>
+      <div class="kpi-value">{{ totalIssues }}</div>
+      <div class="kpi-sub">Sum of issues listed</div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-title">Adverse Events</div>
+      <div class="kpi-value">{{ adverseEventCount }}</div>
+      <div class="kpi-sub">
+        Severe: <strong>{{ adverseEventSevereCount }}</strong>
+      </div>
+    </div>
+  </div>
+
+  
+  <div class="section">
+    <h3>Compliance Reports</h3>
+    <div class="table-wrap">
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>Report ID</th>
+            <th>Site ID</th>
+            <th>HIPAA</th>
+            <th>GCP</th>
+            <th>Issues</th>
+            <th>Generated Date</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let cr of filteredComplianceReports">
+            <td>{{ cr.reportId }}</td>
+            <td>{{ cr.siteId || '—' }}</td>
+            <td>
+              <span class="badge" [class.ok]="cr.hipaaCompliant" [class.fail]="!cr.hipaaCompliant">
+                {{ cr.hipaaCompliant ? 'Compliant' : 'Non-compliant' }}
+              </span>
+            </td>
+            <td>
+              <span class="badge" [class.ok]="cr.gcpCompliant" [class.fail]="!cr.gcpCompliant">
+                {{ cr.gcpCompliant ? 'Compliant' : 'Non-compliant' }}
+              </span>
+            </td>
+            <td>{{ (cr.issues?.length || 0) > 0 ? cr.issues.join('; ') : 'None' }}</td>
+            <td>{{ cr.generatedDate }}</td>
+          </tr>
+          <tr *ngIf="filteredComplianceReports.length === 0">
+            <td colspan="6" class="empty">No compliance reports for selected protocol.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  
+  <div class="section">
+    <h3>Audit Logs</h3>
+    <div class="table-wrap">
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>Timestamp</th>
+            <th>Actor</th>
+            <th>Action</th>
+            <th>Entity</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let al of auditLogs">
+            <td>{{ al.timestamp }}</td>
+            <td>{{ al.actor }}</td>
+            <td>{{ al.action }}</td>
+            <td>{{ al.entityType }} {{ al.entityId }}</td>
+          </tr>
+          <tr *ngIf="auditLogs.length === 0">
+            <td colspan="4" class="empty">No audit logs available.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="section">
+    <h3>Adverse Events</h3>
+    <div class="table-wrap">
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>AE ID</th>
+            <th>Date</th>
+            <th>Severity</th>
+            <th>Description</th>
+            <th>Related to Drug</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let ae of filteredAdverseEvents">
+            <td>{{ ae.aeId }}</td>
+            <td>{{ ae.date }}</td>
+            <td>
+              <span class="badge"
+                    [class.severe]="ae.severity === 'severe'"
+                    [class.moderate]="ae.severity === 'moderate'"
+                    [class.mild]="ae.severity === 'mild'">
+                {{ ae.severity }}
+              </span>
+            </td>
+            <td>{{ ae.description }}</td>
+            <td>{{ ae.relatedToDrug ? 'Yes' : 'No' }}</td>
+          </tr>
+          <tr *ngIf="filteredAdverseEvents.length === 0">
+            <td colspan="5" class="empty">No adverse events for selected protocol.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

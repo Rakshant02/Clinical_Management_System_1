@@ -1,0 +1,114 @@
+
+<div class="rd-container">
+  <h2>Researcher Dashboard</h2>
+  <p class="subtitle">Manage protocols and monitor participants</p>
+
+  
+<div class="toolbar">
+  <label for="protocolSel">Protocol</label>
+  <select
+    id="protocolSel"
+    [(ngModel)]="selectedProtocolId"
+    (ngModelChange)="onProtocolChange($event)"
+  >
+    <option *ngFor="let p of protocols" [value]="p.protocolId">
+      {{ p.protocolId }} — {{ p.title }}
+    </option>
+  </select>
+</div>
+
+  
+  <div class="card" *ngIf="selectedProtocol">
+    <div class="card-header">
+      <div>
+        <div class="protocol-title">{{ selectedProtocol.title }}</div>
+        <div class="protocol-meta">
+          Phase {{ selectedProtocol.phase }} · Sponsor: {{ selectedProtocol.sponsor }} · Target Enrollment: {{ selectedProtocol.targetEnrollment }}
+        </div>
+      </div>
+      <div class="protocol-dates">
+        <span>Start: {{ selectedProtocol.startDate }}</span>
+        <span>End: {{ selectedProtocol.endDate }}</span>
+      </div>
+    </div>
+    <div class="protocol-tags">
+      <span class="tag" *ngFor="let reg of selectedProtocol.regulators">{{ reg }}</span>
+    </div>
+  </div>
+
+
+  <div class="kpi-grid">
+    
+    <div class="kpi-card" *ngIf="selectedTrialReport">
+      <div class="kpi-title">Enrollment Rate</div>
+      <div class="kpi-value">{{ selectedTrialReport.metrics.enrollmentRate | percent:'1.0-2' }}</div>
+      <div class="kpi-sub">Report: {{ selectedTrialReport.reportId }} · {{ selectedTrialReport.generatedDate }}</div>
+    </div>
+    <div class="kpi-card" *ngIf="selectedTrialReport">
+      <div class="kpi-title">Completion Rate</div>
+      <div class="kpi-value">{{ selectedTrialReport.metrics.completionRate | percent:'1.0-2' }}</div>
+      <div class="kpi-sub">Protocol: {{ selectedTrialReport.protocolId }}</div>
+    </div>
+    <div class="kpi-card" *ngIf="selectedTrialReport?.metrics?.retentionRate !== undefined">
+      <div class="kpi-title">Retention Rate</div>
+      <div class="kpi-value">{{ selectedTrialReport.metrics.retentionRate | percent:'1.0-2' }}</div>
+    </div>
+    <div class="kpi-card" *ngIf="selectedTrialReport?.metrics?.progressPercent !== undefined">
+      <div class="kpi-title">Progress</div>
+      <div class="kpi-value">{{ selectedTrialReport.metrics.progressPercent | number:'1.0-2' }}%</div>
+    </div>
+
+  
+    <div class="kpi-card">
+      <div class="kpi-title">Total Participants</div>
+      <div class="kpi-value">{{ totalParticipants }}</div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-title">Enrolled (Active)</div>
+      <div class="kpi-value">{{ enrolledCount }}</div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-title">Completed</div>
+      <div class="kpi-value">{{ completedCount }}</div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-title">Withdrawn</div>
+      <div class="kpi-value">{{ withdrawnCount }}</div>
+    </div>
+  </div>
+
+  
+  <div class="table-wrap">
+    <table class="data-table">
+      <thead>
+        <tr>
+          <th>Participant ID</th>
+          <th>Site ID</th>
+          <th>Enrolled Date</th>
+          <th>Status</th>
+          <th>Age</th>
+          <th>Gender</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let p of filteredParticipants">
+          <td>{{ p.participantId }}</td>
+          <td>{{ p.siteId }}</td>
+          <td>{{ p.enrolledDate }}</td>
+          <td>
+            <span class="status" [class.enrolled]="p.status === 'enrolled'"
+                                [class.completed]="p.status === 'completed'"
+                                [class.withdrawn]="p.status === 'withdrawn'">
+              {{ p.status }}
+            </span>
+          </td>
+          <td>{{ p.age }}</td>
+          <td>{{ p.gender }}</td>
+        </tr>
+        <tr *ngIf="filteredParticipants.length === 0">
+          <td colspan="6" class="empty">No participants for selected protocol.</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
