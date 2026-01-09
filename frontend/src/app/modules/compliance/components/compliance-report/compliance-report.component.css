@@ -1,11 +1,186 @@
+/* Dashboard KPI Cards */
+.dashboard {
+  display: flex;
+  gap: 24px;
+  margin: 24px;
+  flex-wrap: wrap; /* responsive */
+}
+
+.kpi-card {
+  flex: 1;
+  min-width: 280px;
+  border-radius: 14px;
+  background: #ffffff;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.08);
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.kpi-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+}
+
+.kpi-card mat-card-header {
+  background: linear-gradient(135deg, #e3f2fd, #f1f8e9);
+  border-radius: 14px 14px 0 0;
+  padding: 14px;
+  display: flex;
+  align-items: center;
+}
+
+.kpi-card mat-icon {
+  margin-right: 10px;
+  font-size: 22px;
+}
+
+.card-content {
+  text-align: center;
+  padding: 20px;
+}
+
+.card-content h2 {
+  font-size: 32px;
+  margin: 10px 0;
+  color: #0d47a1; /* darker blue for numbers */
+  font-weight: 700;
+}
+.card-content p {
+  color: #222; /* much darker than #555 */
+  font-size: 15px;
+  margin: 0;
+  font-weight: 500;
+} /* Table body cells */
+td {
+  padding: 14px;
+  font-size: 14px;
+  color: #212121; /* dark grey, almost black */
+} /* Table header cells */
+th {
+  background: linear-gradient(90deg, #1565c0, #1976d2); /* stronger blue */
+  color: #fff;
+  font-weight: 600;
+  text-transform: uppercase;
+  padding: 14px;
+  font-size: 13px;
+  letter-spacing: 0.5px;
+}
+
+/* Report Table */
+.report-log-container {
+  margin: 24px;
+  background: #fff;
+  border-radius: 14px;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.08);
+  padding: 20px;
+}
+
 table {
   width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  border-radius: 10px;
+  overflow: hidden;
 }
 
-th.mat-header-cell {
-  font-weight: bold;
+/* Header cells */
+/* Table header cells */
+th {
+  background: linear-gradient(
+    90deg,
+    #0d47a1,
+    #1565c0
+  ); /* darker navy gradient */
+  color: #5313c1cd; /* strong contrast */
+  font-weight: 700;
+  text-transform: uppercase;
+  padding: 14px;
+  font-size: 14px;
+  letter-spacing: 0.5px;
 }
 
-td.mat-cell {
-  padding: 8px;
+/* Body cells */
+td {
+  padding: 14px;
+  font-size: 14px;
+  color: #333;
+  border-bottom: 1px solid #eee;
+}
+
+/* Zebra striping */
+tr:nth-child(even) td {
+  background-color: #fafafa;
+}
+
+/* Hover effect */
+tr:hover td {
+  background-color: #e8f4fd;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+/* Chips for deviations */
+mat-chip {
+  font-weight: 500;
+  border-radius: 20px;
+  padding: 4px 10px;
+  font-size: 13px;
+}
+
+/* Action buttons */
+button[mat-icon-button] {
+  margin-right: 6px;
+  background: none; /* remove default background */
+  border: none; /* remove border */
+  box-shadow: none; /* remove shadow */
+  padding: 6px; /* keep spacing around icon */
+  border-radius: 50%; /* circular shape */
+  transition: background-color 0.2s ease, transform 0.2s ease;
+}
+button[mat-icon-button] mat-icon {
+  font-size: 20px;
+  color: #1976d2; /* accent blue */
+  opacity: 0.85;
+  transition: opacity 0.2s ease, transform 0.2s ease;
+}
+button[mat-icon-button]:hover mat-icon {
+  opacity: 1;
+  transform: scale(1.2); /* icon grows a bit */
+}
+
+button[mat-icon-button]:hover {
+  background-color: rgba(25, 118, 210, 0.1);
+  transform: scale(1.15);
+}
+.reports-btn {
+  display: flex;
+  justify-content: center; /* center the button */
+  margin-top: 20px;
+}
+
+.reports-button {
+  background: linear-gradient(90deg, #1976d2, #42a5f5); /* gradient blue */
+  color: #fff;
+  font-weight: 600;
+  font-size: 15px;
+  padding: 10px 20px;
+  border-radius: 30px; /* pill shape */
+  display: flex;
+  align-items: center;
+  gap: 8px; /* space between icon and text */
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.reports-button mat-icon {
+  font-size: 20px;
+}
+
+.reports-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
+  background: linear-gradient(90deg, #1565c0, #1e88e5); /* darker on hover */
+}
+
+.reports-button:active {
+  transform: scale(0.97);
 }

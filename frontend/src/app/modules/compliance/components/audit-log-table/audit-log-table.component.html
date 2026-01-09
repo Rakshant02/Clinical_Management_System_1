@@ -1,31 +1,140 @@
+<!-- Dashboard Summary -->
+<!-- Dashboard Summary -->
+<div class="dashboard">
+  <!-- Total Logs Card -->
+  <mat-card class="kpi-card total-card">
+    <mat-card-header>
+      <mat-icon>list_alt</mat-icon>
+      <mat-card-title>Total Logs</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <div class="card-content">
+        <h2>{{ auditLogs.length }}</h2>
+        <p>Total records logged</p>
+      </div>
+    </mat-card-content>
+  </mat-card>
 
-<table mat-table [dataSource]="auditLogs" class="mat-elevation-z8">
+  <!-- Violations Card -->
+  <mat-card class="kpi-card violations-card">
+    <mat-card-header>
+      <mat-icon color="warn">error</mat-icon>
+      <mat-card-title>Violations</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <div class="card-content">
+        <h2>{{ violationCount }}</h2>
+        <p>Detected issues requiring attention</p>
+      </div>
+    </mat-card-content>
+  </mat-card>
 
-  <!-- Log ID Column -->
-  <ng-container matColumnDef="logID">
-    <th mat-header-cell *matHeaderCellDef> Log ID </th>
-    <td mat-cell *matCellDef="let log"> {{ log.logID }} </td>
-  </ng-container>
+  <!-- Last Report Card -->
+  <mat-card class="kpi-card last-report-card">
+    <mat-card-header>
+      <mat-icon>event</mat-icon>
+      <mat-card-title>Last Report</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <div class="card-content">
+        <h2>
+          {{ auditLogs[auditLogs.length - 1]?.timestamp | date : "short" }}
+        </h2>
+        <p>Most recent compliance report</p>
+      </div>
+    </mat-card-content>
+  </mat-card>
+</div>
 
-  <!-- Action Column -->
-  <ng-container matColumnDef="actionPerformed">
-    <th mat-header-cell *matHeaderCellDef> Action </th>
-    <td mat-cell *matCellDef="let log"> {{ log.actionPerformed }} </td>
-  </ng-container>
+<div class="audit-log-container">
+  <!-- Search Bar -->
+  <mat-form-field appearance="outline" class="search-bar">
+    <mat-label>Search Logs</mat-label>
+    <input
+      matInput
+      (keyup)="applyFilter($event)"
+      placeholder="Filter by action or user"
+    />
+    <mat-icon matSuffix>search</mat-icon>
+  </mat-form-field>
 
-  <!-- User Column -->
-  <ng-container matColumnDef="userID">
-    <th mat-header-cell *matHeaderCellDef> User </th>
-    <td mat-cell *matCellDef="let log"> {{ log.userID }} </td>
-  </ng-container>
+  <!-- Table -->
+  <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8">
+    <!-- Log ID Column -->
+    <ng-container matColumnDef="logID">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Log ID</th>
+      <td mat-cell *matCellDef="let log">{{ log.logID }}</td>
+    </ng-container>
 
-  <!-- Timestamp Column -->
-  <ng-container matColumnDef="timestamp">
-    <th mat-header-cell *matHeaderCellDef> Timestamp </th>
-    <td mat-cell *matCellDef="let log"> {{ log.timestamp }} </td>
-  </ng-container>
+    <!-- Action Column with Chip -->
+    <ng-container matColumnDef="actionPerformed">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Action</th>
+      <td mat-cell *matCellDef="let log">
+        <mat-chip
+          [color]="log.actionPerformed.includes('Adverse') ? 'warn' : 'primary'"
+          selected
+        >
+          {{ log.actionPerformed }}
+        </mat-chip>
+      </td>
+    </ng-container>
 
-  <!-- Header and Row Declarations -->
-  <tr mat-header-row *matHeaderRowDef="['logID','actionPerformed','userID','timestamp']"></tr>
-  <tr mat-row *matRowDef="let row; columns: ['logID','actionPerformed','userID','timestamp'];"></tr>
-</table>
+    <!-- User Column -->
+    <ng-container matColumnDef="userID">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>User</th>
+      <td mat-cell *matCellDef="let log">{{ log.userID }}</td>
+    </ng-container>
+
+    <!-- Timestamp Column -->
+    <ng-container matColumnDef="timestamp">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Timestamp</th>
+      <td mat-cell *matCellDef="let log">
+        {{ log.timestamp | date : "short" }}
+      </td>
+    </ng-container>
+
+    <!-- Actions Column -->
+    <ng-container matColumnDef="actions">
+      <th mat-header-cell *matHeaderCellDef>Actions</th>
+      <td mat-cell *matCellDef="let log">
+        <button
+          mat-icon-button
+          color="primary"
+          matTooltip="View Details"
+          (click)="viewDetails(log)"
+        >
+          <mat-icon>visibility</mat-icon>
+        </button>
+        <button
+          mat-icon-button
+          color="accent"
+          matTooltip="Download Log"
+          (click)="downloadLog(log)"
+        >
+          <mat-icon>download</mat-icon>
+        </button>
+      </td>
+    </ng-container>
+
+    <!-- Header and Row Declarations -->
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr
+      mat-row
+      *matRowDef="let row; columns: displayedColumns"
+      [ngClass]="getRowClass(row)"
+    ></tr>
+  </table>
+
+  <!-- Paginator -->
+  <mat-paginator
+    [pageSizeOptions]="[5, 10, 25]"
+    showFirstLastButtons
+  ></mat-paginator>
+
+  <!-- Reports Button -->
+  <div class="reports-btn">
+    <button mat-raised-button color="primary" (click)="goToReports()">
+      <mat-icon>assessment</mat-icon> Go to Reports Log
+    </button>
+  </div>
+</div>

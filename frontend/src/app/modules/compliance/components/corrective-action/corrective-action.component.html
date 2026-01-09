@@ -1,37 +1,150 @@
-<table mat-table [dataSource]="correctiveActions" class="mat-elevation-z8">
+<!-- Summary KPI Cards -->
+<div class="summary-cards">
+  <mat-card class="summary-card">
+    <mat-card-header>
+      <mat-icon color="primary">list_alt</mat-icon>
+      <mat-card-title>Total Actions</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <h2>{{ correctiveActions.length }}</h2>
+    </mat-card-content>
+  </mat-card>
 
-  <!-- Action ID Column -->
-  <ng-container matColumnDef="actionID">
-    <th mat-header-cell *matHeaderCellDef> Action ID </th>
-    <td mat-cell *matCellDef="let action"> {{ action.actionID }} </td>
-  </ng-container>
+  <mat-card class="summary-card">
+    <mat-card-header>
+      <mat-icon color="warn">error_outline</mat-icon>
+      <mat-card-title>Open Issues</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <h2>{{ openIssuesCount }}</h2>
+    </mat-card-content>
+  </mat-card>
+</div>
 
-  <!-- Description Column -->
-  <ng-container matColumnDef="description">
-    <th mat-header-cell *matHeaderCellDef> Description </th>
-    <td mat-cell *matCellDef="let action"> {{ action.description }} </td>
-  </ng-container>
+<!-- Corrective Actions Table -->
+<div class="actions-container">
+  <mat-card class="actions-card mat-elevation-z8">
+    <mat-card-header>
+      <mat-icon color="primary">build</mat-icon>
+      <mat-card-title>Corrective Actions Log</mat-card-title>
+    </mat-card-header>
 
-  <!-- Assigned To Column -->
-  <ng-container matColumnDef="assignedTo">
-    <th mat-header-cell *matHeaderCellDef> Assigned To </th>
-    <td mat-cell *matCellDef="let action"> {{ action.assignedTo }} </td>
-  </ng-container>
+    <mat-card-content>
+      <table
+        mat-table
+        [dataSource]="correctiveActions"
+        matSort
+        class="mat-elevation-z2"
+      >
+        <!-- Action ID Column -->
+        <ng-container matColumnDef="actionID">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Action ID</th>
+          <td mat-cell *matCellDef="let action">
+            <mat-chip color="primary" selected>{{ action.actionID }}</mat-chip>
+          </td>
+        </ng-container>
 
-  <!-- Status Column -->
-  <ng-container matColumnDef="status">
-    <th mat-header-cell *matHeaderCellDef> Status </th>
-    <td mat-cell *matCellDef="let action"> {{ action.status }} </td>
-  </ng-container>
+        <!-- Description Column -->
+        <ng-container matColumnDef="description">
+          <th mat-header-cell *matHeaderCellDef>Description</th>
+          <td mat-cell *matCellDef="let action">{{ action.description }}</td>
+        </ng-container>
 
-  <!-- Due Date Column -->
-  <ng-container matColumnDef="dueDate">
-    <th mat-header-cell *matHeaderCellDef> Due Date </th>
-    <td mat-cell *matCellDef="let action"> {{ action.dueDate }} </td>
-  </ng-container>
+        <!-- Assigned To Column -->
+        <ng-container matColumnDef="assignedTo">
+          <th mat-header-cell *matHeaderCellDef>Assigned To</th>
+          <td mat-cell *matCellDef="let action">
+            <mat-icon class="table-icon accent">person</mat-icon>
+            {{ action.assignedTo }}
+          </td>
+        </ng-container>
 
-  <!-- Header and Row Declarations -->
-  <tr mat-header-row *matHeaderRowDef="['actionID','description','assignedTo','status','dueDate']"></tr>
-  <tr mat-row *matRowDef="let row; columns: ['actionID','description','assignedTo','status','dueDate'];"></tr>
-</table>
+        <!-- Status Column -->
+        <ng-container matColumnDef="status">
+          <th mat-header-cell *matHeaderCellDef>Status</th>
+          <td mat-cell *matCellDef="let action">
+            <mat-chip
+              [color]="action.status === 'COMPLETED' ? 'primary' : 'warn'"
+              selected
+            >
+              {{ action.status }}
+            </mat-chip>
+          </td>
+        </ng-container>
 
+        <!-- Due Date Column -->
+        <ng-container matColumnDef="dueDate">
+          <th mat-header-cell *matHeaderCellDef>Due Date</th>
+          <td mat-cell *matCellDef="let action">
+            <mat-icon class="table-icon">event</mat-icon>
+            {{ action.dueDate | date : "shortDate" }}
+          </td>
+        </ng-container>
+
+        <!-- Actions Column -->
+        <ng-container matColumnDef="actions">
+          <th mat-header-cell *matHeaderCellDef>Actions</th>
+          <td mat-cell *matCellDef="let action">
+            <button
+              mat-icon-button
+              color="primary"
+              matTooltip="View Details"
+              (click)="viewAction(action)"
+            >
+              <mat-icon fontIcon="visibility_outlined"></mat-icon>
+            </button>
+            <button
+              mat-icon-button
+              color="accent"
+              matTooltip="Edit Action"
+              (click)="editAction(action)"
+            >
+              <mat-icon fontIcon="edit_outlined"></mat-icon>
+            </button>
+          </td>
+        </ng-container>
+
+        <!-- Header & Rows -->
+        <tr
+          mat-header-row
+          *matHeaderRowDef="[
+            'actionID',
+            'description',
+            'assignedTo',
+            'status',
+            'dueDate',
+            'actions'
+          ]"
+        ></tr>
+        <tr
+          mat-row
+          *matRowDef="
+            let row;
+            columns: [
+              'actionID',
+              'description',
+              'assignedTo',
+              'status',
+              'dueDate',
+              'actions'
+            ]
+          "
+        ></tr>
+      </table>
+    </mat-card-content>
+
+    <!-- Paginator -->
+    <mat-card-actions>
+      <mat-paginator
+        [pageSizeOptions]="[5, 10, 25]"
+        showFirstLastButtons
+      ></mat-paginator>
+    </mat-card-actions>
+  </mat-card>
+</div>
+
+<div class="reports-btn">
+  <button mat-raised-button class="reports-button" (click)="goToReports()">
+    <mat-icon>assessment</mat-icon> Go to Compliance Reports
+  </button>
+</div>

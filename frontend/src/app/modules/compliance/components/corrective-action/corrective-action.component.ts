@@ -1,15 +1,53 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { MatTableModule } from '@angular/material/table';
-
+import {
+  MatCardActions,
+  MatCard,
+  MatCardHeader,
+  MatCardTitle,
+  MatCardContent,
+} from '@angular/material/card';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatIcon } from '@angular/material/icon';
+import { MatChip } from '@angular/material/chips';
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { Router, RouterLink } from '@angular/router';
 @Component({
   selector: 'app-corrective-action',
-  imports: [CommonModule, MatTableModule],
-  standalone:true,
+  imports: [
+    CommonModule,
+    MatTableModule,
+    MatCardActions,
+    MatPaginator,
+    MatIcon,
+    MatChip,
+    MatCard,
+    MatCardHeader,
+    MatCardTitle,
+    MatCardContent,
+  ],
+  standalone: true,
   templateUrl: './corrective-action.component.html',
   styleUrl: './corrective-action.component.css',
 })
 export class CorrectiveActionComponent {
+  constructor(private router: Router) {}
+  goToReports() {
+    this.router.navigate(['/compliance/reports']);
+  }
+
+  viewAction(_t79: any) {
+    throw new Error('Method not implemented.');
+  }
+  editAction(_t79: any) {
+    throw new Error('Method not implemented.');
+  }
+
+  get openIssuesCount(): number {
+    return this.correctiveActions.filter((a) => a.status !== 'COMPLETED')
+      .length;
+  }
   correctiveActions = [
     {
       actionID: 'CA-001',
