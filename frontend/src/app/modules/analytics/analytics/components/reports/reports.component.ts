@@ -1,73 +1,101 @@
 
+// reports.component.ts
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { AnalyticsService } from '../../services/analytics.service';
+import { DecimalPipe, PercentPipe } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+import { AnalyticsService } from '../../services/analytics.service'; // adjust path
+
 
 @Component({
   selector: 'app-reports',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, FormsModule, PercentPipe, DecimalPipe,],
+  providers: [AnalyticsService],
   templateUrl: './reports.component.html',
   styleUrls: ['./reports.component.css']
 })
 export class ReportsComponent implements OnInit {
-  reports: Array<{
-    reportId: string;
-    protocolId: string;
-    metrics: {
-      enrollmentRate: number;
-      completionRate: number;
-      retentionRate?: number;
-      progressPercent?: number;
-    };
-    generatedDate: string;
-  }> = [];
-
-  // Optional: selected report for a details panel
-  selectedReport: 
-| {
-        reportId: string;
-        protocolId: string;
-        metrics: {
-          enrollmentRate: number;
-          completionRate: number;
-          retentionRate?: number;
-          progressPercent?: number;
-        };
-        generatedDate: string;
-      }
-    | null = null;
-
+  reports: any[] = [];           // bound to service data
+  selectedReport: any | null = null;
+  avgEnrollmentRate = 0;
+  avgCompletionRate = 0;
+  str:string="reporting";
 
   constructor(private analytics: AnalyticsService) {}
 
   ngOnInit(): void {
+    // Load static data from service
     this.reports = this.analytics.getTrialReports();
-    // Auto-select the first report (optional)
-    this.selectedReport = this.reports?.[0] ?? null;
+    this.computeAverages();
   }
 
-selectReport(report: any) {
-  this.selectedReport = report;
-}
-
-onViewClick(event: MouseEvent, reportId: string) {
-  event.stopPropagation();
-  const found = this.reports.find(r => r.reportId === reportId) ?? null;
-  this.selectedReport = found;
-}
-  
-
-  // Helper getters for summary KPI cards
-  get avgEnrollmentRate(): number {
-    if (!this.reports?.length) return 0;
-    const sum = this.reports.reduce((acc, r) => acc + (r.metrics.enrollmentRate ?? 0), 0);
-    return sum / this.reports.length;
+  // Call this after you load reports to compute KPIs
+  private computeAverages() {
+    if (!this.reports?.length) { 
+      this.avgEnrollmentRate = 0; 
+      this.avgCompletionRate = 0; 
+      return; 
+    }
+    const er = this.reports.map(r => r.metrics?.enrollmentRate ?? 0);
+    const cr = this.reports.map(r => r.metrics?.completionRate ?? 0);
+    this.avgEnrollmentRate = er.reduce((a,b)=>a+b,0) / er.length;
+    this.avgCompletionRate = cr.reduce((a,b)=>a+b,0) / cr.length;
   }
 
-  get avgCompletionRate(): number {
-    if (!this.reports?.length) return 0;
-    const sum = this.reports.reduce((acc, r) => acc + (r.metrics.completionRate ?? 0), 0);
-    return sum / this.reports.length;
+  selectReport(r: any) { this.selectedReport = r; }
+
+  onViewClick(event: MouseEvent, reportId: string) {
+    event.stopPropagation();
+    const found = this.analytics.getTrialReportById(reportId);
+    if (found) this.selectedReport = found;
+  }
+
+  /** Utility: trigger JSON download */
+  private downloadJSON(filename: string, data: any) {
+    const content = JSON.stringify(data, null, 2);
+    const blob = new Blob([content], { type: 'application/json;charset=utf-8' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url; a.download = filename; a.click();
+    setTimeout(() => URL.revokeObjectURL(url), 1500);
+  }
+
+  /** Export all reports in one JSON file */
+  exportAllReportsJSON() {
+    const payload = this.reports.map(r => ({
+      reportId: r.reportId,
+      protocolId: r.protocolId,
+      metrics: r.metrics,
+      generatedDate: r.generatedDate
+    }));
+    this.downloadJSON('trial_reports.json', payload);
+  }
+
+  /** Export a single report (row-level button) */
+  exportReportJSON(event: MouseEvent, r: any) {
+    event.stopPropagation(); // avoid row selection click
+    const filename = `report_${r.reportId}.json`;
+    const payload = {
+      reportId: r.reportId,
+      protocolId: r.protocolId,
+      metrics: r.metrics,
+      generatedDate: r.generatedDate
+    };
+    this.downloadJSON(filename, payload);
+  }
+
+  /** Export currently selected report from the details panel */
+  exportSelectedReportJSON() {
+    if (!this.selectedReport) return;
+    const r = this.selectedReport;
+    const filename = `report_${r.reportId}.json`;
+    const payload = {
+      reportId: r.reportId,
+      protocolId: r.protocolId,
+      metrics: r.metrics,
+      generatedDate: r.generatedDate
+    };
+    this.downloadJSON(filename, payload);
   }
 }

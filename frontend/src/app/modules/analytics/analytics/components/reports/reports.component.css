@@ -1,101 +1,191 @@
 
+
 .reports-container {
-  padding: 16px;
-  display: grid;
-  gap: 16px;
+  font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+  background-color: #f8fafc;
+  padding: 32px;
+  color: #1e293b;
+  min-height: 100vh;
+}
+
+h2 {
+  color: #003366;
+  font-size: 28px;
+  font-weight: 700;
+  margin: 0 0 8px 0;
 }
 
 .subtitle {
-  color: #666;
-  margin-top: -8px;
+  color: #64748b;
+  font-size: 15px;
+  margin-bottom: 24px;
 }
 
+/* Actions & Buttons */
+.actions {
+  margin-bottom: 24px;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.btn-primary {
+  background-color: #0052cc;
+  color: #ffffff;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 6px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s, transform 0.1s;
+  box-shadow: 0 2px 4px rgba(0, 82, 204, 0.2);
+}
+
+.btn-primary:hover {
+  background-color: #0041a3;
+  transform: translateY(-1px);
+}
+
+.btn-link {
+  background: none;
+  border: 1px solid #0052cc;
+  color: #0052cc;
+  padding: 5px 12px;
+  border-radius: 4px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.btn-link:hover {
+  background-color: #f0f7ff;
+  border-color: #0041a3;
+}
+
+/* KPI Summary Cards */
 .kpi-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-  gap: 12px;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 24px;
+  margin-bottom: 32px;
 }
 
 .kpi-card {
-  background: #0f766e10; /* subtle teal tint */
-  border: 1px solid #0f766e30;
-  border-radius: 8px;
-  padding: 12px 16px;
+  background: #ffffff;
+  padding: 24px;
+  border-radius: 12px;
+  border-top: 4px solid #0052cc;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
 }
 
 .kpi-title {
-  font-size: 0.9rem;
-  color: #0f766e;
-  margin-bottom: 6px;
+  color: #64748b;
+  font-size: 13px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 8px;
 }
 
 .kpi-value {
-  font-size: 1.4rem;
-  font-weight: 600;
+  color: #003366;
+  font-size: 32px;
+  font-weight: 800;
 }
 
+/* Main Reports Table */
 .table-wrap {
-  overflow: auto;
-  border: 1px solid #e5e7eb;
-  border-radius: 8px;
+  background: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.05);
+  overflow: hidden;
+  border: 1px solid #e2e8f0;
 }
 
 .reports-table {
   width: 100%;
   border-collapse: collapse;
-}
-
-.reports-table thead th {
   text-align: left;
-  background: #f8fafc;
-  color: #374151;
-  font-weight: 600;
-  padding: 10px;
-  border-bottom: 1px solid #e5e7eb;
 }
 
-.reports-table tbody td {
-  padding: 10px;
+.reports-table th {
+  background-color: #f1f5f9;
+  color: #003366;
+  padding: 16px;
+  font-size: 14px;
+  font-weight: 700;
+  border-bottom: 2px solid #e2e8f0;
+}
+
+.reports-table td {
+  padding: 16px;
+  font-size: 14px;
   border-bottom: 1px solid #f1f5f9;
+  color: #334155;
 }
 
-.reports-table tbody tr:hover {
-  background: #f9fafb;
+.reports-table tr {
   cursor: pointer;
+  transition: background-color 0.2s;
 }
 
-.reports-table tbody tr.active {
-  background: #eef2ff;
+.reports-table tr:hover {
+  background-color: #f8fbff;
 }
 
-.btn-link {
-  border: none;
-  background: transparent;
-  color: #2563eb;
-  padding: 0;
-  cursor: pointer;
+.reports-table tr.active {
+  background-color: #e6f0ff;
+  border-left: 4px solid #0052cc;
 }
 
+/* Details Panel (Appears on click) */
 .details-panel {
-  border: 1px solid #e5e7eb;
-  border-radius: 8px;
-  padding: 12px 16px;
-  background: #fff;
+  margin-top: 32px;
+  background: #ffffff;
+  padding: 24px;
+  border-radius: 12px;
+  border: 1px solid #0052cc;
+  animation: slideUp 0.3s ease-out;
+}
+
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.details-panel h3 {
+  color: #003366;
+  margin: 0 0 20px 0;
+  font-size: 18px;
+  border-bottom: 1px solid #e2e8f0;
+  padding-bottom: 12px;
+}
+
+.details-actions {
+  margin-bottom: 20px;
 }
 
 .details-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-  gap: 12px;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 20px;
 }
 
 .detail .label {
-  font-size: 0.8rem;
-  color: #6b7280;
+  font-size: 12px;
+  color: #64748b;
+  font-weight: 600;
+  text-transform: uppercase;
+  margin-bottom: 4px;
 }
 
 .detail .value {
-  font-size: 1rem;
-  font-weight: 600;
-  color: #111827;
+  font-size: 16px;
+  color: #1e293b;
+  font-weight: 700;
+}
+
+/* Specialized formatting for Retention/Progress */
+.detail:has(.value:contains("%")) .value {
+  color: #0052cc;
 }

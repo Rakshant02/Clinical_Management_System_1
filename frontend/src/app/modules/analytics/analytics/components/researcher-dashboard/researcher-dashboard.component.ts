@@ -71,3 +71,4 @@ export class ResearcherDashboardComponent implements OnInit {
     return this.filteredParticipants.filter(p => p.status === 'withdrawn').length;
   }
 }
+ 
