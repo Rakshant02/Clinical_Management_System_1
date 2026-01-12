@@ -110,3 +110,41 @@ button:disabled {
     font-size: 13px;
   }
 }
+
+/* consent-form.component.css */
+.cm-details {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px 16px;
+  margin: 0 0 16px;
+}
+.cm-details dt { color: #0b0b0b; font-size: 16px; }
+.cm-details dd { margin: 2px 0 0; font-weight: 400; font-size: 16px; }
+
+.actions { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; margin-bottom: 8px; }
+.btn {
+  border: 1px solid transparent; border-radius: 8px; padding: 8px 12px;
+  font-weight: 600; cursor: pointer; display: inline-flex; align-items: center; gap: 8px;
+}
+.btn-primary { background: #16a34a; color: #fff; }
+.btn-danger  { background: #dc2626; color: #fff; }
+.btn:disabled { opacity: 0.55; cursor: not-allowed; filter: grayscale(0.2); }
+.icon.success, .icon.danger { font-weight: 700; font-size: 14px; }
+
+.hint { width: 100%; color: #6b7280; font-size: 15px; }
+
+.history { margin-top: 10px; }
+.history h4 { margin: 0 0 8px; font-size: 16px; font-weight: 600; }
+.history-item {
+  display: grid; grid-template-columns: 120px 1fr; align-items: center; gap: 8px;
+  padding: 6px 10px; border: 1px dashed #e5e7eb; border-radius: 8px; margin-bottom: 8px;
+}
+.chip {
+  display: inline-flex; align-items: center; padding: 4px 8px; border-radius: 999px;
+  font-size: 12px; font-weight: 700; color: #0f172a; background: #e5e7eb;
+}
+.chip.signed { background: #d1fae5; color: #065f46; }
+.chip.withdrawn { background: #fef3c7; color: #7c2d12; }
+.date { color: #6b7280; font-size: 14px; }
+.empty { color: #6b7280; padding: 8px; border: 1px dashed #e5e7eb; border-radius: 8px; text-align: left; }
+

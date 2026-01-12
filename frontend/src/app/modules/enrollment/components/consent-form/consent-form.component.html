@@ -1,25 +1,50 @@
-<div class="consent" *ngIf="participant; else noParticipant">
-  <p><strong>Name:</strong> {{ participant?.name }}</p>
-  <p><strong>DOB:</strong> {{ participant?.dob }}</p>
-  <p><strong>Contact:</strong> {{ participant?.contactInfo }}</p>
-  <p><strong>Eligibility:</strong> {{ participant?.eligibilityStatus }}</p>
-  <p><strong>Enrollment Status:</strong> {{ participant?.enrollmentStatus }}</p>
 
+<!-- consent-form.component.html -->
+<div class="consent" *ngIf="participant; else noParticipant">
+  <!-- Participant summary -->
+  <dl class="cm-details">
+    <div><dt>Name</dt><dd>{{ participant?.name }}</dd></div>
+    <div><dt>DOB</dt><dd>{{ participant?.dob }}</dd></div>
+    <div><dt>Contact</dt><dd>{{ participant?.contactInfo }}</dd></div>
+    <div><dt>Eligibility</dt><dd>{{ participant?.eligibilityStatus }}</dd></div>
+    <div><dt>Enrollment Status</dt><dd>{{ participant?.enrollmentStatus }}</dd></div>
+  </dl>
+
+ 
   <section class="actions">
-    <button (click)="sign()">✅ Sign Consent</button>
-    <button (click)="withdraw()">❌ Withdraw Consent</button>
+    <button class="btn btn-primary" (click)="sign()" [disabled]="!canSign">
+      <span class="icon success">✔</span> Sign Consent
+    </button>
+
+    <button class="btn btn-danger" (click)="withdraw()" [disabled]="!canWithdraw">
+      <span class="icon danger">✖</span> Withdraw Consent
+    </button>
+
+    <p class="hint" *ngIf="!canWithdraw && latest?.status === 'SIGNED'">
+      Withdraw is disabled after consent is signed.
+    </p>
+    <p class="hint" *ngIf="latest?.status === 'WITHDRAWN'">
+      You may sign once after withdrawal. Further withdrawals will be disabled.
+    </p>
   </section>
 
-  <section class="history" *ngIf="consentHistory.length > 0">
-    <h3>Consent History</h3>
-    <ul>
-      <li *ngFor="let c of consentHistory">
-        {{ c.status }} on {{ c.signedDate | date:'short' }}
+  
+  <section class="history">
+    <h4>Consent History</h4>
+    <ul *ngIf="consentHistory?.length; else noHistory">
+      <li *ngFor="let c of consentHistory; let i = index " class="history-item">
+        <span class="chip" [class.signed]="c.status==='SIGNED'" [class.withdrawn]="c.status==='WITHDRAWN'">
+          {{ c.status }}
+        </span>
+        <span class="date">{{ c.signedDate | date:'medium' }}</span>
       </li>
     </ul>
+    <ng-template #noHistory>
+      <div class="empty">No consent records found.</div>
+    </ng-template>
   </section>
-  <p *ngIf="!consentHistory || consentHistory.length === 0">No consent records found.</p>
 </div>
-<ng-template #noParticipant> 
-  <p>No participant found.</p> 
+
+<ng-template #noParticipant>
+  <p>No participant found.</p>
 </ng-template>
