@@ -4,7 +4,7 @@ import { ParticipantService } from '../../services/participant.service';
 import { Participant } from '../../../../core/models/participant';
 import { CommonModule } from '@angular/common';
 import { ConsentFormComponent } from '../../components/consent-form/consent-form.component';
-import { ConsentForm } from '../../../../core/models/consent-form';
+import { ConsentForm } from '../../models/consent.model';
 
 @Component({
   selector: 'bt-consent-manage',
@@ -26,7 +26,18 @@ export class ConsentManagePage implements OnInit {
   ngOnInit(): void {
     const id = this.route.snapshot.paramMap.get('id');
     if (id) {
-      this.participantService.get(id).subscribe(p => this.participant = p);
+      this.participantService.get(id).subscribe(p => {
+        // normalize the returned participant shape to the core Participant interface
+        const src: any = p as any;
+        this.participant = {
+          participantId: src.participantId ?? src.id,
+          name: src.name,
+          dob: src.dob,
+          contactInfo: src.contactInfo,
+          eligibilityStatus: src.eligibilityStatus,
+          enrollmentStatus: src.enrollmentStatus
+        } as Participant;
+      });
       this.loadConsentHistory(id);
     }
   }

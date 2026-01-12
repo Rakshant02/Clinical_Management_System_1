@@ -5,7 +5,7 @@
 
 <bt-consent-form
   [participant]="participant!"
-  [consentHistory]="consentHistory"
+  [consentHistory]="$any(consentHistory)"
   (consentSigned)="signConsent()"
   (consentWithdrawn)="withdrawConsent()">
 </bt-consent-form>
