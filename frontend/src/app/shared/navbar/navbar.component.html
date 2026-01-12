@@ -1,23 +1,17 @@
-<nav class="navbar navbar-expand-lg bg-body-tertiary">
+<nav class="navbar navbar-expand-lg">
   <div class="container-fluid justify-content-center">
-    <!-- Brand name updated -->
     <a class="navbar-brand mx-3" routerLink="/">Biotrack</a>
+    
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
             data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown"
             aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
- 
-    <!-- Center aligned navbar items -->
-    <div
-      class="collapse navbar-collapse justify-content-center"
-      id="navbarNavDropdown"
-    >
-      <ul class="navbar-nav">
+
+    <div class="collapse navbar-collapse justify-content-center" id="navbarNavDropdown">
+      <ul class="navbar-nav align-items-center">
         <li class="nav-item mx-3">
-          <a class="nav-link active" aria-current="page" routerLink="/protocol"
-            >Protocol Design</a
-          >
+          <a class="nav-link" routerLink="/protocol" routerLinkActive="active">Protocol Design</a>
         </li>
 
         <li class="nav-item mx-3">
@@ -28,80 +22,17 @@
           <a class="nav-link" routerLink="/data-capture" routerLinkActive="active">Data Capture</a>
         </li>
 
-
-
         <li class="nav-item mx-3">
           <a class="nav-link" routerLink="/compliance/audit-log" routerLinkActive="active">Compliance & Audit</a>
         </li>
-<!-- 
-         <li class="nav-item dropdown mx-3">
-          <a
-            class="nav-link dropdown-toggle"
-            href="#"
-            role="button"
-            data-bs-toggle="dropdown"
-            aria-expanded="false"
-          >
-            Compliance & Audit
-          </a>
-          <ul class="dropdown-menu">
-            <li>
-              <a -->
-                <!-- class="dropdown-item"
-                routerLink="/compliance/audit-log"
-                routerLinkActive="active"
-                [routerLinkActiveOptions]="{ exact: true }"
-              >
-                Audit Logs
-              </a>
-            </li>
-            <li
-              routerLinkActive="active"
-              [routerLinkActiveOptions]="{ exact: true }"
-            >
-              <a class="dropdown-item" routerLink="/compliance/reports">
-                Compliance Reports
-              </a>
-            </li>
-            <li
-              routerLinkActive="active"
-              [routerLinkActiveOptions]="{ exact: true }"
-            >
-              <a class="dropdown-item" routerLink="/compliance/actions">
-                Corrective Actions
-              </a>
-            </li>
-          </ul> -->
-       <!-- / </li> --> 
 
-        <!-- Dropdown for Analytics -->
-        <li class="nav-item dropdown mx-3">
-          <a
-            class="nav-link dropdown-toggle"
-            href="#"
-            role="button"
-            data-bs-toggle="dropdown"
-            aria-expanded="false"
-          >
-            Analytics & Reports
-          </a>
-          <ul class="dropdown-menu">
-            <li>
-              <a class="dropdown-item" routerLink="analytics/researcher"
-                >ReseacherDashboard</a
-              >
-            </li>
-            <li>
-              <a class="dropdown-item" routerLink="analytics/admin"
-                >AdminDashboard</a
-              >
-            </li>
-            <li>
-              <a class="dropdown-item" routerLink="/analytics/reports"
-                >Reports</a
-              >
-            </li>
-          </ul>
+        <li class="nav-item ms-4">
+          <div class="analytics-pill-box">
+            <span class="pill-label">Insights:</span>
+            <a class="pill-item" routerLink="analytics/researcher" routerLinkActive="pill-active">Researcher</a>
+            <a class="pill-item" routerLink="analytics/admin" routerLinkActive="pill-active">Admin</a>
+            <a class="pill-item" routerLink="/analytics/reports" routerLinkActive="pill-active">Reports</a>
+          </div>
         </li>
       </ul>
     </div>
