@@ -1,38 +1,49 @@
 
-<header class="list-header">
-  <h3>Observations</h3>
-  <a routerLink="/data-capture/observations/new" class="btn primary">New Observation</a>
-</header>
+<!-- Header row: Title on the left; New Observation button on the right -->
+<div class="ol-header">
+  <h2 class="ol-title">Observations</h2>
+  <a class="btn primary" routerLink="/data-capture/observations/new">New Observation</a>
+</div>
 
-<table class="table" *ngIf="observations.length; else noData">
-  <thead>
-    <tr>
-      <th>ID</th>
-      <th>Participant</th>
-      <th>Visit Date</th>
-      <th>Data Points</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr *ngFor="let obs of observations">
-      <td>{{ obs.observationID }}</td>
-      <td>{{ obs.participantID }}</td>
-      <td>{{ obs.visitDate }}</td>
-      <td>
-        <ul class="dp">
-          <li *ngIf="obs.dataPoints.vitals?.heartRate !== undefined">
-            HR: {{ obs.dataPoints.vitals?.heartRate }} bpm
-          </li>
-          <li *ngIf="obs.dataPoints.vitals?.bp">BP: {{ obs.dataPoints.vitals?.bp }}</li>
-          <li *ngIf="obs.dataPoints.vitals?.temperature !== undefined">
-            Temp: {{ obs.dataPoints.vitals?.temperature }} °C
-          </li>
-        </ul>
-      </td>
-    </tr>
-  </tbody>
-</table>
+<!-- Optional: quick filter (kept hidden to match screenshot; uncomment if needed)
+<div class="ol-toolbar">
+  <label class="field">
+    <span>Participant filter</span>
+    <input [(ngModel)]="participantFilter" placeholder="e.g., P001" />
+  </label>
+  <button class="btn" (click)="applyFilter()">Apply</button>
+</div>
+-->
 
-<ng-template #noData>
-  <p>No observations yet.</p>
-</ng-template>
+<!-- Table card -->
+<div class="table-card">
+  <table class="ol-table">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Participant</th>
+        <th>Visit Date</th>
+        <th>Data Points</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let o of list">
+        <td class="mono">{{o.ObservationID}}</td>
+        <td class="mono">{{o.ParticipantID}}</td>
+        <td class="mono">{{o.VisitDate}}</td>
+        <td>
+          <ul class="dp-list">
+            <li *ngIf="o.DataPoints?.Vitals?.heartRate != null">HR: {{o.DataPoints?.Vitals?.heartRate}} bpm</li>
+            <li *ngIf="o.DataPoints?.Vitals?.bp">BP: {{o.DataPoints?.Vitals?.bp}}</li>
+            <li *ngIf="o.DataPoints?.Vitals?.temperature != null">Temp: {{o.DataPoints?.Vitals?.temperature}} °C</li>
+            <!-- add more rows as needed (SpO₂, RR, etc.) -->
+          </ul>
+        </td>
+      </tr>
+
+      <tr *ngIf="!list?.length">
+        <td colspan="4">No observations yet.</td>
+      </tr>
+    </tbody>
+  </table>
+</div>

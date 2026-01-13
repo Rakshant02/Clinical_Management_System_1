@@ -1,50 +1,42 @@
 
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
-import { HttpClient } from '@angular/common/http';
-import { JsonPipe, CommonModule } from '@angular/common';
-
-interface Observation {
-  observationId: number;
-  participantId: number;
-  visitDate: string;
-  dataPoints?: {
-    vitals?: {
-      heartRate?: number;
-      bloodPressure?: string;
-      temperature?: number;
-      respiratoryRate?: number;
-      spo2?: number;
-    };
-    labResults?: Record<string, string | number>;
-  };
-  createdBy?: string;
-  createdAt?: string;
-}
+import { CommonModule } from '@angular/common';
+import { ActivatedRoute, RouterModule } from '@angular/router';
+import { ObservationService } from '../../services/observation.service';
+import { AuditPanelComponent } from '../../audit/audit-panel.component';
 
 @Component({
   selector: 'app-observation-detail',
   standalone: true,
-  imports: [CommonModule, JsonPipe],
+  imports: [CommonModule, RouterModule, AuditPanelComponent],
   templateUrl: './observation-detail.component.html',
-  styleUrls: ['./observation-detail.component.scss']
+  styleUrls: ['./observation-detail.component.css']
 })
 export class ObservationDetailComponent implements OnInit {
-  private BASE_URL = 'http://localhost:8080/api';
+  obs: any;
+  vitalsRows: { label: string; value: any }[] = [];
+  labRows: { test: string; value: any }[] = [];
 
-  loading = true;
-  error?: string;
-  observation?: Observation;
-
-  constructor(private route: ActivatedRoute, private http: HttpClient) {}
+  constructor(private route: ActivatedRoute, private svc: ObservationService) {}
 
   ngOnInit(): void {
-    const id = Number(this.route.snapshot.paramMap.get('id'));
-    if (!id) { this.error = 'Invalid Observation ID.'; this.loading = false; return; }
+    const id = this.route.snapshot.paramMap.get('id') || '';
+    this.obs = id ? this.svc.find(id) : undefined;
 
-    this.http.get<Observation>(`${this.BASE_URL}/observations/${id}`).subscribe({
-      next: obs => { this.observation = obs; this.loading = false; },
-      error: () => { this.error = 'Failed to load observation.'; this.loading = false; }
-    });
+    if (this.obs?.DataPoints?.Vitals) {
+      const v = this.obs.DataPoints.Vitals;
+      this.vitalsRows = [
+        { label: 'BP', value: v.bp ?? '—' },
+        { label: 'Heart Rate', value: v.heartRate ?? '—' },
+        { label: 'Temperature', value: v.temperature ?? '—' },
+        { label: 'SpO₂', value: v.spo2 ?? '—' },
+        { label: 'Respiratory Rate', value: v.respiratoryRate ?? '—' }
+      ];
+    }
+
+    if (this.obs?.DataPoints?.LabResults) {
+      const labs = this.obs.DataPoints.LabResults;
+      this.labRows = Object.entries(labs).map(([k, val]) => ({ test: k, value: val ?? '—' }));
+    }
   }
 }

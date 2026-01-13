@@ -1,0 +1,90 @@
+
+:root {
+  /* Palette tuned to the screenshot (blue & white) */
+  --bg: #ffffff;
+  --header-bg: #f3f4f6;      /* light gray header bar */
+  --border: #e5e7eb;         /* subtle separators */
+  --text: #111827;           /* dark text */
+  --muted: #6b7280;          /* secondary text */
+  --th: #374151;             /* table header color */
+}
+
+/* Card container centered and constrained */
+.audit-log-card {
+  max-width: 980px;          /* similar width to screenshot */
+  margin: 16px auto;         /* center horizontally */
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+/* Header bar */
+.card-header {
+  background: var(--header-bg);
+  border-bottom: 1px solid var(--border);
+  padding: 14px 18px;
+}
+
+/* Title */
+.title {
+  margin: 0 0 8px 0;
+  font-size: 25px;
+  font-weight: 700;
+  color: var(--text);
+}
+
+/* Counts line beneath title */
+.counts {
+  display: flex;
+  gap: 18px;
+  font-size: 20px;
+}
+.count-item { color: var(--muted); }
+.count-item strong { color: var(--text); font-weight: 700; }
+
+/* Table wrapper */
+.table-wrap {
+  padding: 0;                /* screenshot shows table flush to edges */
+}
+
+/* Table */
+.audit-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: var(--bg);
+}
+
+/* Table header */
+.audit-table thead th {
+  text-align: left;
+  padding: 12px 18px;
+  color: var(--th);
+  font-weight: 600;
+  border-bottom: 1px solid var(--border);
+  font-size: 13.5px;
+}
+
+/* Table body rows & cells */
+.audit-table tbody td {
+  padding: 12px 18px;
+  color: var(--text);
+  border-bottom: 1px solid var(--border);
+  font-size: 14px;
+}
+
+/* Subtle row hover for UX (can remove to match screenshot strictly) */
+.audit-table tbody tr:hover {
+  background: #fafafa;
+}
+
+/* Utilities */
+.nowrap { white-space: nowrap; }
+.muted { color: var(--muted); }
+
+/* Action column in uppercase, matching screenshot look */
+.action {
+  text-transform: uppercase;
+  letter-spacing: 0.2px;
+  font-weight: 600;
+}

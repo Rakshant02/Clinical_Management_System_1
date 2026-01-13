@@ -1,0 +1,62 @@
+
+<!-- Page wrapper (keeps module-only styling, no global header changes) -->
+<div class="dev-form-page">
+  <!-- Title -->
+  <h2 class="dev-title">New Protocol Deviation</h2>
+
+  <!-- Card wrapper -->
+  <form class="dev-card" [formGroup]="form" (ngSubmit)="submit()">
+    <!-- First row: Protocol / Participant / Observation (optional) -->
+    <div class="grid-3">
+      <label class="field">
+        <span>Protocol ID</span>
+        <input formControlName="ProtocolID" placeholder="TP-1024" />
+      </label>
+
+      <label class="field">
+        <span>Participant ID</span>
+        <input formControlName="ParticipantID" placeholder="P-7788" />
+      </label>
+
+      <label class="field">
+        <span>Observation ID (optional)</span>
+        <input formControlName="ObservationID" placeholder="O-9900" />
+      </label>
+    </div>
+
+    <!-- Description (full width) -->
+    <label class="field">
+      <span>Description</span>
+      <textarea rows="4"
+                formControlName="Description"
+                placeholder="Describe the deviation (e.g., visit outside window, prohibited concomitant meds)"></textarea>
+    </label>
+
+    <!-- Second row: Severity / Detected By / Reported Date -->
+    <div class="grid-3">
+      <label class="field">
+        <span>Severity</span>
+        <select formControlName="Severity">
+          <option value="MINOR">Minor</option>
+          <option value="MAJOR">Major</option>
+          <option value="CRITICAL">Critical</option>
+        </select>
+      </label>
+
+      <label class="field">
+        <span>Detected By</span>
+        <input formControlName="DetectedBy" placeholder="investigator/user id" />
+      </label>
+
+      <label class="field">
+        <span>Reported Date</span>
+        <input type="datetime-local" formControlName="ReportedDate" />
+      </label>
+    </div>
+
+    <!-- Right-aligned create button -->
+    <div class="dev-actions">
+      <button class="btn danger" type="submit" [disabled]="form.invalid">Create</button>
+    </div>
+  </form>
+</div>

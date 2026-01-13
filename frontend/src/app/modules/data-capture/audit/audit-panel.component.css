@@ -1,0 +1,32 @@
+
+/* Header style aligned with recent audit trails card */
+.audit-header {
+  padding: 10px 12px;
+  background: var(--header-bg);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  margin-bottom: 12px;
+}
+
+.table-card {
+  border-radius: 8px;
+}
+
+/* Compact table rows */
+.audit-table th, .audit-table td {
+  padding: 8px 12px;
+}
+
+/* Tag style for action */
+.tag {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 700;
+  color: #fff;
+  background: var(--muted);
+}
+.tag.create { background: var(--create); }
+.tag.update { background: var(--update); }
+.tag.delete { background: var(--delete); }

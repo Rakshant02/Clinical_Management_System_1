@@ -1,0 +1,93 @@
+
+<!-- Audit card wrapper -->
+<div class="audit-card">
+  <!-- Header row -->
+  <div class="audit-header">
+    <div class="title">
+      <strong>Audit Trail:</strong> {{entityType}} • {{entityId}}
+    </div>
+
+    <!-- <div class="actions">
+      <button class="btn" (click)="refresh()">Refresh</button>
+      <button class="btn" (click)="verifyChain()">
+        {{ verifying ? 'Verifying…' : 'Verify Chain' }}
+      </button>
+    </div>
+  </div> -->
+
+  <!-- Chain verify status -->
+  <div class="verify-status" *ngIf="verifyStatus">
+    <span *ngIf="verifyStatus.ok" class="status ok">Hash chain intact ✓</span>
+    <span *ngIf="!verifyStatus.ok" class="status bad">
+      Hash chain broken at Log {{ verifyStatus?.brokenAt }} ✗
+    </span>
+  </div>
+
+  <!-- Summary table of logs -->
+  <div class="table-card mt12">
+    <table class="audit-table">
+      <thead>
+        <tr>
+          <th>Time</th>
+          <!-- <th>Action</th> -->
+          <th>User</th>
+          <th>Request</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let log of logs">
+          <td>{{ log.changedAt | date:'yyyy-MM-dd HH:mm' }}</td>
+          <!-- <td>{{ log.action }}</td> -->
+          <td>{{ log.changedBy }}</td>
+          <td>{{ log.requestId || '—' }}</td>
+        </tr>
+
+        <tr *ngIf="!logs.length">
+          <td colspan="4">No audit records yet.</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Old/New differences tables for each log -->
+  <div class="mt12" *ngFor="let log of logs">
+    <div class="grid-2">
+      <!-- Old values -->
+      <div class="table-card">
+        <div class="card-title">Old Values</div>
+        <table class="audit-table">
+          <thead><tr><th>Field</th><th>Value</th></tr></thead>
+          <tbody>
+            <tr *ngFor="let kv of flatten(log.oldValues)">
+              <td class="mono">{{ kv.path }}</td>
+              <td>{{ kv.value ?? '—' }}</td>
+            </tr>
+            <tr *ngIf="!log.oldValues"><td colspan="2">—</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- New values -->
+      <div class="table-card">
+        <div class="card-title">New Values</div>
+        <table class="audit-table">
+          <thead><tr><th>Field</th><th>Value</th></tr></thead>
+          <tbody>
+            <tr *ngFor="let kv of flatten(log.newValues)">
+              <td class="mono">{{ kv.path }}</td>
+              <td>{{ kv.value ?? '—' }}</td>
+            </tr>
+            <tr *ngIf="!log.newValues"><td colspan="2">—</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- hash pair -->
+    <div class="hash-row">
+      <small>
+        hash: {{ log.hash?.slice(0,16) }}… • prev: {{ (log.prevHash ?? '')?.slice(0,16) }}…
+      </small>
+    </div>
+  </div>
+</div>

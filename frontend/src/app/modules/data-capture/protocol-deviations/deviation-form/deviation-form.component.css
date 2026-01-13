@@ -1,0 +1,67 @@
+
+/* Page and title */
+:host { display:block; }
+.dev-form-page { padding:24px 32px; background:#f6f7fb; }
+.dev-title { margin:0 0 14px; font-size:20px; font-weight:700; color:#18224a; }
+
+/* Card wrapper */
+.dev-card {
+  background:#fff;
+  border:1px solid #e5e7eb;
+  border-radius:16px;
+  box-shadow:0 10px 24px rgba(16,24,40,.08);
+  padding:18px 18px 14px;
+}
+
+/* Grid layouts */
+.grid-3 { display:grid; grid-template-columns:repeat(3,1fr); gap:14px; }
+
+/* Fields */
+.field { display:flex; flex-direction:column; gap:8px; }
+.field > span { font-weight:600; color:#374151; }
+.field input,
+.field select,
+.field textarea {
+  border:1px solid #d1d5db;
+  border-radius:12px;
+  background:#fff;
+  outline:none;
+  padding:12px 14px;
+  font-size:14px;
+  color:#111827;
+  transition: box-shadow .15s ease, border-color .15s ease;
+}
+.field input::placeholder,
+.field textarea::placeholder { color:#9ca3af; }
+.field input:focus,
+.field select:focus,
+.field textarea:focus {
+  border-color:#cfe0ff;
+  box-shadow:0 0 0 3px #e8f0ff;
+}
+
+/* Actions (right-aligned) */
+.dev-actions {
+  margin-top:14px;
+  display:flex;
+  justify-content:flex-end;
+}
+
+/* Button styling (rounded + shadow, matches your module buttons) */
+.btn {
+  display:inline-flex; align-items:center;
+  padding:12px 18px;
+  border-radius:12px;
+  border:1px solid transparent;
+  background:#fff; color:#18224a;
+  text-decoration:none; cursor:pointer;
+  box-shadow:0 6px 16px rgba(16,24,40,.12);
+  font-weight:600;
+}
+.btn.danger {
+  background:#ef4444; /* rose/red */
+  color:#fff;
+  border-color:#ef4444;
+}
+.btn:disabled { opacity:.6; cursor:not-allowed; }
+.btn:hover { filter:brightness(98%); }

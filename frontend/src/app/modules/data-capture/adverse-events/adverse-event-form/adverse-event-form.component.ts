@@ -1,15 +1,10 @@
 
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import {
-  ReactiveFormsModule,
-  FormBuilder,
-  FormGroup,
-  Validators
-} from '@angular/forms';
+import { ReactiveFormsModule, FormBuilder, Validators, FormGroup } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
-import { AdverseEventService } from '../../services/adverse-event-service';
-import { AuditService } from '../../services/audit.service';
+import { AdverseEventStore } from '../../services/adverse-event.store';
+import { Severity } from '../../models';
 
 @Component({
   selector: 'app-adverse-event-form',
@@ -20,110 +15,40 @@ import { AuditService } from '../../services/audit.service';
 })
 export class AdverseEventFormComponent {
   form!: FormGroup;
-  saving = false;
-  error?: string;
 
-  // ✅ success toast state
-  showSuccess = false;
-  successMsg = 'Adverse event submitted successfully.';
-
-  constructor(
-    private fb: FormBuilder,
-    private aeSvc: AdverseEventService,
-    private router: Router,
-    private audit: AuditService
-  ) {
-    // Initialize reactive form
+  constructor(private fb: FormBuilder, private store: AdverseEventStore, private router: Router) {
     this.form = this.fb.group({
-      participantId: [null, [Validators.required, Validators.min(1)]],
-      description: ['', [Validators.required, Validators.minLength(5)]],
-      severity: ['MODERATE', [Validators.required]],           // enum string
-      reportedDate: [new Date().toISOString().substring(0, 10), [Validators.required]], // "yyyy-MM-dd"
-      actionTaken: [''],
-      outcome: ['']                                            // optional free-text
+      ParticipantID: ['', [Validators.required]],
+      Severity: ['MODERATE' as Severity, [Validators.required]],
+      ReportedDate: [new Date().toISOString().substring(0,10), [Validators.required]],
+      Description: ['', [Validators.required, Validators.minLength(5)]],
+      ActionTaken: [''],   // optional, to match screenshot
+      Outcome: ['']        // optional
     });
   }
 
   submit(): void {
-    this.error = undefined;
-
-    // Block if invalid or already saving
-    if (this.form.invalid || this.saving) {
-      this.form.markAllAsTouched();
-      return;
-    }
-
-    this.saving = true;
-
+    if (this.form.invalid) return;
     const v = this.form.getRawValue();
-    const payload = {
-      participantId: v.participantId,
-      description: v.description?.trim(),
-      severity: v.severity?.toString().toUpperCase(),  // "MODERATE" | "MILD" | "SEVERE" | "CRITICAL"
-      reportedDate: v.reportedDate,                    // "yyyy-MM-dd" → service will convert to ISO
-      actionTaken: v.actionTaken?.trim(),
-      outcome: v.outcome?.toString().toUpperCase()     // e.g., "RESOLVED" (optional)
-    };
-
-    // Generate a correlation/request ID for audit trail
-    const correlationId = crypto.randomUUID();
-    // Prepare a temporary entityId if the service doesn't return one
-    const tempEntityId = `ae-${correlationId}`;
-
-    // Save via localStorage-backed service; no backend required
-    this.aeSvc.create(payload as any).subscribe({
-      next: (created: any) => {
-        // Stop the spinner
-        this.saving = false;
-
-        // Determine the entityId to use in audit logs
-        const entityId =
-          (created && (created.eventID || created.id)) ||
-          tempEntityId;
-
-        // Append CREATE audit log (frontend-only, LocalStorage)
-        this.audit.append({
-          entityType: 'AdverseEvent',
-          entityId,
-          action: 'CREATE',
-          changedBy: this.getCurrentUserId(),
-          changedAt: new Date().toISOString(), // UTC ISO
-          source: 'WEB_UI',
-          requestId: correlationId,
-          newValues: created ?? payload
-        }).then(() => {
-          // ✅ show success toast
-          this.showToast();
-          // Navigate immediately (or delay slightly if you prefer)
-          this.router.navigate(['/data-capture/adverse-events']);
-          // Or delay navigation so the user sees the popup:
-          // setTimeout(() => this.router.navigate(['/data-capture/adverse-events']), 1500);
-        }).catch(() => {
-          // Even if audit logging fails, continue UX flow
-          this.showToast();
-          this.router.navigate(['/data-capture/adverse-events']);
-        });
-      },
-      error: (err) => {
-        console.error('Failed to save adverse event:', err);
-        this.error = 'Failed to save adverse event.';
-        this.saving = false;
-      }
+    const created = this.store.add({
+      ParticipantID: String(v.ParticipantID),
+      Severity: String(v.Severity).toUpperCase() as Severity,
+      ReportedDate: String(v.ReportedDate),
+      Description: String(v.Description),
+      Outcome: v.Outcome ? String(v.Outcome) : undefined,
+      Status: 'OPEN'
     });
+    this.router.navigate(['/data-capture/adverse-events', created.EventID]);
   }
 
-  // ✅ simple toast helper
-  private showToast(): void {
-    this.showSuccess = true;
-    // auto-hide after 2 seconds (only affects current page if you choose to stay)
-    setTimeout(() => (this.showSuccess = false), 2000);
-  }
-
-  /**
-   * Frontend-only current user resolver.
-   * Replace with your Auth service if available.
-   */
-  private getCurrentUserId(): string {
-    return localStorage.getItem('currentUserId') || 'anonymous';
+  reset(): void {
+    this.form.reset({
+      ParticipantID: '',
+      Severity: 'MODERATE',
+      ReportedDate: new Date().toISOString().substring(0,10),
+      Description: '',
+      ActionTaken: '',
+      Outcome: ''
+    });
   }
 }

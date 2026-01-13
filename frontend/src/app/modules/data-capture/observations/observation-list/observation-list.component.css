@@ -1,42 +1,51 @@
 
-.list-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: 12px;
-}
+/* Page spacing to match the screenshot */
+:host { display:block; padding:24px 32px; }
 
-.table {
-  width: 100%;
-  border-collapse: collapse;
-  background: #fff;
-}
+/* Header row */
+.ol-header { display:flex; align-items:center; justify-content:space-between; margin-bottom:16px; }
+.ol-title  { margin:0; font-size:22px; font-weight:700; color:#18224a; }
 
-.table th,
-.table td {
-  border: 1px solid #e6e6e6;
-  padding: 8px;
-  text-align: left;
-}
-
-.dp {
-  margin: 0;
-  padding-left: 16px;
-}
-
+/* Button styles (module-local) */
 .btn {
-  display: inline-block;
-  padding: 8px 12px;
-  border-radius: 6px;
-  border: 1px solid #0b5ed7;
-  color: #fff;
-  background: #0b5ed7;
-  text-decoration: none;
-  font-weight: 600;
+  display:inline-flex; align-items:center; gap:8px;
+  padding:8px 14px; border-radius:8px;
+  border:1px solid #cfe0ff; background:#fff; color:#2563eb;
+  text-decoration:none; font-weight:600; cursor:pointer;
+  box-shadow:0 2px 8px rgba(16,24,40,.08);
+}
+.btn.primary { background:#2563eb; color:#fff; border-color:#2563eb; }
+.btn:hover { filter:brightness(98%); }
+
+/* Optional filter toolbar (hidden in screenshot) */
+.ol-toolbar { display:flex; gap:10px; align-items:flex-end; margin:12px 0 16px; }
+.field { display:flex; flex-direction:column; gap:6px; }
+.field input {
+  border:1px solid #d1d5db; border-radius:8px; padding:8px 10px; background:#fff; outline:none;
 }
 
-.btn.primary {
-  background: #0b5ed7;
-  border-color: #0b5ed7;
-  color: #fff;
+/* Table card container */
+.table-card {
+  background:#fff; border:1px solid #e5e7eb; border-radius:12px;
+  box-shadow:0 8px 20px rgba(16,24,40,.06); overflow:hidden;
 }
+
+/* Table */
+.ol-table { width:100%; border-collapse:separate; border-spacing:0; }
+.ol-table thead th {
+  text-align:left; font-size:.92rem; color:#475569; background:#f9fafb;
+  padding:10px 12px; border-bottom:1px solid #e5e7eb;
+}
+.ol-table tbody td {
+  padding:12px; border-top:1px solid #eef2f7; vertical-align:top;
+}
+
+/* Monospace cell for IDs / dates, like the screenshot */
+.mono { font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace; }
+
+/* Bullet list for data points */
+.dp-list { margin:0; padding-left:18px; }
+.dp-list li { margin:4px 0; color:#111827; }
+
+/* Row hover subtle effect (optional) */
+.ol-table tbody tr:hover td { background:#f8fafc; }

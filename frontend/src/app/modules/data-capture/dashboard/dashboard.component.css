@@ -1,0 +1,126 @@
+
+/* ---------- Design tokens ---------- */
+:root {
+  --brand-blue: #1677ff;
+  --brand-blue-700: #0f5ed1;
+  --brand-red: #d64b53;
+  --brand-red-700: #b93c43;
+  --text-strong: #1f2937;
+  --text-muted: #6b7280;
+  --surface: #ffffff;
+  --border: #e5e7eb;
+
+  --shadow-0: 0 0 0 rgba(0,0,0,0);
+  --shadow-1: 0 6px 12px rgba(16,24,40,.08), 0 2px 4px rgba(16,24,40,.06);
+  --shadow-2: 0 10px 20px rgba(16,24,40,.12), 0 3px 6px rgba(16,24,40,.08);
+
+  --radius-pill: 999px;
+  --radius-md: 14px;
+
+  --transition-fast: 160ms ease;
+  --transition-med: 240ms cubic-bezier(.2,.8,.2,1);
+}
+
+/* ---------- Page header ---------- */
+.dashboard .dashboard__title {
+  color: var(--brand-blue);
+  letter-spacing: .2px;
+}
+
+/* ---------- Actions (chips) ---------- */
+.actions { gap: 12px; }
+
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  border-radius: var(--radius-pill);
+  padding: 10px 16px;
+  font-weight: 600;
+  font-size: 14px;
+  border: 1px solid var(--border);
+  background: var(--surface);
+  color: var(--text-strong);
+  text-decoration: none;
+  box-shadow: var(--shadow-0);
+  transition:
+    box-shadow var(--transition-med),
+    transform var(--transition-fast),
+    background var(--transition-fast),
+    color var(--transition-fast),
+    border-color var(--transition-fast);
+}
+.chip:hover {
+  box-shadow: var(--shadow-1);
+  transform: translateY(-1px);
+  border-color: #dbe2ea;
+}
+
+/* Filled variants */
+.chip--primary {
+  background: var(--brand-blue);
+  color: #fff;
+  border-color: transparent;
+}
+.chip--primary:hover { box-shadow: var(--shadow-2); background: var(--brand-blue-700); }
+
+.chip--danger {
+  background: var(--brand-red);
+  color: #fff;
+  border-color: transparent;
+}
+.chip--danger:hover { box-shadow: var(--shadow-2); background: var(--brand-red-700); }
+
+/* Outline variants (used for View List, Report AE outlined, etc.) */
+.chip--outline { /* neutral outline */ }
+.chip--outline-primary { color: var(--brand-blue); border-color: #cfe1ff; }
+.chip--outline-danger  { color: var(--brand-red);  border-color: #f1c8cc; }
+.chip--outline:hover   { box-shadow: var(--shadow-1); }
+
+/* Special outline for Report AE (neutral text + red border) */
+.chip--outline-danger { background: #fff; }
+
+/* ---------- Cards hover lift ---------- */
+.card.lift,
+.card.kpi {
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border);
+  transition:
+    box-shadow var(--transition-med),
+    transform var(--transition-fast),
+    border-color var(--transition-fast);
+  box-shadow: var(--shadow-0);
+}
+.card.lift:hover,
+.card.kpi:hover {
+  box-shadow: var(--shadow-1);
+  transform: translateY(-1px);
+  border-color: #dbe2ea;
+}
+
+/* ---------- KPI formatting ---------- */
+.kpi__label {
+  color: var(--text-muted);
+  font-size: 14px;
+  margin-bottom: 6px;
+}
+.kpi__value {
+  font-size: 36px;
+  font-weight: 700;
+  line-height: 1.1;
+}
+
+/* ---------- Updated text row ---------- */
+.updated {
+  font-size: 14px;
+}
+
+/* ---------- Accessibility: focus-visible ---------- */
+.chip:focus-visible,
+.card:focus-visible {
+  outline: 3px solid rgba(22,119,255,.35);
+  outline-offset: 2px;
+}
+
+/* ---------- Reduce default Bootstrapped shadow so our hover is noticeable ---------- */
+.card.shadow-sm { box-shadow: var(--shadow-0) !important; }

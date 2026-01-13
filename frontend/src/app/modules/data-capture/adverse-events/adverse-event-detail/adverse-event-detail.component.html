@@ -1,65 +1,50 @@
 
-<!-- Loading & error states -->
-<div *ngIf="loading" class="text-center my-5">
-  <div class="spinner-border" role="status"></div>
+<!-- Top actions (back) -->
+<div class="aed-top">
+  <a class="btn ghost" routerLink="/data-capture/adverse-events">Back</a>
 </div>
 
-<div *ngIf="error" class="alert alert-danger">{{ error }}</div>
+<!-- Title -->
+<h2 class="aed-title">Adverse Event #{{ev?.EventID}}</h2>
 
-<!-- Main content (guarded) -->
-<div *ngIf="event as ev" class="card">
-  <div class="card-header d-flex justify-content-between align-items-center">
-    <span>Adverse Event #{{ ev.eventId }}</span>
-    <button class="btn btn-outline-secondary btn-sm" routerLink="/data-capture/adverse-events">Back</button>
-  </div>
+<!-- Summary card with clean table layout -->
+<div class="summary-card" *ngIf="ev; else errorTpl">
+  <div class="table-card">
+    <table class="aed-table">
+      <thead>
+        <tr><th>Field</th><th>Value</th></tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let r of rows">
+          <td>{{ r.label }}</td>
+          <td>
+            <!-- Nicely format a few fields -->
+            <ng-container [ngSwitch]="r.label">
+              <!-- Severity badge pill -->
+              <span *ngSwitchCase="'Severity'"
+                    class="sev-pill"
+                    [appSeverityBadge]="ev!.Severity">
+                {{ r.value }}
+              </span>
 
-  <div class="card-body">
-    <!-- Top meta -->
-    <div class="row g-3 mb-2">
-      <div class="col-md-3">
-        <strong>Participant:</strong> {{ ev.participantId }}
-      </div>
-      <div class="col-md-3">
-        <strong>Severity:</strong>
-        <span class="badge"
-          [ngClass]="{
-            'bg-success': ev.severity === 'MILD',
-            'bg-warning': ev.severity === 'MODERATE',
-            'bg-danger': ev.severity === 'SEVERE',
-            'bg-dark': ev.severity === 'CRITICAL'
-          }">
-          {{ ev.severity }}
-        </span>
-      </div>
-      <div class="col-md-3">
-        <!-- If you import CommonModule/DatePipe, change to: {{ ev.reportedDate | date }} -->
-        <strong>Reported Date:</strong> {{ ev.reportedDate }}
-      </div>
-    </div>
+              <!-- Date format -->
+              <span *ngSwitchCase="'Reported Date'">
+                {{ r.value | date:'yyyy-MM-dd' }}
+              </span>
 
-    <!-- Description -->
-    <div class="mt-2">
-      <h6>Description</h6>
-      <p class="mb-2">{{ ev.description }}</p>
-    </div>
-
-    <!-- Actions & Outcome -->
-    <div class="row g-3 mt-2">
-      <div class="col-md-6">
-        <h6>Action Taken</h6>
-        <p class="mb-0">{{ ev.actionTaken ?? '-' }}</p>
-      </div>
-      <div class="col-md-6">
-        <h6>Outcome</h6>
-        <p class="mb-0">{{ ev.outcome ?? '-' }}</p>
-      </div>
-    </div>
-
-    <!-- Audit info -->
-    <div class="mt-3 text-muted small">
-      <div><strong>Created By:</strong> {{ ev.createdBy ?? '-' }}</div>
-      <!-- If you import CommonModule/DatePipe, change to: {{ ev.createdAt | date:'medium' }} -->
-      <div><strong>Created At:</strong> {{ ev.createdAt ?? '-' }}</div>
-    </div>
+              <!-- Default rendering -->
+              <span *ngSwitchDefault>{{ r.value }}</span>
+            </ng-container>
+          </td>
+        </tr>
+      </tbody>
+    </table>
   </div>
 </div>
+
+<ng-template #errorTpl>
+  <p>Invalid or missing adverse event.</p>
+</ng-template>
+
+<!-- Table-based Audit panel (no JSON blocks)
+<bt-audit-panel *ngIf="ev" [entityType]="'AdverseEvent'" [entityId]="ev!.EventID"></bt-audit-panel> -->

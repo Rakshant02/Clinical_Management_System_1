@@ -1,0 +1,117 @@
+
+<!-- Page Container -->
+<div class="container py-4">
+
+  <!-- Title -->
+  <div class="text-center mb-4">
+    <h2 class="fw-bold text-primary">BioTrack Data Capture Dashboard</h2>
+    <p class="text-muted mb-0">Quick actions and status overview</p>
+  </div>
+
+  <!-- Quick Actions Toolbar -->
+  <div class="d-flex flex-wrap justify-content-center gap-2 mb-4">
+    <a class="btn btn-outline-secondary rounded-pill" [routerLink]="'/data-capture/observations'">
+      <i class="bi bi-clipboard2-pulse me-1"></i> Observations
+    </a>
+    <a class="btn btn-primary rounded-pill" [routerLink]="'/data-capture/observations/new'">
+      <i class="bi bi-plus-lg me-1"></i> New Observation
+    </a>
+    <a class="btn btn-danger rounded-pill" [routerLink]="'/data-capture/adverse-events'">
+      <i class="bi bi-exclamation-triangle me-1"></i> Adverse Events
+    </a>
+    <a class="btn btn-outline-danger rounded-pill" [routerLink]="'/data-capture/adverse-events/new'">
+      <i class="bi bi-flag me-1"></i> Report AE
+    </a>
+    <a class="btn btn-danger rounded-pill" [routerLink]="'/data-capture/deviations'">
+      <i class="bi bi-diagram-3 me-1"></i> Protocol Deviations
+    </a>
+    <a class="btn btn-primary rounded-pill" [routerLink]="'/data-capture/deviations/new'">
+      <i class="bi bi-plus-square me-1"></i> New Deviation
+    </a>
+    <a class="btn btn-primary rounded-pill" [routerLink]="'/data-capture/audit'">
+      <i class="bi bi-plus-square me-1"></i> Audit Log
+    </a>
+  </div>
+
+  <!-- KPI Tiles -->
+  <div class="row g-3 mb-4">
+    <div class="col-6 col-md-2">
+      <div class="card text-center shadow-sm h-100">
+        <div class="card-body">
+          <div class="text-muted small">Observations Today</div>
+          <div class="display-6 fw-semibold text-primary">{{ obsSvc.countToday() }}</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-6 col-md-2">
+      <div class="card text-center shadow-sm h-100">
+        <div class="card-body">
+          <div class="text-muted small">Open Adverse Events</div>
+          <div class="display-6 fw-semibold text-warning">{{ aeStore.countOpen() }}</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-6 col-md-2">
+      <div class="card text-center shadow-sm h-100">
+        <div class="card-body">
+          <div class="text-muted small">Severe/Critical</div>
+          <div class="display-6 fw-semibold text-danger">{{ aeStore.countSevereCritical() }}</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-6 col-md-2">
+      <div class="card text-center shadow-sm h-100">
+        <div class="card-body">
+          <div class="text-muted small">Open Deviations</div>
+          <div class="display-6 fw-semibold text-info">{{ openDeviations }}</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-12 col-md-4">
+      <div class="card text-center shadow-sm h-100">
+        <div class="card-body">
+          <div class="text-muted small">Last Updated</div>
+          <div class="fw-medium text-secondary">{{ now | date:'MMM d, y, h:mm:ss a' }}</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Overview Cards -->
+  <div class="row g-4">
+    <div class="col-md-6">
+      <div class="card shadow-sm h-100">
+        <div class="card-body d-flex flex-column">
+          <h3 class="card-title text-primary mb-2">Observations</h3>
+          <p class="card-text text-muted mb-3">
+            Capture vitals and lab results, and review recorded observations.
+          </p>
+          <div class="mt-auto d-flex gap-2">
+            <a class="btn btn-outline-primary" [routerLink]="'/data-capture/observations'">View List</a>
+            <a class="btn btn-primary" [routerLink]="'/data-capture/observations/new'">New Observation</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-6">
+      <div class="card shadow-sm h-100">
+        <div class="card-body d-flex flex-column">
+          <h3 class="card-title text-danger mb-2">Adverse Events</h3>
+          <p class="card-text text-muted mb-3">
+            Monitor and report adverse events, track severity and status.
+          </p>
+          <div class="mt-auto d-flex gap-2">
+            <a class="btn btn-outline-danger" [routerLink]="'/data-capture/adverse-events'">View List</a>
+            <a class="btn btn-danger" [routerLink]="'/data-capture/adverse-events/new'">Report AE</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>

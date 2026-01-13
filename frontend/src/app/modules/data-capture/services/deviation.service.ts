@@ -1,99 +1,137 @@
 
-import { Injectable } from '@angular/core';
-import { Observable, of, throwError } from 'rxjs';
-import { ProtocolDeviation } from '../models/protocol-deviation';
+import { Injectable, signal } from '@angular/core';
+import { ProtocolDeviation } from '../models';
 import { AuditService } from './audit.service';
-
-const KEY = 'protocol-deviations';
-
-function readAll(): ProtocolDeviation[] {
-  const raw = localStorage.getItem(KEY);
-  return raw ? JSON.parse(raw) as ProtocolDeviation[] : [];
-}
-function writeAll(items: ProtocolDeviation[]): void {
-  localStorage.setItem(KEY, JSON.stringify(items));
-}
-function genId(): string { return 'DEV-' + Date.now(); }
 
 @Injectable({ providedIn: 'root' })
 export class DeviationService {
-  constructor(private audit: AuditService) {}
+  private readonly KEY = 'protocol-deviations';
 
-  list(): Observable<ProtocolDeviation[]> { return of(readAll()); }
+  // Internal signal holding the list
+  private readonly deviationsSig = signal<ProtocolDeviation[]>([]);
+  // Expose a read-only signal to consumers (list view etc.)
+  readonly listSig = this.deviationsSig;
 
-  get(id: string): Observable<ProtocolDeviation> {
-    const item = readAll().find(x => x.deviationId === id);
-    return item ? of(item) : throwError(() => new Error('Not Found'));
+  constructor(private audit: AuditService) {
+    // Initialize from localStorage safely
+    const raw = localStorage.getItem(this.KEY);
+    if (raw) {
+      try {
+        const parsed = JSON.parse(raw) as ProtocolDeviation[];
+        // Basic shape guard: ensure each item has DeviationID
+        const valid = Array.isArray(parsed) ? parsed.filter(x => !!x?.DeviationID) : [];
+        this.deviationsSig.set(valid);
+      } catch {
+        this.deviationsSig.set([]);
+      }
+    } else {
+      this.deviationsSig.set([]);
+    }
   }
 
-  create(payload: ProtocolDeviation): Observable<ProtocolDeviation> {
-    const all = readAll();
+  /** Persist current list to localStorage */
+  private save(): void {
+    try {
+      localStorage.setItem(this.KEY, JSON.stringify(this.deviationsSig()));
+    } catch {
+      // Swallow storage errors to avoid breaking UI
+    }
+  }
+
+  /** Return a snapshot array */
+  list(): ProtocolDeviation[] {
+    return this.deviationsSig();
+  }
+
+  /** Get a single deviation by ID */
+  get(id: string): ProtocolDeviation | undefined {
+    return this.deviationsSig().find(d => d.DeviationID === id);
+  }
+
+  /**
+   * Create a new deviation. Status defaults to OPEN.
+   * Payload excludes DeviationID/Status to avoid accidental overwrites.
+   */
+  create(
+    payload: Omit<ProtocolDeviation, 'DeviationID' | 'Status'> & { Status?: ProtocolDeviation['Status'] }
+  ): ProtocolDeviation {
     const created: ProtocolDeviation = {
+      DeviationID: genId('DEV'),
+      Status: payload.Status ?? 'OPEN',
       ...payload,
-      deviationId: genId(),
-      reportedDate: normalizeDate(payload.reportedDate)
     };
-    all.push(created);
-    writeAll(all);
 
-    this.appendAudit('CREATE', created.deviationId!, undefined, created);
-    return of(created);
+    // Prepend new deviation (newest first)
+    this.deviationsSig.set([created, ...this.deviationsSig()]);
+    this.save();
+
+    // Fire-and-forget audit entry; UI should not break if audit fails
+    this.audit
+      .append({
+        entityType: 'ProtocolDeviation',
+        entityId: created.DeviationID,
+        action: 'CREATE',
+        changedBy: currentUser(),
+        changedAt: new Date().toISOString(),
+        source: 'WEB_UI',
+        newValues: created,
+      })
+      .catch(() => {});
+
+    return created;
   }
 
-  update(id: string, payload: Partial<ProtocolDeviation>): Observable<ProtocolDeviation> {
-    const all = readAll();
-    const idx = all.findIndex(x => x.deviationId === id);
-    if (idx < 0) return throwError(() => new Error('Not Found'));
+  /** Update deviation fields (partial), optionally record a reason */
+  update(id: string, patch: Partial<ProtocolDeviation>, reason?: string): ProtocolDeviation | undefined {
+    let before: ProtocolDeviation | undefined;
+    let updated: ProtocolDeviation | undefined;
 
-    const before: ProtocolDeviation = { ...all[idx] };
-    const updated: ProtocolDeviation = {
-      ...all[idx],
-      ...payload,
-      reportedDate: payload.reportedDate ? normalizeDate(payload.reportedDate) : all[idx].reportedDate
-    };
-    all[idx] = updated;
-    writeAll(all);
+    const next = this.deviationsSig().map(x => {
+      if (x.DeviationID === id) {
+        before = { ...x };
+        updated = { ...x, ...patch };
+        return updated!;
+      }
+      return x;
+    });
 
-    const entityId = updated.deviationId ?? id;
-    this.appendAudit('UPDATE', entityId, before, updated);
-    return of(updated);
+    // If nothing matched, do not write
+    if (!updated) return undefined;
+
+    this.deviationsSig.set(next);
+    this.save();
+
+    this.audit
+      .append({
+        entityType: 'ProtocolDeviation',
+        entityId: id,
+        action: 'UPDATE',
+        changedBy: currentUser(),
+        changedAt: new Date().toISOString(),
+        source: 'WEB_UI',
+        reason,
+        oldValues: before,
+        newValues: updated,
+      })
+      .catch(() => {});
+
+    return updated;
   }
 
-  updateStatus(id: string, status: ProtocolDeviation['status']): Observable<ProtocolDeviation> {
-    return this.update(id, { status });
-  }
-
-  private appendAudit(
-    action: 'CREATE' | 'UPDATE' | 'DELETE',
-    entityId: string,
-    oldValues?: any,
-    newValues?: any,
-    reason?: string
-  ): void {
-    const correlationId = crypto.randomUUID();
-    const changedBy = localStorage.getItem('currentUserId') || 'anonymous';
-
-    this.audit.append({
-      entityType: 'ProtocolDeviation',
-      entityId,
-      action,
-      changedBy,
-      changedAt: new Date().toISOString(),
-      source: 'WEB_UI',
-      requestId: correlationId,
-      reason,
-      oldValues,
-      newValues
-    }).catch(() => {});
+  /** Convenience for status updates with a reason message */
+  updateStatus(id: string, status: ProtocolDeviation['Status']): ProtocolDeviation | undefined {
+    return this.update(id, { Status: status }, `Status changed to ${status}`);
   }
 }
 
-function normalizeDate(d: any): string {
-  if (d instanceof Date) return d.toISOString();
-  if (typeof d === 'string') {
-    const m = d.match(/^(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2})$/);
-    if (m) return new Date(`${m[1]}-${m[2]}-${m[3]}T${m[4]}:${m[5]}:00`).toISOString();
-    return d;
-  }
-  try { return new Date(d).toISOString(); } catch { return new Date().toISOString(); }
+/** Simple unique ID generator */
+function genId(prefix: string): string {
+  const rand = Math.random().toString(36).slice(2, 6).toUpperCase();
+  const ts = Date.now().toString(36).toUpperCase(); // base36 for compactness
+  return `${prefix}-${ts}-${rand}`;
+}
+
+/** Pulls current user ID used by audit trail */
+function currentUser(): string {
+  return localStorage.getItem('currentUserId') || 'anonymous';
 }

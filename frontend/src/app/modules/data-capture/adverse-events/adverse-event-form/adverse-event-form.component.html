@@ -1,106 +1,55 @@
 
-<div class="card">
-  <div class="card-header d-flex justify-content-between">
-    <span>Report Adverse Event</span>
-    <button class="btn btn-outline-secondary btn-sm" routerLink="/data-capture/adverse-events">Back</button>
+<div class="ae-form-wrapper">
+  <!-- back button (top-right) -->
+  <div class="ae-form-top">
+    <a class="btn ghost" routerLink="/data-capture/adverse-events">Back</a>
   </div>
 
-  <div class="card-body">
-    <!-- Reactive Form -->
-    <form [formGroup]="form" (ngSubmit)="submit()">
-      <div class="row g-3">
-        <!-- Participant ID -->
-        <div class="col-md-3">
-          <label class="form-label">Participant ID</label>
-          <input type="number" formControlName="participantId" class="form-control" placeholder="e.g., 1023">
-          <div class="text-danger small mt-1"
-               *ngIf="form.controls['participantId'].touched && form.controls['participantId'].invalid">
-            Required and must be &gt; 0
-          </div>
-        </div>
+  <h2 class="ae-form-title">Report Adverse Event</h2>
 
-        <!-- Severity -->
-        <div class="col-md-3">
-          <label class="form-label">Severity</label>
-          <select formControlName="severity" class="form-select">
-            <option value="MILD">Mild</option>
-            <option value="MODERATE">Moderate</option>
-            <option value="SEVERE">Severe</option>
-            <option value="CRITICAL">Critical</option>
-          </select>
-        </div>
+  <form class="ae-form" [formGroup]="form" (ngSubmit)="submit()">
+    <div class="grid-3">
+      <label class="field">
+        <span>Participant ID</span>
+        <input formControlName="ParticipantID" placeholder="e.g., 1023" />
+      </label>
 
-        <!-- Reported Date -->
-        <div class="col-md-3">
-          <label class="form-label">Reported Date</label>
-          <input type="date" formControlName="reportedDate" class="form-control">
-          <div class="text-danger small mt-1"
-               *ngIf="form.controls['reportedDate'].touched && form.controls['reportedDate'].invalid">
-            Reported date is required
-          </div>
-        </div>
-      </div>
+      <label class="field">
+        <span>Severity</span>
+        <select formControlName="Severity">
+          <option value="MILD">Mild</option>
+          <option value="MODERATE">Moderate</option>
+          <option value="SEVERE">Severe</option>
+          <option value="CRITICAL">Critical</option>
+        </select>
+      </label>
 
-      <!-- Description -->
-      <div class="mt-3">
-        <label class="form-label">Description</label>
-        <textarea rows="3" formControlName="description" class="form-control"
-                  placeholder="Describe the event..."></textarea>
-        <div class="text-danger small mt-1"
-             *ngIf="form.controls['description'].touched && form.controls['description'].invalid">
-          Description is required (min 5 characters)
-        </div>
-      </div>
-
-      <!-- Action Taken & Outcome -->
-      <div class="row g-3 mt-3">
-        <div class="col-md-6">
-          <label class="form-label">Action Taken</label>
-          <input type="text" formControlName="actionTaken" class="form-control" placeholder="e.g., Medication given">
-        </div>
-        <div class="col-md-6">
-          <label class="form-label">Outcome</label>
-          <input type="text" formControlName="outcome" class="form-control" placeholder="e.g., Resolved">
-        </div>
-      </div>
-
-      <!-- Actions -->
-      <div class="mt-3 d-flex gap-2">
-        <button type="submit" class="btn btn-primary" [disabled]="saving || form.invalid">
-          {{ saving ? 'Saving…' : 'Submit' }}
-        </button>
-        <button type="reset" class="btn btn-outline-secondary">
-          Reset
-        </button>
-      </div>
-
-      <!-- Messages -->
-      <div *ngIf="error" class="alert alert-danger mt-3">{{ error }}</div>
-
-
-      
-<!-- ✅ Success Toast -->
-<div
-  *ngIf="showSuccess"
-  class="position-fixed top-0 end-0 p-3"
-  style="z-index: 1060;"
-  aria-live="polite"
-  aria-atomic="true">
-  <div class="toast show align-items-center text-bg-success border-0">
-    <div class="d-flex">
-      <div class="toast-body">
-        {{ successMsg }}
-      </div>
-      <button
-        type="button"
-        class="btn-close btn-close-white me-2 m-auto"
-        aria-label="Close"
-        (click)="showSuccess = false">
-      </button>
+      <label class="field">
+        <span>Reported Date</span>
+        <input type="date" formControlName="ReportedDate" />
+      </label>
     </div>
-  </div>
-</div>
 
-    </form>
-  </div>
+    <label class="field">
+      <span>Description</span>
+      <textarea rows="4" formControlName="Description" placeholder="Describe the event..."></textarea>
+    </label>
+
+    <div class="grid-2">
+      <label class="field">
+        <span>Action Taken</span>
+        <input formControlName="ActionTaken" placeholder="e.g., Medication given" />
+      </label>
+
+      <label class="field">
+        <span>Outcome</span>
+        <input formControlName="Outcome" placeholder="e.g., Resolved" />
+      </label>
+    </div>
+
+    <div class="ae-actions">
+      <button class="btn primary" type="submit" [disabled]="form.invalid">Submit</button>
+      <button class="btn" type="button" (click)="reset()">Reset</button>
+    </div>
+  </form>
 </div>

@@ -1,49 +1,54 @@
 
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
-import { HttpClient } from '@angular/common/http';
-import { CommonModule } from '@angular/common';   // ✅ ngClass, *ngIf, *ngFor, pipes
-import { RouterModule } from '@angular/router';
-
-
-
-type Severity = 'MILD' | 'MODERATE' | 'SEVERE' | 'CRITICAL';
-
-interface AdverseEvent {
-  eventId: number;
-  participantId: number;
-  description: string;
-  severity: Severity;
-  reportedDate: string;
-  actionTaken?: string;
-  outcome?: string;
-  createdBy?: string;
-  createdAt?: string;
-}
+import { CommonModule } from '@angular/common';
+import { ActivatedRoute, RouterModule } from '@angular/router';
+import { AdverseEventStore } from '../../services/adverse-event.store';
+import { AuditPanelComponent } from '../../audit/audit-panel.component';
+import { SeverityBadgeDirective } from '../../../../shared/directives/severity-badge.directive';
 
 @Component({
   selector: 'app-adverse-event-detail',
   standalone: true,
-  imports: [CommonModule, RouterModule],
+  imports: [
+    CommonModule,
+    RouterModule,
+    AuditPanelComponent,
+    SeverityBadgeDirective // ✅ required for [appSeverityBadge]
+  ],
   templateUrl: './adverse-event-detail.component.html',
-  styleUrls: ['./adverse-event-detail.component.scss']
+  styleUrls: ['./adverse-event-detail.component.css']
 })
 export class AdverseEventDetailComponent implements OnInit {
-  private BASE_URL = 'http://localhost:8080/api';
+  ev: {
+    EventID: string;
+    ParticipantID: string;
+    Severity: 'MILD' | 'MODERATE' | 'SEVERE' | 'CRITICAL';
+    ReportedDate: string;
+    Description?: string;
+    Outcome?: string;
+    Status?: 'OPEN' | 'CLOSED' | 'UNDER_REVIEW';
+  } | undefined;
 
-  loading = true;
-  error?: string;
-  event?: AdverseEvent;
+  /** Rows used by the summary table (Field → Value) */
+  rows: { label: string; value: any }[] = [];
 
-  constructor(private route: ActivatedRoute, private http: HttpClient) {}
+  constructor(private route: ActivatedRoute, private store: AdverseEventStore) {}
 
   ngOnInit(): void {
-    const id = Number(this.route.snapshot.paramMap.get('id'));
-    if (!id) { this.error = 'Invalid Event ID.'; this.loading = false; return; }
+    const id = this.route.snapshot.paramMap.get('id') || '';
+    this.ev = id ? this.store.find(id) : undefined;
 
-    this.http.get<AdverseEvent>(`${this.BASE_URL}/adverse-events/${id}`).subscribe({
-      next: ev => { this.event = ev; this.loading = false; },
-      error: () => { this.error = 'Failed to load adverse event.'; this.loading = false; }
-    });
+    if (this.ev) {
+      const v = this.ev;
+      this.rows = [
+        { label: 'Participant',   value: v.ParticipantID },
+        { label: 'Severity',      value: v.Severity },
+        { label: 'Reported Date', value: v.ReportedDate },
+        { label: 'Status',        value: v.Status ?? 'OPEN' },
+        { label: 'Outcome',       value: v.Outcome ?? '—' },
+        { label: 'Description',   value: v.Description ?? '—' }
+      ];
+    }
   }
 }
+ 

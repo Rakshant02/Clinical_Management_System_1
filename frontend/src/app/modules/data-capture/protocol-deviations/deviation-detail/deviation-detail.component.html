@@ -1,0 +1,102 @@
+
+<section class="deviation-detail">
+  <!-- Resolve observable once and render when data is present -->
+  <ng-container *ngIf="deviation$ | async as d; else loading">
+    <!-- Header -->
+    <header class="detail-header">
+      <div class="title-block">
+        <h2 class="page-title">Deviation {{ d?.id }}</h2>
+
+        <!-- Status badge -->
+        <span
+          class="badge status"
+          [class.status-open]="d?.status === 'OPEN'"
+          [class.status-review]="d?.status === 'UNDER_REVIEW'"
+          [class.status-closed]="d?.status === 'CLOSED'"
+        >
+          {{ d?.status || '—' }}
+        </span>
+
+        <span class="dot">•</span>
+
+        <!-- Severity badge -->
+        <span
+          class="badge severity"
+          [class.severity-minor]="d?.severity === 'MINOR'"
+          [class.severity-major]="d?.severity === 'MAJOR'"
+          [class.severity-critical]="d?.severity === 'CRITICAL'"
+        >
+          {{ d?.severity || '—' }}
+        </span>
+      </div>
+
+      <!-- Actions -->
+      <div class="header-actions">
+        <button class="btn btn-secondary" (click)="onBack()">Back</button>
+        <button
+          class="btn btn-warning"
+          (click)="onMarkUnderReview()"
+          [disabled]="d?.status === 'UNDER_REVIEW'"
+        >
+          Mark Under Review
+        </button>
+      </div>
+    </header>
+
+    <!-- Details Table -->
+    <div class="card">
+      <table class="detail-table">
+        <tbody>
+          <tr>
+            <th>Protocol</th>
+            <td>{{ d?.protocolId || '—' }}</td>
+          </tr>
+          <tr>
+            <th>Participant</th>
+            <td>{{ d?.participantId || '—' }}</td>
+          </tr>
+          <tr>
+            <th>Observation</th>
+            <td>{{ d?.observationId || '—' }}</td>
+          </tr>
+          <tr>
+            <th>Detected By</th>
+            <td>{{ d?.detectedBy || '—' }}</td>
+          </tr>
+          <tr>
+            <th>Reported</th>
+            <td>
+              <time [attr.datetime]="d?.reportedDate">
+                {{ d?.reportedDate | date:'MMM d, y, h:mm:ss a' }}
+              </time>
+            </td>
+          </tr>
+          <tr class="description-row">
+            <th>Description</th>
+            <td>
+              <p class="description">{{ d?.description || '—' }}</p>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer-hint">
+      <small>
+        Last updated:
+        <time [attr.datetime]="lastUpdated">{{ lastUpdated }}</time>
+      </small>
+    </footer>
+  </ng-container>
+
+  <!-- Loading / Empty state -->
+  <ng-template #loading>
+    <div class="card">
+      <div class="loading">
+        <span class="spinner" aria-hidden="true"></span>
+        <span>Loading deviation…</span>
+      </div>
+    </div>
+  </ng-template>
+</section>

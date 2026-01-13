@@ -1,0 +1,66 @@
+
+<div class="page">
+  <h2>Protocol Deviations</h2>
+
+
+<div class="toolbar">
+  <button class="btn btn-primary" (click)="onNewDeviation()">+ New Deviation</button>
+</div>
+
+  <div class="table-wrap" *ngIf="sortedSig() as deviations">
+    <table class="deviation-table">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Participant</th>
+          <th>Protocol</th>
+          <th>Severity</th>
+          <!-- <th>Status</th> -->
+          <th>Reported</th>
+          <th class="text-right">Action</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <tr *ngFor="let d of deviations; trackBy: trackById">
+          <td>{{ d.DeviationID }}</td>
+          <td>{{ d.ParticipantID || '—' }}</td>
+          <td>{{ d.ProtocolID || '—' }}</td>
+
+          <td>
+            <span class="badge"
+                  [class.minor]="d.Severity === 'MINOR'"
+                  [class.major]="d.Severity === 'MAJOR'"
+                  [class.critical]="d.Severity === 'CRITICAL'">
+              {{ d.Severity || '—' }}
+            </span>
+          </td>
+
+          <!-- <td>
+            <span class="status"
+                  [class.open]="d.Status === 'OPEN'"
+                  [class.review]="d.Status === 'UNDER_REVIEW'"
+                  [class.closed]="d.Status === 'CLOSED'">
+              {{ d.Status || '—' }}
+            </span>
+          </td> -->
+
+          <td>
+            <!-- ISO string rendered readable; fallback if absent -->
+            {{ d.ReportedDate ? (d.ReportedDate | date:'yyyy-MM-dd HH:mm:ss') : '—' }}
+          </td>
+
+          <td class="text-right">
+            <a class="link" [routerLink]="['/data-capture/deviations', d.DeviationID]">View</a>
+          </td>
+        </tr>
+
+        <!-- Empty state -->
+        <tr *ngIf="deviations.length === 0">
+          <td colspan="7" class="empty">No deviations found. Click “New Deviation” to add one.</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+``

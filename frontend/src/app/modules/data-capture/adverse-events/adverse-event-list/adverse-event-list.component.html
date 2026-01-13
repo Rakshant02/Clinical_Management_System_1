@@ -1,69 +1,48 @@
 
-<div class="d-flex justify-content-between align-items-center mb-3">
-  <h5>Adverse Events</h5>
-  <a routerLink="/data-capture/adverse-events/new" class="btn btn-success">
-    Report
-  </a>
+<!-- Header -->
+<div class="ae-header">
+  <h2 class="ae-title">Adverse Events</h2>
+  <a class="btn success" routerLink="/data-capture/adverse-events/new">Report</a>
 </div>
 
-<!-- Filters -->
-<div class="row g-3 mb-3">
-  <div class="col-md-3">
-    <label class="form-label">Severity</label>
-    <select [(ngModel)]="severityFilter" class="form-select" (change)="load()">
-      <option value="">All Severities</option>
-      <option value="MILD">Mild</option>
-      <option value="MODERATE">Moderate</option>
-      <option value="SEVERE">Severe</option>
-      <option value="CRITICAL">Critical</option>
-    </select>
+<!-- Filter -->
+<div class="ae-filter">
+  <label>Severity</label>
+  <app-severity-filter [selected]="severity" (selectedChange)="onSeverity($event)"></app-severity-filter>
+</div>
+
+<!-- ✅ Only show table when we actually have rows -->
+<div *ngIf="rows.length > 0; else emptyState" class="table-card">
+  <table class="ae-table">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Participant</th>
+        <th>Severity</th>
+        <th>Reported Date</th>
+        <th>Description</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let ev of rows; trackBy: trackById">
+        <td class="mono">{{ev.EventID}}</td>
+        <td class="mono">{{ev.ParticipantID}}</td>
+        <td><span [appSeverityBadge]="ev.Severity" class="sev-pill">{{ev.Severity}}</span></td>
+        <td class="mono">{{ev.ReportedDate | date:'yyyy-MM-dd'}}</td>
+        <td>{{ev.Description || '—'}}</td>
+        <td><a class="btn ghost" [routerLink]="['/data-capture','adverse-events', ev.EventID]">View</a></td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- ✅ Clean empty state -->
+<ng-template #emptyState>
+  <div class="empty-card">
+    <div class="empty-title">No adverse events found</div>
+    <div class="empty-actions">
+      <a class="btn success" routerLink="/data-capture/adverse-events/new">Report</a>
+    </div>
   </div>
-</div>
-
-<!-- Loading indicator -->
-<div *ngIf="loading" class="text-center my-4">
-  <div class="spinner-border" role="status"></div>
-</div>
-
-<!-- Events table -->
-<table class="table table-hover" *ngIf="eventsFiltered.length && !loading">
-  <thead>
-    <tr>
-      <th>ID</th>
-      <th>Participant</th>
-      <th>Severity</th>
-      <th>Reported Date</th>
-      <th>Description</th>
-      <th></th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr *ngFor="let ev of eventsFiltered">
-      <td>{{ ev.eventId }}</td>
-      <td>{{ ev.participantId }}</td>
-      <td>
-        <span class="badge"
-              [class.bg-success]="ev.severity === 'MILD'"
-              [class.bg-warning]="ev.severity === 'MODERATE'"
-              [class.bg-danger]="ev.severity === 'SEVERE'"
-              [class.bg-dark]="ev.severity === 'CRITICAL'">
-          {{ ev.severity }}
-        </span>
-      </td>
-      <!-- If you import DatePipe later, use: {{ ev.reportedDate | date }} -->
-      <td>{{ ev.reportedDate }}</td>
-      <td class="text-truncate" style="max-width: 320px">{{ ev.description }}</td>
-      <td>
-        <a [routerLink]="['/data-capture/adverse-events', ev.eventId]"
-           class="btn btn-sm btn-outline-secondary">
-          View
-        </a>
-      </td>
-    </tr>
-  </tbody>
-</table>
-
-<!-- Empty state -->
-<div *ngIf="!eventsFiltered.length && !loading" class="text-muted">
-  No events
-</div>
+</ng-template>

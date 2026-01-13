@@ -6,5 +6,6 @@ export interface Participant {
   eligibilityStatus: string;
   // consentStatus: string;
   enrollmentStatus: 'PENDING' | 'ENROLLED' | 'WITHDRAWN'; // new field
-
+ 
 }
+ 

@@ -1,0 +1,49 @@
+
+<div class="audit-log-card">
+  <!-- Header bar -->
+  <div class="card-header">
+    <h3 class="title">Recent Audit Trails</h3>
+
+    <!-- Counts line -->
+    <div class="counts">
+      <span class="count-item">
+        Observations: <strong>{{ counts.observations }}</strong>
+      </span>
+      <span class="count-item">
+        Adverse Events: <strong>{{ counts.adverseEvents }}</strong>
+      </span>
+      <span class="count-item">
+        Protocol Deviations: <strong>{{ counts.deviations }}</strong>
+      </span>
+    </div>
+  </div>
+
+  <!-- Table -->
+  <div class="table-wrap" *ngIf="logs.length">
+    <table class="audit-table">
+      <thead>
+        <tr>
+          <th>Time</th>
+          <th>Entity</th>
+          <th>Action</th>
+          <th>User</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <tr *ngFor="let l of logs; trackBy: trackByKey">
+          <td class="nowrap">{{ l.changedAt | date:'M/d/yy, h:mm a' }}</td>
+          <td>ProtocolDeviation</td>
+          <!-- If you prefer dynamic entity type, use: {{ l.entityType }} -->
+          <td class="action">{{ l.action }}</td>
+          <td class="muted">{{ l.changedBy }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Empty state -->
+  <div class="empty" *ngIf="!logs.length">
+    <p class="empty-text">No audit records yet.</p>
+  </div>
+</div>
