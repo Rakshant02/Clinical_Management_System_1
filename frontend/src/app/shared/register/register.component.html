@@ -1,0 +1,40 @@
+<div class="register-wrapper">
+  <div class="register-container">
+    <h2>Register</h2>
+    <form (ngSubmit)="onRegister()" #registerForm="ngForm">
+      <input
+        type="text"
+        name="username"
+        [(ngModel)]="username"
+        placeholder="Username"
+        required
+      />
+
+      <input
+        type="password"
+        name="password"
+        [(ngModel)]="password"
+        placeholder="Password"
+        required
+      />
+
+      <input
+        type="password"
+        name="confirmPassword"
+        [(ngModel)]="confirmPassword"
+        placeholder="Confirm Password"
+        required
+      />
+
+      <select name="role" [(ngModel)]="role" required>
+        <option value="">Select Role</option>
+        <option value="admin">Admin</option>
+        <option value="investigator">Investigator</option>
+        <option value="user">User</option>
+      </select>
+
+      <button type="submit">Register</button>
+    </form>
+    <p>Already have an account? <a routerLink="/login">Login here</a></p>
+  </div>
+</div>
