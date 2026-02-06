@@ -5,6 +5,9 @@ import { AuditService } from './audit.service';
 
 @Injectable({ providedIn: 'root' })
 export class AdverseEventStore {
+  listByParticipant(participantId: string): AdverseEvent[] {
+    return this.eventsSig().filter(e => e.ParticipantID === participantId);
+  }
   private KEY = 'adverse-events';
   private eventsSig = signal<AdverseEvent[]>([]);
   readonly listSig = this.eventsSig;

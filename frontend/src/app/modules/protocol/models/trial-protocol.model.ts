@@ -1,4 +1,4 @@
-
+// src\app\modules\protocol\models\trial-protocol.model.ts
 export enum TrialPhase { I = 'I', II = 'II', III = 'III' }
 export enum TrialStatus { ACTIVE = 'ACTIVE', COMPLETED = 'COMPLETED' }
 

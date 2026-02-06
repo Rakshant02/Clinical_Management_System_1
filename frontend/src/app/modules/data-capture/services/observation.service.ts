@@ -5,6 +5,9 @@ import { AuditService } from './audit.service';
 
 @Injectable({ providedIn: 'root' })
 export class ObservationService {
+  listByParticipant(participantId: string): Observation[] {
+    return this.obsSig().filter(o => o.ParticipantID === participantId);
+  }
   private KEY = 'observations';
   private obsSig = signal<Observation[]>([]);
   readonly listSig = this.obsSig;

@@ -8,6 +8,7 @@ import { ProtocolService } from '../services/protocol.service';
 import { TrialProtocol } from '../models/trial-protocol.model';
 import { Observable, combineLatest } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
+ 
 
 @Component({
   selector: 'bt-protocol-list',

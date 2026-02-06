@@ -2,8 +2,8 @@
 // consent-form.component.ts
 import { CommonModule } from '@angular/common';
 import { Component, Input, Output, EventEmitter } from '@angular/core';
-import { Participant } from '../../../../core/models/participant';
-import { ConsentForm } from '../../../../core/models/consent-form';
+import { ConsentForm } from '../../models/consent.model';
+import { Participant } from '../../models/participant.model';
  
 @Component({
   selector: 'bt-consent-form',

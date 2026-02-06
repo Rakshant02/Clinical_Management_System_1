@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ParticipantService } from '../../services/participant.service';
-import { Participant } from '../../../../core/models/participant';
+
+import { Participant } from '../../models/participant.model';
 import { CommonModule } from '@angular/common';
 import { ConsentFormComponent } from '../../components/consent-form/consent-form.component';
 import { ConsentForm } from '../../models/consent.model';

@@ -2,6 +2,8 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { Participant } from '../../models/participant.model';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { TrialProtocol } from '../../../protocol/models/trial-protocol.model'; 
+import { ProtocolService } from '../../../protocol/services/protocol.service';
 
 @Component({
   selector: 'bt-participant-form',
@@ -13,17 +15,35 @@ import { CommonModule } from '@angular/common';
 export class ParticipantFormComponent {
   
   @Input() participant: Participant = {
-    id: '',
+    participantId: '',
     name: '',
     dob: '',
     contactInfo: '',
-    eligibilityStatus: '',
+    gender: '',
+    address: '',
+    bp: '',
+    heartRate: null,
+    temperature: null,
+    respiratoryRate: null,
+    hemoglobin: null,
+    creatinine: null,
+    eligibilityStatus: 'PENDING',
     enrollmentStatus: 'PENDING'
   };
 
   @Output() saveParticipant = new EventEmitter<Participant>();
 
-  
+  protocols: TrialProtocol[] = []; 
+  constructor(private protocolService: ProtocolService) 
+  {} 
+  ngOnInit(): void 
+  {
+     this.protocolService.loadAll().subscribe(data =>
+       { this.protocols = data; 
+
+       }); 
+  }
+
   // ✅ Eligibility validation: must be 18+
   private validateEligibility(participant: Participant): boolean {
     if (!participant.dob) return false;
@@ -40,11 +60,11 @@ export class ParticipantFormComponent {
   onSubmit(): void {
     if (!this.validateEligibility(this.participant)) {
       alert('Participant not eligible (must be 18+).');
-      this.participant.eligibilityStatus = 'Ineligible';
+      this.participant.eligibilityStatus = 'INELIGIBLE';
       return;
     }
 
-    this.participant.eligibilityStatus = 'Eligible';
+    this.participant.eligibilityStatus = 'ELIGIBLE';
     this.saveParticipant.emit(this.participant);
   }
 }

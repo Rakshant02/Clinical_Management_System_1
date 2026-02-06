@@ -23,9 +23,6 @@ export class DashboardPage {
     private participantService: ParticipantService, 
     private router: Router ) 
   {}
-
- 
-
   ngOnInit(): void {
     // Load participants
     this.participantService.list().subscribe((participants: Participant[]) => {
@@ -39,7 +36,7 @@ export class DashboardPage {
     this.participantService.list().subscribe((participants: Participant[]) => {
       let signed = 0;
       participants.forEach(p => {
-        this.participantService.getConsentHistory(p.id).subscribe((consents: ConsentForm[]) => {
+        this.participantService.getConsentHistory(p.participantId).subscribe((consents: ConsentForm[]) => {
           signed += consents.filter(c => c.status === 'SIGNED').length;
           this.signedConsents = signed;
         });

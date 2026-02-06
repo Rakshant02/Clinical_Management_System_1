@@ -1,4 +1,5 @@
 <form (ngSubmit)="onSubmit()" #form="ngForm" class="bt-form">
+  <!-- Existing Fields -->
   <label>Name:</label>
   <input [(ngModel)]="participant.name" name="name" required />
 
@@ -7,6 +8,43 @@
 
   <label>Contact Info:</label>
   <input [(ngModel)]="participant.contactInfo" name="contactInfo" required />
+
+  <label>Gender:</label> <select [(ngModel)]="participant.gender" name="gender" required> 
+  <option value="" disabled selected>Select Gender</option> 
+  <option value="male">Male</option> 
+  <option value="female">Female</option> 
+  <option value="other">Other</option> 
+  </select> <label>Address:</label>
+  <textarea [(ngModel)]="participant.address" name="address"></textarea>
+
+
+  <label>Protocol:</label>
+<select [(ngModel)]="participant.protocolId" name="protocolId" required>
+  <option value="" disabled selected>Select Protocol</option>
+  <option *ngFor="let protocol of protocols" [value]="protocol.protocolId">
+    {{ protocol.title }} (Phase {{ protocol.phase }})
+  </option>
+</select>
+
+  <!-- Medical Fields -->
+  
+  <label>Blood Pressure (mmHg):</label>
+  <input [(ngModel)]="participant.bp" name="bp" placeholder="120/80" />
+
+  <label>Heart Rate (bpm):</label>
+  <input type="number" [(ngModel)]="participant.heartRate" name="heartRate" />
+
+  <label>Temperature (°C):</label>
+  <input type="number" step="0.1" [(ngModel)]="participant.temperature" name="temperature" />
+
+  <label>Respiratory Rate (breaths/min):</label>
+  <input type="number" [(ngModel)]="participant.respiratoryRate" name="respiratoryRate" />
+
+  <label>Hemoglobin (g/dL):</label>
+  <input type="number" step="0.1" [(ngModel)]="participant.hemoglobin" name="hemoglobin" />
+
+  <label>Creatinine (mg/dL):</label>
+  <input type="number" step="0.1" [(ngModel)]="participant.creatinine" name="creatinine" />
 
   <button type="submit">Save Participant</button>
 </form>

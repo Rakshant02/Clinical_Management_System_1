@@ -1,11 +1,31 @@
+export type EnrollmentStatus = 'PENDING' | 'ENROLLED' | 'WITHDRAWN';
+export type EligibilityStatus = 'ELIGIBLE' | 'INELIGIBLE' | 'PENDING';
+
 export interface Participant {
-  id: string;
+  participantId: string;    
   name: string;
-  dob: string;
+  dob: string;              
   contactInfo: string;
-  eligibilityStatus: string;
-  // consentStatus: string;
-  enrollmentStatus: 'PENDING' | 'ENROLLED' | 'WITHDRAWN'; // new field
- 
+
+  // New demographic fields
+  gender?: string;
+  address?: string;
+
+  // Vital signs
+  bp?: string;                        // e.g., "120/80"
+  heartRate?: number | null;          // bpm
+  temperature?: number | null;        // °C
+  spo2?: number | null;               // %
+  respiratoryRate?: number | null;    // breaths/min
+
+  // Lab results
+  hemoglobin?: number | null;         // g/dL
+  creatinine?: number | null;         // mg/dL
+
+  // Status fields
+  eligibilityStatus: EligibilityStatus; 
+  enrollmentStatus: EnrollmentStatus;
+
+  // 🔗 Link to TrialProtocol 
+  protocolId?: string
 }
- 
