@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ParticipantService } from '../../services/participant.service';
 
 import { Participant } from '../../models/participant.model';
@@ -21,7 +21,8 @@ export class ConsentManagePage implements OnInit {
 
   constructor(
     private route: ActivatedRoute,
-    private participantService: ParticipantService
+    private participantService: ParticipantService,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
@@ -54,6 +55,7 @@ export class ConsentManagePage implements OnInit {
     this.participantService.signConsent(this.participant.participantId).subscribe(() => {
       this.loadConsentHistory(this.participant!.participantId);
     });
+    this.router.navigate(['/enrollment/participant-list']);
   }
 
   withdrawConsent(): void {
@@ -61,5 +63,7 @@ export class ConsentManagePage implements OnInit {
     this.participantService.withdrawConsent(this.participant.participantId).subscribe(() => {
       this.loadConsentHistory(this.participant!.participantId);
     });
+    this.router.navigate(['/enrollment/participant-list']);
   }
+  
 }

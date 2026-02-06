@@ -1,0 +1,78 @@
+/* Wrapper: centers everything on screen */
+.register-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;               /* full screen height */
+  background: linear-gradient(135deg, #f0f4f8, #d9e4ec);
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* Card container */
+.register-container {
+  width: 420px;
+  padding: 40px;
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+  text-align: center;
+}
+
+/* Heading */
+.register-container h2 {
+  margin-bottom: 25px;
+  font-size: 28px;
+  color: #333;
+}
+
+/* Inputs and select */
+.register-container input,
+.register-container select {
+  width: 100%;
+  padding: 12px;
+  margin: 12px 0;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 15px;
+  transition: border-color 0.3s ease;
+}
+
+.register-container input:focus,
+.register-container select:focus {
+  border-color: #0078d7;
+  outline: none;
+}
+
+/* Button */
+.register-container button {
+  width: 100%;
+  padding: 14px;
+  background: #0078d7;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.register-container button:hover {
+  background: #005a9e;
+}
+
+/* Login link */
+.register-container p {
+  margin-top: 20px;
+  font-size: 14px;
+  color: #555;
+}
+
+.register-container a {
+  color: #0078d7;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.register-container a:hover {
+  text-decoration: underline;
+}

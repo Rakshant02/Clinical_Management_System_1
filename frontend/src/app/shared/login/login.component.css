@@ -1,0 +1,62 @@
+.login-wrapper {
+  display: flex; /* side by side layout */
+  flex-direction: row; /* horizontal alignment */
+  justify-content: center; /* center horizontally */
+  align-items: center; /* align vertically */
+  height: 100vh; /* full screen height */
+  background: #f4f4f4;
+  gap: 50px; /* space between image and card */
+}
+
+.login-image img {
+  width: 400px; /* bigger image */
+  height: auto;
+  border-radius: 8px;
+}
+
+.login-container {
+  width: 450px; /* bigger card */
+  padding: 40px;
+  background: #fff;
+  border-radius: 10px;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+}
+.login-container p {
+  margin-top: 15px;
+  font-size: 14px;
+}
+
+.login-container a {
+  color: #0078d7;
+  text-decoration: none;
+}
+
+.login-container a:hover {
+  text-decoration: underline;
+}
+
+
+.login-container input,
+.login-container select {
+  width: 100%;
+  padding: 12px;
+  margin: 12px 0;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 16px;
+}
+
+.login-container button {
+  width: 100%;
+  padding: 12px;
+  background: #0078d7;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.login-container button:hover {
+  background: #005a9e;
+}

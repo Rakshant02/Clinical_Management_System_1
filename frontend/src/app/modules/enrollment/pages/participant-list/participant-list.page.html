@@ -1,7 +1,13 @@
 <h2>Participants</h2>
+<input 
+  type="text" 
+  placeholder="Search by ID or Name" 
+  [(ngModel)]="searchTerm" 
+  class="search-bar"
+/>
 <div *ngIf="loading">Loading participants...</div>
 
-<table *ngIf="participants.length > 0" class="participant-table">
+<table *ngIf="filteredParticipants.length > 0" class="participant-table">
   <thead>
     <tr>
       <th>Participant ID</th>
@@ -11,12 +17,12 @@
       <th>Eligibility</th>
       <th>Enrollment Status</th>
       <th>Protocol</th>
-      <th>Latest Consent</th>
+      <!-- <th>Latest Consent</th> -->
       <th>Actions</th>
     </tr>
   </thead>
   <tbody>
-    <tr *ngFor="let p of participants">
+    <tr *ngFor="let p of filteredParticipants">
       <td>{{ p.participantId }}</td>
       <td>{{ p.name }}</td>
       <td>{{ p.dob }}</td>
@@ -24,13 +30,13 @@
       <td>{{ p.eligibilityStatus }}</td>
       <td>{{ p.enrollmentStatus }}</td>
       <td>{{ getProtocolTitle(p.protocolId) }}</td>
-      <td>
-        <!-- Show latest consent if available -->
+      <!-- <td>
+         Show latest consent if available 
         <span *ngIf="p.latestConsent">
           {{ p.latestConsent.status }} ({{ p.latestConsent.signedDate | date:'shortDate' }})
         </span>
         <span *ngIf="!p.latestConsent">No consent</span>
-      </td>
+      </td> -->
       <td>
         <button (click)="manageConsent(p.participantId)">Manage Consent</button>
         <!-- <button (click)="edit(p.id)">Edit</button> -->  
