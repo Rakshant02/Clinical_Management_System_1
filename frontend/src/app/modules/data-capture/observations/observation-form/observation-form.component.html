@@ -1,10 +1,14 @@
-
 <h3 class="dc-subtitle">New Observation</h3>
 
 <form class="form-card" #f="ngForm" (ngSubmit)="save(f)">
   <label>Participant ID
     <input name="ParticipantID" [(ngModel)]="model.ParticipantID" required />
   </label>
+  
+  <label>Protocol ID
+    <input name="ProtocolID" [(ngModel)]="model.ProtocolID" required />
+  </label>
+
   <label>Visit Date
     <input name="VisitDate" type="date" [(ngModel)]="model.VisitDate" required />
   </label>
@@ -15,8 +19,8 @@
       <label>BP <input name="bp" [(ngModel)]="model.DataPoints.Vitals.bp"></label>
       <label>Heart Rate <input name="heartRate" type="number" [(ngModel)]="model.DataPoints.Vitals.heartRate"></label>
       <label>Temperature <input name="temperature" type="number" step="0.1" [(ngModel)]="model.DataPoints.Vitals.temperature"></label>
-      <label>SpO₂ <input name="spo2" type="number" [(ngModel)]="model.DataPoints.Vitals.spo2"></label>
-      <label>Respiratory Rate <input name="respiratoryRate" type="number" [(ngModel)]="model.DataPoints.Vitals.respiratoryRate"></label>
+      <!-- <label>SpO₂ <input name="spo2" type="number" [(ngModel)]="model.DataPoints.Vitals.spo2"></label> -->
+      <!-- <label>Respiratory Rate <input name="respiratoryRate" type="number" [(ngModel)]="model.DataPoints.Vitals.respiratoryRate"></label> -->
     </div>
   </fieldset>
 

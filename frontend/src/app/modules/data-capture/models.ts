@@ -3,6 +3,7 @@
 
 export type Severity = 'MILD' | 'MODERATE' | 'SEVERE' | 'CRITICAL';
 export type Status = 'OPEN' | 'UNDER_REVIEW' | 'CLOSED';
+export type AuditAction = 'CREATE' | 'UPDATE' | 'DELETE';
 
 export interface Observation {
   ObservationID: string;
@@ -51,4 +52,15 @@ export interface Deviation {
   description?: string;
   capaRef?: string;
   correctiveAction?: string;
+}
+
+// models.ts
+
+export interface AuditLogEntry {
+  id: string;                 // unique id for trackBy
+  time: Date;                 // timestamp
+  entity: string;             // e.g., 'ProtocolDeviation'
+  action: AuditAction;        // 'CREATE' | 'UPDATE' | 'DELETE'
+  user: string;               // e.g., 'anonymous'
+  details?: string;           // optional (for future expansion)
 }

@@ -1,4 +1,3 @@
-
 import { Directive, ElementRef, Input, OnChanges, Renderer2 } from '@angular/core';
 
 /** Custom Attribute Directive: [appSeverityBadge]="severity" */
@@ -19,5 +18,3 @@ export class SeverityBadgeDirective implements OnChanges {
     }
   }
 }
-
-

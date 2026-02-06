@@ -30,3 +30,197 @@
 .grid-2 { display:grid; grid-template-columns:repeat(2,1fr); gap:12px; }
 
 .ae-actions { display:flex; gap:10px; margin-top:8px; }
+
+
+
+
+
+/* ---- Page scaffold & heading ---- */
+.ae-form-wrapper {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 8px 0 24px;
+  /* keep page bg subtle (assumes app-level bg is #f6f8fc) */
+}
+
+.ae-form-top {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 14px;
+}
+
+.ae-form-title {
+  margin: 0 0 14px;
+  font-size: 20px;
+  font-weight: 800;
+  line-height: 1.3;
+  color: #1c274c;
+}
+
+/* ---- Card ---- */
+.ae-form {
+  background: #ffffff;
+  border-radius: 16px;
+  padding: 20px;
+  box-shadow: 0 10px 28px rgba(28, 39, 76, 0.08);
+  display: grid;
+  gap: 16px;
+}
+
+/* ---- Grid rows ---- */
+.grid-3 {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+}
+
+.grid-2 {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+}
+
+/* ---- Fields ---- */
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.field > span {
+  color: #445278;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+/* Inputs / selects / textarea */
+.field input,
+.field select,
+.field textarea {
+  width: 100%;
+  padding: 12px 14px;
+  border: 1px solid #e6eaf1;
+  border-radius: 10px;
+  background: #ffffff;
+  color: #1c274c;
+  font-size: 14px;
+  line-height: 1.2;
+  outline: none;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease, background-color 0.15s ease;
+}
+
+.field input::placeholder,
+.field textarea::placeholder {
+  color: #9aa6bf;
+}
+
+/* Focus */
+.field input:focus,
+.field select:focus,
+.field textarea:focus {
+  border-color: #7aa7ff;
+  box-shadow: 0 0 0 3px rgba(122, 167, 255, 0.25);
+}
+
+/* Textarea sizing like screenshot */
+.field textarea {
+  min-height: 120px;
+  resize: vertical;
+}
+
+/* Native date input: room for calendar icon */
+.field input[type="date"] {
+  padding-right: 42px;
+}
+
+/* Select minimal appearance (keeps native arrow) */
+.field select {
+  appearance: auto;
+  -webkit-appearance: menulist;
+  -moz-appearance: menulist;
+  background-color: #ffffff;
+}
+
+/* ---- Actions ---- */
+.ae-actions {
+  display: flex;
+  gap: 12px;
+  margin-top: 4px;
+}
+
+/* Buttons */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 10px 16px;
+  border-radius: 10px;
+  border: 1px solid #e6eaf1;
+  background: #ffffff;
+  color: #1c274c;
+  font-weight: 600;
+  line-height: 1;
+  cursor: pointer;
+  transition: filter 0.15s ease, transform 0.05s ease, box-shadow 0.15s ease;
+}
+
+.btn:hover {
+  filter: brightness(1.02);
+}
+
+.btn:active {
+  transform: translateY(1px);
+}
+
+/* Primary (Submit) — soft coral pill like the screenshot */
+.btn.primary {
+  border: none;
+  background: #ff8f8f;
+  color: #ffffff;
+  border-radius: 12px;
+  padding: 10px 18px;
+  font-weight: 700;
+  box-shadow: 0 6px 18px rgba(255, 143, 143, 0.45);
+}
+
+.btn.primary:hover {
+  filter: brightness(1.04);
+}
+
+.btn.primary:active {
+  transform: translateY(1px);
+}
+
+/* Ghost (Back) in top-right */
+.btn.ghost {
+  border: 1px solid #e6eaf1;
+  background: #ffffff;
+  border-radius: 10px;
+  color: #1c274c;
+  padding: 8px 12px;
+  box-shadow: 0 2px 10px rgba(28, 39, 76, 0.06);
+}
+
+/* ---- Responsiveness ---- */
+@media (max-width: 1024px) {
+  .grid-3 {
+    grid-template-columns: 1fr 1fr; /* collapse 3 -> 2 */
+  }
+}
+
+@media (max-width: 640px) {
+  .ae-form {
+    padding: 16px;
+    border-radius: 14px;
+  }
+
+  .grid-3,
+  .grid-2 {
+    grid-template-columns: 1fr; /* single column on small screens */
+  }
+
+  .ae-form-top {
+    margin-bottom: 10px;
+  }
+}

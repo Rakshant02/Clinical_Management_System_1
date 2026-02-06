@@ -19,6 +19,7 @@ export class AdverseEventFormComponent {
   constructor(private fb: FormBuilder, private store: AdverseEventStore, private router: Router) {
     this.form = this.fb.group({
       ParticipantID: ['', [Validators.required]],
+      ProtocolID: ['', [Validators.required]],
       Severity: ['MODERATE' as Severity, [Validators.required]],
       ReportedDate: [new Date().toISOString().substring(0,10), [Validators.required]],
       Description: ['', [Validators.required, Validators.minLength(5)]],

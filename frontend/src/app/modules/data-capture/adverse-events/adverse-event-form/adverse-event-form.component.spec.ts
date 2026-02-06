@@ -21,3 +21,4 @@ describe('AdverseEventFormComponent', () => {
     expect(component).toBeTruthy();
   });
 });
+

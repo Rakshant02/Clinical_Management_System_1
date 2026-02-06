@@ -1,4 +1,3 @@
-
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
@@ -14,6 +13,7 @@ import { ObservationService } from '../../services/observation.service';
 export class ObservationFormComponent {
   model = {
     ParticipantID: '',
+    ProtocolID: '',
     VisitDate: '', // bound to <input type="date"> ideally (yyyy-MM-dd)
     DataPoints: {
       Vitals: {
@@ -29,16 +29,16 @@ export class ObservationFormComponent {
 
   constructor(private svc: ObservationService, private router: Router) {}
 
-  // Optional: set default date to today when the component loads
-  ngOnInit(): void {
-    if (!this.model.VisitDate) {
-      const today = new Date();
-      const yyyy = today.getFullYear();
-      const mm = String(today.getMonth() + 1).padStart(2, '0');
-      const dd = String(today.getDate()).padStart(2, '0');
-      this.model.VisitDate = `${yyyy}-${mm}-${dd}`;
-    }
-  }
+  // // Optional: set default date to today when the component loads
+  // ngOnInit(): void {
+  //   if (!this.model.VisitDate) {
+  //     const today = new Date();
+  //     const yyyy = today.getFullYear();
+  //     const mm = String(today.getMonth() + 1).padStart(2, '0');
+  //     const dd = String(today.getDate()).padStart(2, '0');
+  //     this.model.VisitDate = `${yyyy}-${mm}-${dd}`;
+  //   }
+  // }
 
   save(form: any): void {
     if (form.invalid) return;

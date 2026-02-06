@@ -7,3 +7,176 @@
 .group legend {font-weight:700;margin-bottom:6px}
 .grid2 {display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
 .actions {margin-top:12px;display:flex;gap:10px}
+
+
+
+/* Page background & heading spacing (optional) */
+body {
+  background: #f6f8fc;
+  font-family: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
+}
+
+.dc-subtitle {
+  font-size: 20px;
+  font-weight: 700;
+  color: #1c274c;
+  margin: 0 0 12px;
+}
+
+/* Card container */
+.form-card {
+  background: #ffffff;
+  border-radius: 16px;
+  padding: 20px;
+  box-shadow: 0 8px 24px rgba(28, 39, 76, 0.08);
+  display: grid;
+  gap: 16px;
+}
+
+/* Field label (title above input) */
+.form-card label {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  color: #445278;
+  font-size: 13px;
+  font-weight: 600; /* label text a bit bold like in the screenshot */
+}
+
+/* Inputs / selects / textarea with soft rounded styling */
+.form-card input,
+.form-card select,
+.form-card textarea {
+  width: 100%;
+  padding: 12px 14px;
+  border: 1px solid #e6eaf1;
+  border-radius: 10px;
+  background: #ffffff;
+  color: #1c274c;
+  font-size: 14px;
+  outline: none;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.form-card input::placeholder,
+.form-card textarea::placeholder {
+  color: #98a3b8;
+}
+
+/* Focus state */
+.form-card input:focus,
+.form-card select:focus,
+.form-card textarea:focus {
+  border-color: #7aa7ff;
+  box-shadow: 0 0 0 3px rgba(122, 167, 255, 0.25);
+}
+
+/* Textarea sizing like the screenshot */
+.form-card textarea {
+  min-height: 120px;
+  resize: vertical;
+}
+
+/* Field groups */
+.group {
+  border: none;
+  padding: 0;
+  margin: 0;
+}
+
+.group > legend {
+  font-size: 14px;
+  font-weight: 700;
+  color: #1c274c;
+  margin-bottom: 8px;
+}
+
+/* Top row: 3 columns (Protocol ID, Participant ID, Observation ID) */
+.form-card .grid3 {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+}
+
+/* Two-column grids (Vitals/Lab in your existing HTML) */
+.form-card .grid2 {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+}
+
+/* Single column full width */
+.form-card .grid1 {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 16px;
+}
+
+/* Actions (button row) aligned to right like the screenshot */
+.actions {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 12px;
+  margin-top: 8px;
+}
+
+/* Primary "Create" button (pill coral) */
+.btn.primary {
+  background: #ff8f8f;            /* coral tone per screenshot */
+  color: #ffffff;
+  border: none;
+  border-radius: 12px;
+  padding: 10px 18px;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: 0 4px 14px rgba(255, 143, 143, 0.4);
+  transition: transform 0.05s ease, filter 0.15s ease;
+}
+
+.btn.primary:hover {
+  filter: brightness(1.04);
+}
+
+.btn.primary:active {
+  transform: translateY(1px);
+}
+
+.btn {
+  background: #ffffff;
+  color: #1c274c;
+  border: 1px solid #e6eaf1;
+  border-radius: 10px;
+  padding: 10px 16px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+/* Optional date input icon spacing (if your browser shows a calendar icon) */
+input[type="date"] {
+  padding-right: 40px; /* room for calendar icon */
+}
+
+/* Responsive behavior */
+@media (max-width: 992px) {
+  .form-card .grid3 {
+    grid-template-columns: 1fr 1fr; /* collapse 3 -> 2 columns */
+  }
+  .form-card .grid2 {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media (max-width: 640px) {
+  .form-card {
+    padding: 16px;
+    border-radius: 14px;
+  }
+  .form-card .grid3,
+  .form-card .grid2 {
+    grid-template-columns: 1fr; /* single column on small screens */
+  }
+  .actions {
+    justify-content: flex-end;
+  }
+}

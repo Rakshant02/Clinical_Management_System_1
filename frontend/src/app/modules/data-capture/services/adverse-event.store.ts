@@ -1,4 +1,3 @@
-
 import { Injectable, signal, computed, effect } from '@angular/core';
 import { AdverseEvent, Severity } from '../models';
 import { AuditService } from './audit.service';

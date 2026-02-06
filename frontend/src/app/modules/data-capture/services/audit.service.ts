@@ -1,4 +1,3 @@
-
 import { Injectable } from '@angular/core';
 
 export type AuditEntityType = 'Observation' | 'AdverseEvent' | 'ProtocolDeviation';

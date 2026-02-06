@@ -1,4 +1,3 @@
-
 import { Routes } from '@angular/router';
 
 export const DATA_CAPTURE_ROUTES: Routes = [

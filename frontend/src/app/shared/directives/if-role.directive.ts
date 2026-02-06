@@ -1,4 +1,3 @@
-
 import { Directive, Input, TemplateRef, ViewContainerRef } from '@angular/core';
 
 /** Custom Structural Directive: *appIfRole="'investigator'" */

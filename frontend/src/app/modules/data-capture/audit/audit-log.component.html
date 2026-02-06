@@ -1,4 +1,3 @@
-
 <div class="audit-log-card">
   <!-- Header bar -->
   <div class="card-header">
@@ -18,6 +17,44 @@
     </div>
   </div>
 
+  <!-- Search toolbar -->
+  <div class="search-toolbar">
+    <div class="field">
+      <label>Entity</label>
+      <input
+        type="text"
+        placeholder="Observation, Adverse Event, ProtocolDeviation"
+        [(ngModel)]="search.entity"
+        (input)="onSearchChange()"
+      />
+    </div>
+
+    <div class="field">
+      <label>Date</label>
+      <input
+        type="date"
+        [(ngModel)]="search.date"
+        (change)="onSearchChange()"
+      />
+    </div>
+
+    <button class="clear-btn" (click)="clearSearch()" [disabled]="!isSearching">
+      Clear
+    </button>
+  </div>
+
+  <!-- Context (Today vs Search) -->
+  <div class="context">
+    <ng-container *ngIf="!isSearching; else searching">
+      <strong>Today’s Audit Logs</strong>
+      <span> • {{ logs.length }} record(s)</span>
+    </ng-container>
+    <ng-template #searching>
+      <strong>Search Results</strong>
+      <span> • {{ logs.length }} record(s)</span>
+    </ng-template>
+  </div>
+
   <!-- Table -->
   <div class="table-wrap" *ngIf="logs.length">
     <table class="audit-table">
@@ -33,8 +70,7 @@
       <tbody>
         <tr *ngFor="let l of logs; trackBy: trackByKey">
           <td class="nowrap">{{ l.changedAt | date:'M/d/yy, h:mm a' }}</td>
-          <td>ProtocolDeviation</td>
-          <!-- If you prefer dynamic entity type, use: {{ l.entityType }} -->
+          <td>{{ l.entityType }}</td> <!-- ✅ dynamic entity shown -->
           <td class="action">{{ l.action }}</td>
           <td class="muted">{{ l.changedBy }}</td>
         </tr>
@@ -44,6 +80,13 @@
 
   <!-- Empty state -->
   <div class="empty" *ngIf="!logs.length">
-    <p class="empty-text">No audit records yet.</p>
+    <div class="empty-hero">
+      <div class="empty-icon">📄</div>
+      <p class="empty-title">
+        <ng-container *ngIf="!isSearching; else noResults">No audit records for today.</ng-container>
+        <ng-template #noResults>No records match your search.</ng-template>
+      </p>
+      <p class="empty-help" *ngIf="isSearching">Try clearing filters or picking another date.</p>
+    </div>
   </div>
 </div>

@@ -1,90 +1,236 @@
+/* ===========================
+   Audit Log Card – New Style
+   (works with your existing HTML)
+   =========================== */
 
-:root {
-  /* Palette tuned to the screenshot (blue & white) */
-  --bg: #ffffff;
-  --header-bg: #f3f4f6;      /* light gray header bar */
-  --border: #e5e7eb;         /* subtle separators */
-  --text: #111827;           /* dark text */
-  --muted: #6b7280;          /* secondary text */
-  --th: #374151;             /* table header color */
-}
-
-/* Card container centered and constrained */
+/* ---- Card container ---- */
 .audit-log-card {
-  max-width: 980px;          /* similar width to screenshot */
-  margin: 16px auto;         /* center horizontally */
-  background: var(--bg);
-  border: 1px solid var(--border);
-  border-radius: 10px;
-  overflow: hidden;
+  background: #ffffff;
+  border-radius: 16px;
+  padding: 20px 22px 24px;
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.08);
+  max-width: 1100px;
+  margin: 0 auto;
 }
 
-/* Header bar */
+/* ---- Header ---- */
 .card-header {
-  background: var(--header-bg);
-  border-bottom: 1px solid var(--border);
-  padding: 14px 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 18px;
 }
 
-/* Title */
-.title {
-  margin: 0 0 8px 0;
-  font-size: 25px;
-  font-weight: 700;
-  color: var(--text);
+.card-header .title {
+  font-size: 20px;
+  font-weight: 800;
+  color: #1c274c;
+  margin: 0;
 }
 
-/* Counts line beneath title */
+/* ---- Colorful count chips ---- */
 .counts {
   display: flex;
-  gap: 18px;
-  font-size: 20px;
+  gap: 10px;
+  flex-wrap: wrap;
 }
-.count-item { color: var(--muted); }
-.count-item strong { color: var(--text); font-weight: 700; }
 
-/* Table wrapper */
+.count-item {
+  font-size: 13px;
+  font-weight: 600;
+  padding: 6px 12px;
+  border-radius: 999px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+/* Individual chip colors */
+.count-item:nth-child(1) {
+  background: #eaf2ff;  /* blue bg */
+  color: #2563eb;       /* blue text */
+}
+
+.count-item:nth-child(2) {
+  background: #ffecec;  /* red bg */
+  color: #dc2626;       /* red text */
+}
+
+.count-item:nth-child(3) {
+  background: #eafff1;  /* green bg */
+  color: #16a34a;       /* green text */
+}
+
+/* ---- Search toolbar ---- */
+.search-toolbar {
+  display: grid;
+  grid-template-columns: 1fr 220px auto;
+  gap: 16px;
+  padding: 14px 16px;
+  background: #fafafa;
+  border-radius: 12px;
+  margin-bottom: 16px;
+  align-items: end;
+}
+
+.search-toolbar .field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.search-toolbar label {
+  font-size: 12px;
+  font-weight: 700;
+  color: #445278;
+}
+
+/* ---- Inputs ---- */
+.search-toolbar input {
+  padding: 10px 12px;
+  border-radius: 8px;
+  border: 1px solid #e5e7eb;
+  font-size: 14px;
+  color: #1c274c;
+  background: #ffffff;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.search-toolbar input::placeholder {
+  color: #9ca3af;
+}
+
+.search-toolbar input:focus {
+  outline: none;
+  border-color: #7aa7ff;
+  box-shadow: 0 0 0 3px rgba(122, 167, 255, 0.25);
+}
+
+/* Date input extra padding for calendar icon */
+.search-toolbar input[type="date"] {
+  padding-right: 40px;
+}
+
+/* ---- Clear button ---- */
+.clear-btn {
+  height: 38px;
+  padding: 0 16px;
+  border-radius: 8px;
+  border: 1px solid #e5e7eb;
+  background: #ffffff;
+  color: #1c274c;
+  font-weight: 600;
+  cursor: pointer;
+  transition: filter 0.15s ease, transform 0.05s ease;
+}
+
+.clear-btn:hover:not(:disabled) {
+  filter: brightness(1.03);
+}
+
+.clear-btn:active:not(:disabled) {
+  transform: translateY(1px);
+}
+
+.clear-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* ---- Context line ---- */
+.context {
+  font-size: 13px;
+  font-weight: 600;
+  color: #374151;
+  margin: 8px 0 12px;
+}
+
+/* ---- Table ---- */
 .table-wrap {
-  padding: 0;                /* screenshot shows table flush to edges */
+  overflow-x: auto;
 }
 
-/* Table */
 .audit-table {
   width: 100%;
   border-collapse: collapse;
-  background: var(--bg);
+  font-size: 14px;
+  background: #ffffff;
 }
 
-/* Table header */
 .audit-table thead th {
   text-align: left;
-  padding: 12px 18px;
-  color: var(--th);
-  font-weight: 600;
-  border-bottom: 1px solid var(--border);
-  font-size: 13.5px;
-}
-
-/* Table body rows & cells */
-.audit-table tbody td {
-  padding: 12px 18px;
-  color: var(--text);
-  border-bottom: 1px solid var(--border);
-  font-size: 14px;
-}
-
-/* Subtle row hover for UX (can remove to match screenshot strictly) */
-.audit-table tbody tr:hover {
-  background: #fafafa;
-}
-
-/* Utilities */
-.nowrap { white-space: nowrap; }
-.muted { color: var(--muted); }
-
-/* Action column in uppercase, matching screenshot look */
-.action {
+  font-size: 12px;
   text-transform: uppercase;
-  letter-spacing: 0.2px;
+  letter-spacing: 0.04em;
+  color: #6b7280;
+  padding: 10px 8px;
+  border-bottom: 1px solid #e5e7eb;
+  font-weight: 700;
+}
+
+.audit-table tbody td {
+  padding: 12px 8px;
+  border-bottom: 1px solid #f1f5f9;
+  color: #1c274c;
+}
+
+.audit-table tbody tr:hover {
+  background: #fafcff;
+}
+
+.audit-table .action {
   font-weight: 600;
+}
+
+.audit-table .muted {
+  color: #6b7280;
+}
+
+.nowrap {
+  white-space: nowrap;
+}
+
+/* ---- Empty state ---- */
+.empty {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 48px 0 32px;
+}
+
+.empty-hero {
+  text-align: center;
+  max-width: 420px;
+}
+
+.empty-icon {
+  font-size: 42px;
+  margin-bottom: 12px;
+  opacity: 0.6;
+}
+
+.empty-title {
+  font-size: 18px;
+  font-weight: 700;
+  color: #1c274c;
+  margin: 0 0 4px;
+}
+
+.empty-help {
+  font-size: 14px;
+  color: #6b7280;
+}
+
+/* ---- Responsive ---- */
+@media (max-width: 768px) {
+  .search-toolbar {
+    grid-template-columns: 1fr;
+  }
+  .counts {
+    gap: 8px;
+  }
+  .audit-log-card {
+    padding: 16px 16px 20px;
+    border-radius: 14px;
+  }
 }
