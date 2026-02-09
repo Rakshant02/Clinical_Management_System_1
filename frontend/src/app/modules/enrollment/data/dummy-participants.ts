@@ -16,7 +16,7 @@ export const DUMMY_PARTICIPANTS: Participant[] = [
     spo2: 98,
     respiratoryRate: 16,
     hemoglobin: 13.8,
-    creatinine: 0.9,
+    diabetes: 0.9,
     eligibilityStatus: 'ELIGIBLE',
     enrollmentStatus: 'ENROLLED'
   },
@@ -34,7 +34,7 @@ export const DUMMY_PARTICIPANTS: Participant[] = [
     spo2: 97,
     respiratoryRate: 18,
     hemoglobin: 12.5,
-    creatinine: 1.1,
+    diabetes: 1.1,
     eligibilityStatus: 'ELIGIBLE',
     enrollmentStatus: 'PENDING'
   },
@@ -52,7 +52,7 @@ export const DUMMY_PARTICIPANTS: Participant[] = [
     spo2: 99,
     respiratoryRate: 17,
     hemoglobin: 14.2,
-    creatinine: 0.8,
+    diabetes: 0.8,
     eligibilityStatus: 'ELIGIBLE',
     enrollmentStatus: 'PENDING'
   }

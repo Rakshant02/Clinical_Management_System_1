@@ -26,7 +26,7 @@ export class ParticipantFormComponent {
     temperature: null,
     respiratoryRate: null,
     hemoglobin: null,
-    creatinine: null,
+    diabetes: null,
     eligibilityStatus: 'PENDING',
     enrollmentStatus: 'PENDING'
   };

@@ -139,3 +139,24 @@ div[ngIf="!participant"] {
     font-size: 13px;
   }
 }
+
+.back-btn {
+  background-color: #f0f0f0;       /* Light neutral background */
+  color: #333;                     /* Dark text for readability */
+  border: 1px solid #ccc;          /* Subtle border */
+  border-radius: 6px;              /* Rounded corners */
+  padding: 8px 16px;               /* Comfortable spacing */
+  font-size: 14px;                 /* Clean font size */
+  cursor: pointer;                 /* Pointer on hover */
+  transition: all 0.3s ease;       /* Smooth hover effect */
+}
+
+.back-btn:hover {
+  background-color: #e0e0e0;       /* Slightly darker on hover */
+  border-color: #999;              /* Darker border on hover */
+}
+
+.back-btn:active {
+  background-color: #d6d6d6;       /* Pressed state */
+  transform: scale(0.98);          /* Subtle click feedback */
+}
