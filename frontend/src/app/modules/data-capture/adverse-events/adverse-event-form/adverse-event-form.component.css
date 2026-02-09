@@ -2,7 +2,7 @@
 :host { display:block; padding:24px 32px; background:#f6f7fb; }
 
 .ae-form-top { display:flex; justify-content:flex-end; margin-bottom:8px; }
-.ae-form-title { margin:0 0 14px; font-size:20px; font-weight:700; color:#18224a; }
+.ae-form-title { margin:0 0 14px; font-size:20px; font-weight:600; color:#18224a; }
 
 .ae-form-wrapper .btn {
   display:inline-flex; align-items:center; gap:8px;

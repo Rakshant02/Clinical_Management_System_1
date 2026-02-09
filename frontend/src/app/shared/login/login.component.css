@@ -16,10 +16,12 @@
 
 .login-container {
   width: 450px; /* bigger card */
+  height: 500px;
   padding: 40px;
   background: #fff;
   border-radius: 10px;
   box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+  text-align: center;
 }
 .login-container p {
   margin-top: 15px;
@@ -43,7 +45,7 @@
   margin: 12px 0;
   border: 1px solid #ccc;
   border-radius: 6px;
-  font-size: 16px;
+  font-size: 15px;
 }
 
 .login-container button {
