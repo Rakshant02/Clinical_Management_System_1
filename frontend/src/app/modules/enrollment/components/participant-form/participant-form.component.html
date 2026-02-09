@@ -19,12 +19,12 @@
 
 
   <label>Protocol:</label>
-<select [(ngModel)]="participant.protocolId" name="protocolId" required>
-  <option value="" disabled selected>Select Protocol</option>
-  <option *ngFor="let protocol of protocols" [value]="protocol.protocolId">
-    {{ protocol.title }} (Phase {{ protocol.phase }})
-  </option>
-</select>
+  <select [(ngModel)]="participant.protocolId" name="protocolId" required>
+    <option value="" disabled selected>Select Protocol</option>
+    <option *ngFor="let protocol of protocols" [value]="protocol.protocolId">
+      {{ protocol.title }} (Phase {{ protocol.phase }})
+    </option>
+  </select>
 
   <!-- Medical Fields -->
   
@@ -43,8 +43,8 @@
   <label>Hemoglobin (g/dL):</label>
   <input type="number" step="0.1" [(ngModel)]="participant.hemoglobin" name="hemoglobin" />
 
-  <label>Creatinine (mg/dL):</label>
-  <input type="number" step="0.1" [(ngModel)]="participant.creatinine" name="creatinine" />
+  <label>Diabetes:</label>
+  <input type="number" step="0.1" [(ngModel)]="participant.diabetes" name="diabetes" />
 
   <button type="submit">Save Participant</button>
 </form>

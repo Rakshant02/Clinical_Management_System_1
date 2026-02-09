@@ -1,10 +1,12 @@
 <h2>Participants</h2>
+
 <input 
   type="text" 
   placeholder="Search by ID or Name" 
   [(ngModel)]="searchTerm" 
   class="search-bar"
 />
+
 <div *ngIf="loading">Loading participants...</div>
 
 <table *ngIf="filteredParticipants.length > 0" class="participant-table">
@@ -17,7 +19,7 @@
       <th>Eligibility</th>
       <th>Enrollment Status</th>
       <th>Protocol</th>
-      <!-- <th>Latest Consent</th> -->
+      <!-- <th>Latest Consent</th>  -->
       <th>Actions</th>
     </tr>
   </thead>
@@ -31,25 +33,21 @@
       <td>{{ p.enrollmentStatus }}</td>
       <td>{{ getProtocolTitle(p.protocolId) }}</td>
       <!-- <td>
-         Show latest consent if available 
         <span *ngIf="p.latestConsent">
-          {{ p.latestConsent.status }} ({{ p.latestConsent.signedDate | date:'shortDate' }})
+        {{ p.latestConsent.status }} ({{ p.latestConsent.signedDate | date:'shortDate' }})
         </span>
         <span *ngIf="!p.latestConsent">No consent</span>
-      </td> -->
+      </td>  -->
       <td>
         <button (click)="manageConsent(p.participantId)">Manage Consent</button>
-        <!-- <button (click)="edit(p.id)">Edit</button> -->  
-      <!-- </td>
-      <td> -->
         <button (click)="delete(p.participantId)">Delete</button>
       </td>
     </tr>
   </tbody>
 </table>
 
-<div *ngIf="!loading && participants.length === 0">No participants found.</div>
-<button (click)="create()" class="create-btn">➕ Add New Participant</button>
-<br>
-<br>
+<div *ngIf="!loading && participants.length === 0">
+  No participants found.
+</div>
 
+<button (click)="create()" class="create-btn">➕ Add New Participant</button>

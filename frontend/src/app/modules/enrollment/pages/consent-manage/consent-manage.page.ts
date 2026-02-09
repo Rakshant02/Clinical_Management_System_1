@@ -55,7 +55,7 @@ export class ConsentManagePage implements OnInit {
     this.participantService.signConsent(this.participant.participantId).subscribe(() => {
       this.loadConsentHistory(this.participant!.participantId);
     });
-    this.router.navigate(['/enrollment/participant-list']);
+    
   }
 
   withdrawConsent(): void {
@@ -63,7 +63,9 @@ export class ConsentManagePage implements OnInit {
     this.participantService.withdrawConsent(this.participant.participantId).subscribe(() => {
       this.loadConsentHistory(this.participant!.participantId);
     });
+    
+  }
+  goBack(): void {
     this.router.navigate(['/enrollment/participant-list']);
   }
-  
 }

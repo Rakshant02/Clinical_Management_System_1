@@ -20,7 +20,7 @@ export interface Participant {
 
   // Lab results
   hemoglobin?: number | null;         // g/dL
-  creatinine?: number | null;         // mg/dL
+  diabetes?: number | null;         // mg/dL
 
   // Status fields
   eligibilityStatus: EligibilityStatus; 
