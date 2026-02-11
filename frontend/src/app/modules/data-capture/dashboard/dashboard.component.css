@@ -72,7 +72,12 @@
 .chip--danger:hover { box-shadow: var(--shadow-2); background: var(--brand-red-700); }
 
 /* Outline variants (used for View List, Report AE outlined, etc.) */
-.chip--outline { /* neutral outline */ }
+.chip--outline {
+  /* neutral outline: keep the chip appearance but explicitly set values to avoid an empty ruleset */
+  background: transparent;
+  color: var(--text-strong);
+  border-color: var(--border);
+}
 .chip--outline-primary { color: var(--brand-blue); border-color: #cfe1ff; }
 .chip--outline-danger  { color: var(--brand-red);  border-color: #f1c8cc; }
 .chip--outline:hover   { box-shadow: var(--shadow-1); }
