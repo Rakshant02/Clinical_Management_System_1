@@ -81,7 +81,6 @@
 .chip--outline-primary { color: var(--brand-blue); border-color: #cfe1ff; }
 .chip--outline-danger  { color: var(--brand-red);  border-color: #f1c8cc; }
 .chip--outline:hover   { box-shadow: var(--shadow-1); }
-
 /* Special outline for Report AE (neutral text + red border) */
 .chip--outline-danger { background: #fff; }
 
