@@ -10,7 +10,7 @@ export class AdverseEventStore {
   private KEY = 'adverse-events';
   private eventsSig = signal<AdverseEvent[]>([]);
   readonly listSig = this.eventsSig;
-  readonly countOpen = computed(() => this.eventsSig().filter(e => (e.Status || 'OPEN') === 'OPEN').length);
+  readonly countOpen = computed(() => this.eventsSig().filter(e => (e.Status ?? '').trim().toUpperCase() === 'OPEN').length);
   readonly countSevereCritical = computed(() => this.eventsSig().filter(e => e.Severity === 'SEVERE' || e.Severity === 'CRITICAL').length);
 
   constructor(private audit: AuditService) {

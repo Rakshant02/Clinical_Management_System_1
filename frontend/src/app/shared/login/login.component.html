@@ -1,37 +1,63 @@
-<div class="login-wrapper">
-  <div class="login-image">
-    <img src="assets/image_project.png" alt="Logo" />
-  </div>
+<div class="login-page">
+  <div class="bg-blur-layer"></div>
 
   <div class="login-container">
-    <h2>Login</h2>
-    <form (ngSubmit)="onLogin()" #loginForm="ngForm">
-      <input
-        type="text"
-        name="username"
-        [(ngModel)]="username"
-        placeholder="Username"
-        required
-      />
+    <aside class="hero-sidebar">
+      <div class="sidebar-overlay"></div>
+      <div class="hero-content">
+        <div class="brand">
+          <span class="dot"></span> BioTrack
+        </div>
+        <h1 class="hero-title">Innovate.<br>Accelerate.<br>Discover.</h1>
+        <p class="hero-tagline">The future of clinical trial management.</p>
+      </div>
+    </aside>
 
-      <input
-        type="password"
-        name="password"
-        [(ngModel)]="password"
-        placeholder="Password"
-        required
-      />
+    <main class="form-section">
+      <div class="form-wrapper">
+        <header class="form-header">
+          <h2>Welcome Back</h2>
+          <p>Please enter your credentials to continue</p>
+        </header>
 
-      <select name="role" [(ngModel)]="role" required>
-        <option value="">Select Role</option>
-        <option value="admin">Admin</option>
-        <option value="investigator">Investigator</option>
-        <option value="user">User</option>
-      </select>
+        <form (ngSubmit)="onLogin()" #loginForm="ngForm" class="login-form">
+          <div class="input-group">
+            <label>Username</label>
+            <input type="text" name="username" [(ngModel)]="username" placeholder="Username" required />
+          </div>
 
-      <button type="submit">Login</button>
-    </form>
-    <!-- Register link -->
-     <p>Don't have an account? <a routerLink="/register">Register here</a></p>
+          <div class="input-group">
+            <label>Password</label>
+            <input type="password" name="password" [(ngModel)]="password" placeholder="Password" required />
+          </div>
+
+          <div class="input-group">
+            <label>System Role</label>
+            <select name="role" [(ngModel)]="role" required>
+              <option value="" disabled selected>Select Role</option>
+              <option value="admin">Admin</option>
+              <option value="investigator">Investigator</option>
+              <option value="user">User</option>
+            </select>
+          </div>
+
+          <div class="form-utils">
+            <label class="checkbox-container">
+              <input type="checkbox"> 
+              <span>Keep me logged in</span>
+            </label>
+            <a href="#" class="forgot-link">Forgot Password?</a>
+          </div>
+
+          <button type="submit" class="login-btn" [disabled]="!loginForm.valid">
+            Login to Dashboard
+          </button>
+        </form>
+
+        <footer class="form-footer">
+          Don't have an account? <a routerLink="/register">Register here</a>
+        </footer>
+      </div>
+    </main>
   </div>
 </div>

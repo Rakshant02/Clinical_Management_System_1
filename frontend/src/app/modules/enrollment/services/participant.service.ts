@@ -18,8 +18,33 @@ export class ParticipantService {
     return of(participant);
   }
 
+  // ✅ Sequential ID generator
+  private generateParticipantId(): string {
+  if (!this.participants || this.participants.length === 0) {
+    return 'P001';
+  }
+
+  const ids = this.participants
+    .map(p => {
+      const num = parseInt(p.participantId.replace('P', ''), 10);
+      return isNaN(num) ? null : num;
+    })
+    .filter((num): num is number => num !== null);
+
+  // If no valid numeric IDs found, start fresh
+  if (ids.length === 0) {
+    return 'P001';
+  }
+
+  const maxId = Math.max(...ids);
+  const nextId = maxId + 1;
+
+  return 'P' + nextId.toString().padStart(3, '0');
+  }
+
   create(participant: Participant): Observable<Participant> {
-    participant.participantId = crypto.randomUUID();
+    // ✅ Use sequential ID instead of UUID
+    participant.participantId = this.generateParticipantId();
     participant.enrollmentStatus = 'PENDING';
     this.participants.push(participant);
     return of(participant);

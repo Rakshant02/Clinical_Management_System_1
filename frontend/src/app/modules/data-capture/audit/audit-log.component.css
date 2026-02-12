@@ -1,135 +1,91 @@
-/* ===========================
-   Audit Log Card – New Style
-   (works with your existing HTML)
-   =========================== */
-
-/* ---- Card container ---- */
+/* Card */
 .audit-log-card {
-  background: #ffffff;
-  border-radius: 16px;
-  padding: 20px 22px 24px;
-  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.08);
-  max-width: 1100px;
-  margin: 0 auto;
+  background: #fff;
+  border-radius: 12px;
+  padding: 20px 24px;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.08);
+  font-family: "Inter", "Segoe UI", sans-serif;
 }
 
-/* ---- Header ---- */
-.card-header {
+/* Header */
+.header h2 {
+  margin: 0 0 12px;
+  font-size: 22px;
+  font-weight: 600;
+}
+
+/* Stats */
+.stat-row {
   display: flex;
-  flex-direction: column;
-  gap: 10px;
-  margin-bottom: 18px;
-}
-
-.card-header .title {
-  font-size: 20px;
-  font-weight: 800;
-  color: #1c274c;
-  margin: 0;
-}
-
-/* ---- Colorful count chips ---- */
-.counts {
-  display: flex;
-  gap: 10px;
+  gap: 12px;
   flex-wrap: wrap;
 }
 
-.count-item {
-  font-size: 13px;
-  font-weight: 600;
-  padding: 6px 12px;
-  border-radius: 999px;
-  display: inline-flex;
-  align-items: center;
+.stat-chip {
+  display: flex;
   gap: 6px;
+  align-items: center;
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-weight: 500;
+  font-size: 13px;
 }
 
-/* Individual chip colors */
-.count-item:nth-child(1) {
-  background: #eaf2ff;  /* blue bg */
-  color: #2563eb;       /* blue text */
+.stat-chip span {
+  font-weight: 700;
 }
 
-.count-item:nth-child(2) {
-  background: #ffecec;  /* red bg */
-  color: #dc2626;       /* red text */
-}
+.stat-chip.obs { background: #eef6ff; color: #1b5fd6; }
+.stat-chip.ae  { background: #fff2f0; color: #cf1322; }
+.stat-chip.pd  { background: #f0fdf4; color: #237804; }
 
-.count-item:nth-child(3) {
-  background: #eafff1;  /* green bg */
-  color: #16a34a;       /* green text */
-}
-
-/* ---- Search toolbar ---- */
+/* Search toolbar */
 .search-toolbar {
-  display: grid;
-  grid-template-columns: 1fr 220px auto;
-  gap: 16px;
-  padding: 14px 16px;
+  margin-top: 20px;
+  padding: 16px;
   background: #fafafa;
-  border-radius: 12px;
-  margin-bottom: 16px;
-  align-items: end;
+  border: 1px solid #e5e5e5;
+  border-radius: 10px;
+
+  display: flex;
+  align-items: flex-end;
+  gap: 16px;
+  flex-wrap: wrap;
 }
 
-.search-toolbar .field {
+.field {
   display: flex;
   flex-direction: column;
-  gap: 6px;
 }
 
-.search-toolbar label {
+.field label {
   font-size: 12px;
-  font-weight: 700;
-  color: #445278;
+  margin-bottom: 4px;
+  color: #666;
 }
 
-/* ---- Inputs ---- */
-.search-toolbar input {
-  padding: 10px 12px;
-  border-radius: 8px;
-  border: 1px solid #e5e7eb;
+.field input {
+  min-width: 240px;
+  padding: 8px 10px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
   font-size: 14px;
-  color: #1c274c;
-  background: #ffffff;
-  transition: border-color 0.15s ease, box-shadow 0.15s ease;
 }
 
-.search-toolbar input::placeholder {
-  color: #9ca3af;
-}
-
-.search-toolbar input:focus {
+.field input:focus {
   outline: none;
-  border-color: #7aa7ff;
-  box-shadow: 0 0 0 3px rgba(122, 167, 255, 0.25);
+  border-color: #4f46e5;
+  box-shadow: 0 0 0 2px rgba(79,70,229,0.15);
 }
 
-/* Date input extra padding for calendar icon */
-.search-toolbar input[type="date"] {
-  padding-right: 40px;
-}
-
-/* ---- Clear button ---- */
 .clear-btn {
-  height: 38px;
-  padding: 0 16px;
-  border-radius: 8px;
-  border: 1px solid #e5e7eb;
-  background: #ffffff;
-  color: #1c274c;
-  font-weight: 600;
+  height: 36px;
+  padding: 0 14px;
+  border-radius: 6px;
+  border: 1px solid #d0d0d0;
+  background: #fff;
   cursor: pointer;
-  transition: filter 0.15s ease, transform 0.05s ease;
-}
-
-.clear-btn:hover:not(:disabled) {
-  filter: brightness(1.03);
-}
-
-.clear-btn:active:not(:disabled) {
-  transform: translateY(1px);
+  font-weight: 500;
 }
 
 .clear-btn:disabled {
@@ -137,100 +93,64 @@
   cursor: not-allowed;
 }
 
-/* ---- Context line ---- */
+/* Context */
 .context {
-  font-size: 13px;
-  font-weight: 600;
-  color: #374151;
-  margin: 8px 0 12px;
-}
-
-/* ---- Table ---- */
-.table-wrap {
-  overflow-x: auto;
-}
-
-.audit-table {
-  width: 100%;
-  border-collapse: collapse;
+  margin: 14px 0 8px;
   font-size: 14px;
-  background: #ffffff;
+  color: #444;
 }
 
-.audit-table thead th {
-  text-align: left;
-  font-size: 12px;
-  text-transform: uppercase;
-  letter-spacing: 0.04em;
-  color: #6b7280;
-  padding: 10px 8px;
-  border-bottom: 1px solid #e5e7eb;
-  font-weight: 700;
-}
-
-.audit-table tbody td {
-  padding: 12px 8px;
-  border-bottom: 1px solid #f1f5f9;
-  color: #1c274c;
-}
-
-.audit-table tbody tr:hover {
-  background: #fafcff;
-}
-
-.audit-table .action {
-  font-weight: 600;
-}
-
-.audit-table .muted {
-  color: #6b7280;
-}
-
-.nowrap {
-  white-space: nowrap;
-}
-
-/* ---- Empty state ---- */
-.empty {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 48px 0 32px;
-}
-
-.empty-hero {
+/* Empty state */
+.empty-state {
   text-align: center;
-  max-width: 420px;
+  padding: 40px 0;
+  color: #777;
 }
 
 .empty-icon {
-  font-size: 42px;
-  margin-bottom: 12px;
-  opacity: 0.6;
+  font-size: 36px;
+  margin-bottom: 8px;
 }
 
-.empty-title {
-  font-size: 18px;
-  font-weight: 700;
-  color: #1c274c;
-  margin: 0 0 4px;
+.empty-state h4 {
+  margin: 0;
+  font-weight: 600;
+  color: #333;
 }
 
-.empty-help {
-  font-size: 14px;
-  color: #6b7280;
+/* Table polish */
+.audit-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 12px;
 }
 
-/* ---- Responsive ---- */
-@media (max-width: 768px) {
-  .search-toolbar {
-    grid-template-columns: 1fr;
-  }
-  .counts {
-    gap: 8px;
-  }
-  .audit-log-card {
-    padding: 16px 16px 20px;
-    border-radius: 14px;
-  }
+.audit-table thead {
+  background: #f8f9fb;
+}
+
+.audit-table th {
+  text-align: left;
+  padding: 10px;
+  font-size: 13px;
+  color: #555;
+  border-bottom: 1px solid #ddd;
+}
+
+.audit-table td {
+  padding: 10px;
+  border-bottom: 1px solid #eee;
+}
+
+.audit-table tr:hover {
+  background: #f9fafb;
+}
+
+.action {
+  font-weight: 600;
+  letter-spacing: 0.4px;
+}
+
+.muted {
+  color: #666;
 }

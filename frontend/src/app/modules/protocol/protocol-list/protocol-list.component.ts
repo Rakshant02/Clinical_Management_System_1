@@ -1,5 +1,3 @@
-
-// src/app/modules/protocol/protocol-list/protocol-list.component.ts
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
@@ -8,7 +6,6 @@ import { ProtocolService } from '../services/protocol.service';
 import { TrialProtocol } from '../models/trial-protocol.model';
 import { Observable, combineLatest } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
- 
 
 @Component({
   selector: 'bt-protocol-list',
@@ -19,18 +16,14 @@ import { map, startWith } from 'rxjs/operators';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ProtocolListComponent implements OnInit {
-  /** Live stream of all protocols */
   protocols$!: Observable<TrialProtocol[]>;
+  display$!: Observable<TrialProtocol[]>;
 
-  /** Declare the form here, but DO NOT create it yet */
   filterForm!: FormGroup<{
     searchTerm: FormControl<string>;
-    phase: FormControl<string | ''>;
-    status: FormControl<string | ''>;
+    phase: FormControl<string>;
+    status: FormControl<string>;
   }>;
-
-  /** Displayed (filtered) protocols */
-  display$!: Observable<TrialProtocol[]>;
 
   phases = ['I', 'II', 'III'];
   statuses = ['ACTIVE', 'COMPLETED'];
@@ -39,18 +32,16 @@ export class ProtocolListComponent implements OnInit {
     private protocolService: ProtocolService,
     private fb: NonNullableFormBuilder
   ) {
-    // ✅ Create the form AFTER DI has injected fb → no TS2729
     this.filterForm = this.fb.group({
       searchTerm: this.fb.control(''),
-      phase: this.fb.control<string | ''>(''),
-      status: this.fb.control<string | ''>('')   // ACTIVE / COMPLETED / ''
+      phase: this.fb.control(''),
+      status: this.fb.control('')
     });
   }
 
   ngOnInit(): void {
     this.protocols$ = this.protocolService.protocols$;
 
-    // Combine live protocol stream with filter form changes
     this.display$ = combineLatest([
       this.protocols$,
       this.filterForm.valueChanges.pipe(startWith(this.filterForm.getRawValue()))
@@ -61,17 +52,21 @@ export class ProtocolListComponent implements OnInit {
         const status = filters.status || '';
 
         return protocols.filter(p => {
-          const matchesTerm =
-            !term ||
-            (p.protocolId?.toLowerCase().includes(term)) ||
+          const matchesTerm = !term || 
+            (p.protocolId?.toLowerCase().includes(term)) || 
             (p.title?.toLowerCase().includes(term));
-
           const matchesPhase = !phase || p.phase === phase;
           const matchesStatus = !status || p.status === status;
-
           return matchesTerm && matchesPhase && matchesStatus;
         });
       })
     );
+  }
+
+  onDelete(id: string | undefined): void {
+    if (!id) return;
+    if (confirm(`Are you sure you want to delete Protocol ${id}?`)) {
+      this.protocolService.delete(id).subscribe();
+    }
   }
 }

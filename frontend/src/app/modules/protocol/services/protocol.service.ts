@@ -1,4 +1,3 @@
-
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { TrialProtocol } from '../models/trial-protocol.model';
@@ -44,7 +43,14 @@ export class ProtocolService {
     return of(updated);
   }
 
-  /** Called after a new Study Site is created to reflect in all protocols (requested behavior) */
+  /** Delete a protocol and update the stream */
+  delete(id: string): Observable<boolean> {
+    const currentList = this._protocols$.value;
+    const newList = currentList.filter(p => p.protocolId !== id);
+    this._protocols$.next(newList);
+    return of(true);
+  }
+
   addSiteToAllProtocols(siteId: string): void {
     const list = this._protocols$.value.map(p => {
       const siteIds = new Set(p.studySiteIds ?? []);
@@ -54,7 +60,6 @@ export class ProtocolService {
     this._protocols$.next(list);
   }
 
-  /** Optional: document upload (dummy) */
   uploadDocument(id: string, file: File): Observable<void> {
     const proto = this._protocols$.value.find(p => p.protocolId === id);
     if (!proto) return of(void 0);

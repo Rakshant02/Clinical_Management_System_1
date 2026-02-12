@@ -1,29 +1,31 @@
 <div class="audit-log-card">
-  <!-- Header bar -->
-  <div class="card-header">
-    <h3 class="title">Recent Audit Trails</h3>
 
-    <!-- Counts line -->
-    <div class="counts">
-      <span class="count-item">
-        Observations: <strong>{{ counts.observations }}</strong>
-      </span>
-      <span class="count-item">
-        Adverse Events: <strong>{{ counts.adverseEvents }}</strong>
-      </span>
-      <span class="count-item">
-        Protocol Deviations: <strong>{{ counts.deviations }}</strong>
-      </span>
+  <!-- Header -->
+  <div class="header">
+    <div>
+      <h2>Recent Audit Trails</h2>
+
+      <div class="stat-row">
+        <div class="stat-chip obs">
+          Observations <span>{{ counts.observations }}</span>
+        </div>
+        <div class="stat-chip ae">
+          Adverse Events <span>{{ counts.adverseEvents }}</span>
+        </div>
+        <div class="stat-chip pd">
+          Protocol Deviations <span>{{ counts.deviations }}</span>
+        </div>
+      </div>
     </div>
   </div>
 
-  <!-- Search toolbar -->
+  <!-- Search Toolbar -->
   <div class="search-toolbar">
     <div class="field">
       <label>Entity</label>
       <input
         type="text"
-        placeholder="Observation, Adverse Event, ProtocolDeviation"
+        placeholder="Observation, Adverse Event, Protocol Deviation"
         [(ngModel)]="search.entity"
         (input)="onSearchChange()"
       />
@@ -38,24 +40,31 @@
       />
     </div>
 
-    <button class="clear-btn" (click)="clearSearch()" [disabled]="!isSearching">
+    <button
+      class="clear-btn"
+      (click)="clearSearch()"
+      [disabled]="!isSearching"
+    >
       Clear
     </button>
   </div>
 
-  <!-- Context (Today vs Search) -->
+  <!-- Context -->
   <div class="context">
-    <ng-container *ngIf="!isSearching; else searching">
-      <strong>Today’s Audit Logs</strong>
-      <span> • {{ logs.length }} record(s)</span>
-    </ng-container>
-    <ng-template #searching>
-      <strong>Search Results</strong>
-      <span> • {{ logs.length }} record(s)</span>
-    </ng-template>
+    <strong *ngIf="!isSearching">Today’s Audit Logs</strong>
+    <strong *ngIf="isSearching">Search Results</strong>
+    <span>• {{ logs.length }} record(s)</span>
   </div>
 
-  <!-- Table -->
+  <!-- Empty state -->
+  <div class="empty-state" *ngIf="!logs.length">
+    <div class="empty-icon">📄</div>
+    <h4>No audit records</h4>
+    <p *ngIf="!isSearching">No audit records for today.</p>
+    <p *ngIf="isSearching">No records match your search criteria.</p>
+  </div>
+
+  <!-- Table (unchanged) -->
   <div class="table-wrap" *ngIf="logs.length">
     <table class="audit-table">
       <thead>
@@ -66,27 +75,14 @@
           <th>User</th>
         </tr>
       </thead>
-
       <tbody>
         <tr *ngFor="let l of logs; trackBy: trackByKey">
-          <td class="nowrap">{{ l.changedAt | date:'M/d/yy, h:mm a' }}</td>
-          <td>{{ l.entityType }}</td> <!-- ✅ dynamic entity shown -->
+          <td>{{ l.changedAt | date:'M/d/yy, h:mm a' }}</td>
+          <td>{{ l.entityType }}</td>
           <td class="action">{{ l.action }}</td>
           <td class="muted">{{ l.changedBy }}</td>
         </tr>
       </tbody>
     </table>
-  </div>
-
-  <!-- Empty state -->
-  <div class="empty" *ngIf="!logs.length">
-    <div class="empty-hero">
-      <div class="empty-icon">📄</div>
-      <p class="empty-title">
-        <ng-container *ngIf="!isSearching; else noResults">No audit records for today.</ng-container>
-        <ng-template #noResults>No records match your search.</ng-template>
-      </p>
-      <p class="empty-help" *ngIf="isSearching">Try clearing filters or picking another date.</p>
-    </div>
   </div>
 </div>

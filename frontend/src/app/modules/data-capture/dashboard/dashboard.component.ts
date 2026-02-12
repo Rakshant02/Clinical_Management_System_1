@@ -9,7 +9,7 @@ import { AuditLogComponent } from '../audit/audit-log.component';
 @Component({
   selector: 'biotrack-data-capture-dashboard',
   standalone: true,
-  imports: [DatePipe, DateSpanPipe, RouterLink],
+  imports: [DatePipe, RouterLink],
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.css']
 })
@@ -21,6 +21,8 @@ export class DataCaptureDashboardComponent {
   now = new Date();
 
   get openDeviations(): number {
-    return (this.devSvc.list() || []).filter(d => d.Status === 'OPEN').length;
+    const list = this.devSvc.list() || [];
+    return list.length;
+    // return (this.devSvc.list() || []).filter(d => d.Status === 'OPEN').length;
   }
 }

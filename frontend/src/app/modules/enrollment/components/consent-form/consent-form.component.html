@@ -3,11 +3,11 @@
 <div class="consent" *ngIf="participant; else noParticipant">
   <!-- Participant summary -->
   <dl class="cm-details">
-    <div><dt>Name</dt><dd>{{ participant?.name }}</dd></div>
-    <div><dt>DOB</dt><dd>{{ participant?.dob }}</dd></div>
-    <div><dt>Contact</dt><dd>{{ participant?.contactInfo }}</dd></div>
-    <div><dt>Eligibility</dt><dd>{{ participant?.eligibilityStatus }}</dd></div>
-    <div><dt>Enrollment Status</dt><dd>{{ participant?.enrollmentStatus }}</dd></div>
+  <div><dt>Name</dt><dd>{{ participant.name }}</dd></div>
+  <div><dt>DOB</dt><dd>{{ participant.dob }}</dd></div>
+  <div><dt>Contact</dt><dd>{{ participant.contactInfo }}</dd></div>
+  <div><dt>Eligibility</dt><dd>{{ participant.eligibilityStatus }}</dd></div>
+  <div><dt>Enrollment Status</dt><dd>{{ participant.enrollmentStatus }}</dd></div>
   </dl>
 
  
@@ -31,7 +31,7 @@
   
   <section class="history">
     <h4>Consent History</h4>
-    <ul *ngIf="consentHistory?.length; else noHistory">
+  <ul *ngIf="consentHistory.length; else noHistory">
       <li *ngFor="let c of consentHistory; let i = index " class="history-item">
         <span class="chip" [class.signed]="c.status==='SIGNED'" [class.withdrawn]="c.status==='WITHDRAWN'">
           {{ c.status }}

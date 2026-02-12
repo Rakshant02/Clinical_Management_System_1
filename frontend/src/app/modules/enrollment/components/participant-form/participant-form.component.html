@@ -47,5 +47,5 @@
   <label>Diabetes:</label>
   <input type="number" step="0.1" [(ngModel)]="participant.diabetes" name="diabetes" required />
 
-  <button type="submit">Save Participant</button>
+  <button type="submit"  [disabled]="form.invalid">Save Participant</button>
 </form>

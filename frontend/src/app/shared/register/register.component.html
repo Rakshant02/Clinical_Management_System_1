@@ -1,44 +1,79 @@
-<div class="register-wrapper">
-  <div class="login-image">
-    <img src="assets/image_project.png" alt="Logo" />
-  </div>
+<div class="login-page">
+  <div class="bg-blur-layer"></div>
 
-  <div class="register-container">
-    <h2>Register</h2>
-    <form (ngSubmit)="onRegister()" #registerForm="ngForm">
-      <input
-        type="text"
-        name="username"
-        [(ngModel)]="username"
-        placeholder="Username"
-        required
-      />
+  <div class="login-container">
+    
+    <aside class="hero-sidebar">
+      <div class="sidebar-overlay"></div>
+      <div class="hero-content">
+        <div class="brand">
+          <span class="dot"></span> BioTrack
+        </div>
+        <h1 class="hero-title">Join the<br>Discovery.</h1>
+        <p class="hero-tagline">Create an account to access the clinical trial dashboard.</p>
+      </div>
+    </aside>
 
-      <input
-        type="password"
-        name="password"
-        [(ngModel)]="password"
-        placeholder="Password"
-        required
-      />
+    <main class="form-section">
+      <div class="form-wrapper">
+        <header class="form-header">
+          <h2>Create Account</h2>
+          <p>Please enter your details to register</p>
+        </header>
 
-      <input
-        type="password"
-        name="confirmPassword"
-        [(ngModel)]="confirmPassword"
-        placeholder="Confirm Password"
-        required
-      />
+        <form (ngSubmit)="onRegister()" #registerForm="ngForm" class="login-form">
+          <div class="input-group">
+            <label>Username</label>
+            <input 
+              type="text" 
+              name="username" 
+              [(ngModel)]="username" 
+              placeholder="Enter username" 
+              required 
+            />
+          </div>
 
-      <select name="role" [(ngModel)]="role" required>
-        <option value="">Select Role</option>
-        <option value="admin">Admin</option>
-        <option value="investigator">Investigator</option>
-        <option value="user">User</option>
-      </select>
+          <div class="input-group">
+            <label>Password</label>
+            <input 
+              type="password" 
+              name="password" 
+              [(ngModel)]="password" 
+              placeholder="••••••••" 
+              required 
+            />
+          </div>
 
-      <button type="submit">Register</button>
-    </form>
-    <p>Already have an account? <a routerLink="/login">Login here</a></p>
+          <div class="input-group">
+            <label>Confirm Password</label>
+            <input 
+              type="password" 
+              name="confirmPassword" 
+              [(ngModel)]="confirmPassword" 
+              placeholder="••••••••" 
+              required 
+            />
+          </div>
+
+          <div class="input-group">
+            <label>System Role</label>
+            <select name="role" [(ngModel)]="role" required>
+              <option value="" disabled selected>Select Role</option>
+              <option value="admin">Admin</option>
+              <option value="investigator">Investigator</option>
+              <option value="user">User</option>
+            </select>
+          </div>
+
+          <button type="submit" class="login-btn" [disabled]="!registerForm.valid">
+            Register Account
+          </button>
+        </form>
+
+        <footer class="form-footer">
+          Already have an account? <a routerLink="/login" class="register-link">Login here</a>
+        </footer>
+      </div>
+    </main>
   </div>
 </div>
