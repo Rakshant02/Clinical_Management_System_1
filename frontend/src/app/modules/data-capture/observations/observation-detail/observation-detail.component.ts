@@ -3,12 +3,11 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, RouterModule } from '@angular/router';
 import { ObservationService } from '../../services/observation.service';
-import { AuditPanelComponent } from '../../audit/audit-panel.component';
 
 @Component({
   selector: 'app-observation-detail',
   standalone: true,
-  imports: [CommonModule, RouterModule, AuditPanelComponent],
+  imports: [CommonModule, RouterModule,],
   templateUrl: './observation-detail.component.html',
   styleUrls: ['./observation-detail.component.css']
 })

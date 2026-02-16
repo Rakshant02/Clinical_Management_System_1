@@ -1,47 +1,130 @@
-<!-- Header row: Title on the left; New Observation button on the right -->
 <div class="ol-header">
   <h2 class="ol-title">Observations</h2>
-  <a class="btn primary" routerLink="/data-capture/observations/new">New Observation</a>
 </div>
 
-<!-- Optional: quick filter (kept hidden to match screenshot; uncomment if needed)
+<!-- 🔎 Search + New Button Row -->
 <div class="ol-toolbar">
-  <label class="field">
-    <span>Participant filter</span>
-    <input [(ngModel)]="participantFilter" placeholder="e.g., P001" />
-  </label>
-  <button class="btn" (click)="applyFilter()">Apply</button>
+  
+  <!-- LEFT: Search -->
+  <div class="search-wrap">
+    <label class="field">
+      <span>Search by ID</span>
+      <input
+        class="input search"
+        [(ngModel)]="searchId"
+        (input)="onSearchChange()"
+        placeholder="e.g., OBS123, 0BS475..."
+        aria-label="Search observations by ID"
+      />
+    </label>
+    <button class="btn" type="button" (click)="clearSearch()" *ngIf="searchId.length">
+      Clear
+    </button>
+  </div>
+
+  <!-- RIGHT: New Observation -->
+  <a class="btn primary new-btn" routerLink="/data-capture/observations/new">
+    New Observation
+  </a>
+
 </div>
--->
 
 <!-- Table card -->
 <div class="table-card">
   <table class="ol-table">
     <thead>
       <tr>
-        <th>ID</th>
-        <th>Participant</th>
+        <th>Observation ID</th>
+        <th>Participant ID</th>
         <th>Visit Date</th>
         <th>Data Points</th>
+        <th>Actions</th>
       </tr>
     </thead>
+
     <tbody>
-      <tr *ngFor="let o of list">
-        <td class="mono">{{o.ObservationID}}</td>
-        <td class="mono">{{o.ParticipantID}}</td>
-        <td class="mono">{{o.VisitDate}}</td>
+      <tr *ngFor="let o of list" [class.row-editing]="editingId === o.ObservationID">
+
+        <!-- ID -->
+        <td class="mono">
+          <ng-container *ngIf="editingId !== o.ObservationID; else idEditTpl">
+            {{ o.ObservationID }}
+          </ng-container>
+
+          <ng-template #idEditTpl>
+            <input class="input mono" [value]="o.ObservationID" disabled />
+          </ng-template>
+        </td>
+
+        <!-- Participant -->
+        <td class="mono">
+          <ng-container *ngIf="editingId !== o.ObservationID; else pidEditTpl">
+            {{ o.ParticipantID }}
+          </ng-container>
+
+          <ng-template #pidEditTpl>
+            <input class="input mono" [(ngModel)]="draft.ParticipantID" placeholder="Participant ID" />
+          </ng-template>
+        </td>
+
+        <!-- Visit Date -->
+        <td class="mono">
+          <ng-container *ngIf="editingId !== o.ObservationID; else dateEditTpl">
+            {{ o.VisitDate }}
+          </ng-container>
+
+          <ng-template #dateEditTpl>
+            <input class="input mono" type="date" [(ngModel)]="draft.VisitDate" />
+          </ng-template>
+        </td>
+
+        <!-- Data Points -->
         <td>
-          <ul class="dp-list">
-            <li *ngIf="o.DataPoints?.Vitals?.heartRate != null">HR: {{o.DataPoints?.Vitals?.heartRate}} bpm</li>
-            <li *ngIf="o.DataPoints?.Vitals?.bp">BP: {{o.DataPoints?.Vitals?.bp}}</li>
-            <li *ngIf="o.DataPoints?.Vitals?.temperature != null">Temp: {{o.DataPoints?.Vitals?.temperature}} °C</li>
-            <!-- add more rows as needed (SpO₂, RR, etc.) -->
-          </ul>
+          <ng-container *ngIf="editingId !== o.ObservationID; else dpEditTpl">
+            <ul class="dp-list">
+              <li *ngIf="o.DataPoints?.Vitals?.heartRate != null">HR: {{ o.DataPoints?.Vitals?.heartRate }} bpm</li>
+              <li *ngIf="o.DataPoints?.Vitals?.bp">BP: {{ o.DataPoints?.Vitals?.bp }}</li>
+              <li *ngIf="o.DataPoints?.Vitals?.temperature != null">Temp: {{ o.DataPoints?.Vitals?.temperature }} °C</li>
+            </ul>
+          </ng-container>
+
+          <ng-template #dpEditTpl>
+            <div class="dp-edit-grid">
+              <label class="field">
+                <span>HR (bpm)</span>
+                <input class="input" type="number" [(ngModel)]="draft.DataPoints.Vitals.heartRate" />
+              </label>
+
+              <label class="field">
+                <span>BP</span>
+                <input class="input" [(ngModel)]="draft.DataPoints.Vitals.bp" placeholder="e.g., 120/80" />
+              </label>
+
+              <label class="field">
+                <span>Temp (°C)</span>
+                <input class="input" type="number" step="0.1" [(ngModel)]="draft.DataPoints.Vitals.temperature" />
+              </label>
+            </div>
+          </ng-template>
+        </td>
+
+        <!-- Actions -->
+        <td>
+          <ng-container *ngIf="editingId !== o.ObservationID; else rowEditingTpl">
+            <button class="btn small ghost" type="button" (click)="startEdit(o)">Edit</button>
+          </ng-container>
+
+          <ng-template #rowEditingTpl>
+            <button class="btn small primary" type="button" (click)="saveEdit()">Save</button>
+            <button class="btn small" type="button" (click)="cancelEdit()">Cancel</button>
+          </ng-template>
         </td>
       </tr>
 
-      <tr *ngIf="!list?.length">
-        <td colspan="4">No observations yet.</td>
+      <tr *ngIf="!list.length">
+        <td colspan="5">
+          {{ searchId ? 'No results for "' + searchId + '"' : 'No observations yet.' }}
+        </td>
       </tr>
     </tbody>
   </table>

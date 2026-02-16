@@ -31,6 +31,16 @@ export const DATA_CAPTURE_ROUTES: Routes = [
       ),
   },
 
+  
+  {
+    path: 'observations/:id/edit',
+    loadComponent: () =>
+      import('./observations/observation-form/observation-form.component').then(
+        m => m.ObservationFormComponent
+      ),
+  },
+
+
   // Adverse Events
   {
     path: 'adverse-events',
