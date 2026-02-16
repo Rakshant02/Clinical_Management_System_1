@@ -2,15 +2,25 @@
 
 * { box-sizing: border-box; margin: 0; padding: 0; }
 
+html, body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  overflow: hidden;
+  overscroll-behavior: none; /* Prevent scroll chaining */
+}
+
 .login-page {
-  position: relative;
-  width: 100vw;
-  height: 100vh;
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  min-height: 100vh;
   display: flex;
   align-items: center;
   justify-content: center;
   font-family: 'Inter', sans-serif;
-  overflow: hidden; /* Strict no scroll */
+  overflow: clip; /* Strict no scroll */
+  overscroll-behavior: none; /* Prevent scroll chaining */
 }
 
 .bg-blur-layer {
@@ -19,23 +29,28 @@
   background: url('/assets/login-bg.png') no-repeat center center;
   background-size: cover;
   filter: blur(20px) brightness(0.6);
-  transform: scale(1.1);
+  transform: none;
   z-index: 1;
 }
 
 .login-container {
+  width: 90%;
+  max-width: 950px;
+  max-height: 95dvh; /* Prevent overflow on smaller screens */
   position: relative;
   z-index: 2;
   display: flex;
-  width: 950px; /* Fixed width for stability */
-  height: 620px; /* Fixed height to prevent overflow on 100% zoom */
+  width: 90%; /* Fixed width for stability */
+  max-width: 950px;
+  /* max-height: 90vh; Fixed height to prevent overflow on 100% zoom */
+  height: auto;
   background: white;
   border-radius: 24px;
   overflow: hidden;
   box-shadow: 0 40px 80px rgba(0, 0, 0, 0.4);
 }
 
-/* Sidebar Styling */
+/* Sidebar Styling */ 
 .hero-sidebar {
   flex: 1;
   position: relative;
@@ -44,7 +59,7 @@
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
-  padding: 40px;
+  padding: 25px;
 }
 
 .sidebar-overlay {
@@ -81,6 +96,7 @@
   align-items: center;
   justify-content: center;
   padding: 40px;
+  overflow-y: auto;
 }
 
 .form-wrapper {
@@ -150,6 +166,6 @@ input:focus { border-color: #2563eb; outline: none; }
 
 /* Mobile logic - automatically stacks if the screen is tiny */
 @media (max-height: 650px) {
-  .login-container { height: 95vh; }
+  .login-container { min-height: 100vh; }
   .form-wrapper { padding: 10px 0; }
 }

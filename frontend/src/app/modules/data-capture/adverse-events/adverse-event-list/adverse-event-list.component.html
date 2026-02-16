@@ -1,4 +1,3 @@
-
 <!-- Header -->
 <div class="ae-header">
   <h2 class="ae-title">Adverse Events</h2>
@@ -7,7 +6,7 @@
 
 <!-- Filter -->
 <div class="ae-filter">
-  <label>Severity</label>
+  <label class="filter-label">Severity</label>
   <app-severity-filter [selected]="severity" (selectedChange)="onSeverity($event)"></app-severity-filter>
 </div>
 
@@ -16,22 +15,82 @@
   <table class="ae-table">
     <thead>
       <tr>
-        <th>ID</th>
-        <th>Participant</th>
+        <th>Adverse Event ID</th>
+        <th>Participant ID</th>
         <th>Severity</th>
         <th>Reported Date</th>
         <th>Description</th>
-        <th></th>
+        <th class="col-actions"></th>
       </tr>
     </thead>
+
     <tbody>
-      <tr *ngFor="let ev of rows; trackBy: trackById">
-        <td class="mono">{{ev.EventID}}</td>
-        <td class="mono">{{ev.ParticipantID}}</td>
-        <td><span [appSeverityBadge]="ev.Severity" class="sev-pill">{{ev.Severity}}</span></td>
-        <td class="mono">{{ev.ReportedDate | date:'yyyy-MM-dd'}}</td>
-        <td>{{ev.Description || '—'}}</td>
-        <td><a class="btn ghost" [routerLink]="['/data-capture','adverse-events', ev.EventID]">View</a></td>
+      <tr *ngFor="let ev of rows; trackBy: trackById" [class.row-editing]="editingId === ev.EventID">
+        <!-- ID (read-only) -->
+        <td class="mono">
+          <ng-container *ngIf="editingId !== ev.EventID; else idEditTpl">
+            {{ ev.EventID }}
+          </ng-container>
+          <ng-template #idEditTpl>
+            <input class="input mono" [value]="ev.EventID" disabled />
+          </ng-template>
+        </td>
+
+        <!-- Participant -->
+        <td class="mono">
+          <ng-container *ngIf="editingId !== ev.EventID; else pidEditTpl">
+            {{ ev.ParticipantID }}
+          </ng-container>
+          <ng-template #pidEditTpl>
+            <input class="input mono" [(ngModel)]="draft.ParticipantID" placeholder="Participant ID" />
+          </ng-template>
+        </td>
+
+        <!-- Severity -->
+        <td>
+          <ng-container *ngIf="editingId !== ev.EventID; else sevEditTpl">
+            <span [appSeverityBadge]="ev.Severity" class="sev-pill">{{ ev.Severity }}</span>
+          </ng-container>
+          <ng-template #sevEditTpl>
+            <select class="input" [(ngModel)]="draft.Severity">
+              <option value="MILD">MILD</option>
+              <option value="MODERATE">MODERATE</option>
+              <option value="SEVERE">SEVERE</option>
+              <option value="CRITICAL">CRITICAL</option>
+            </select>
+          </ng-template>
+        </td>
+
+        <!-- Reported Date -->
+        <td class="mono">
+          <ng-container *ngIf="editingId !== ev.EventID; else dateEditTpl">
+            {{ ev.ReportedDate | date: 'yyyy-MM-dd' }}
+          </ng-container>
+          <ng-template #dateEditTpl>
+            <input class="input mono" type="date" [(ngModel)]="draft.ReportedDate" />
+          </ng-template>
+        </td>
+
+        <!-- Description -->
+        <td>
+          <ng-container *ngIf="editingId !== ev.EventID; else descEditTpl">
+            {{ ev.Description || '—' }}
+          </ng-container>
+          <ng-template #descEditTpl>
+            <textarea class="input" rows="2" [(ngModel)]="draft.Description" placeholder="Enter description"></textarea>
+          </ng-template>
+        </td>
+
+        <!-- Actions -->
+        <td class="actions col-actions">
+          <ng-container *ngIf="editingId !== ev.EventID; else rowEditingTpl">
+            <button class="btn ghost" type="button" (click)="startEdit(ev)">Edit</button>
+          </ng-container>
+          <ng-template #rowEditingTpl>
+            <button class="btn primary" type="button" (click)="saveEdit()">Save</button>
+            <button class="btn" type="button" (click)="cancelEdit()">Cancel</button>
+          </ng-template>
+        </td>
       </tr>
     </tbody>
   </table>

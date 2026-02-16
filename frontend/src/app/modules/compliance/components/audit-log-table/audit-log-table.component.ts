@@ -26,7 +26,6 @@ export interface AuditLog {
   imports: [
     CommonModule,
     MatTableModule,
-    RouterLink,
     MatPaginatorModule,
     MatSortModule,
     MatFormFieldModule,
@@ -35,8 +34,8 @@ export interface AuditLog {
     MatButtonModule,
     MatCardModule,
     MatChipsModule,
-    MatTooltipModule,
-  ],
+    MatTooltipModule
+],
   standalone: true,
   templateUrl: './audit-log-table.component.html',
   styleUrl: './audit-log-table.component.css',
@@ -108,6 +107,9 @@ export class AuditLogTableComponent implements AfterViewInit {
       userID: 'Admin01',
       timestamp: '2025-12-22 16:00',
     },
+
+
+    
   ];
   dataSource = new MatTableDataSource(this.auditLogs);
 }

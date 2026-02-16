@@ -1,130 +1,77 @@
-import { Injectable, signal, computed } from '@angular/core';
+import { Injectable, signal, effect } from '@angular/core';
 import { Observation } from '../models';
-import { AuditService } from './audit.service';
 
 @Injectable({ providedIn: 'root' })
 export class ObservationService {
-  listByParticipant(participantId: string): Observation[] {
-    return this.obsSig().filter(o => o.ParticipantID === participantId);
-  }
-  private KEY = 'observations';
-  private obsSig = signal<Observation[]>([]);
-  readonly listSig = this.obsSig;
+  private readonly KEY = 'observations';
+  private _list = signal<Observation[]>([]);
 
-  // Reactive: recomputes automatically when obsSig changes
-  readonly countToday = computed(() => {
-    const today = isoDate(new Date()); // yyyy-MM-dd (local)
-    return this.obsSig().filter(o => o.VisitDate === today).length;
-  });
-
-  constructor(private audit: AuditService) {
+  constructor() {
+    // Load from storage once
     const raw = localStorage.getItem(this.KEY) || '[]';
-    try {
-      const parsed = JSON.parse(raw);
-      // Basic guard to avoid runtime errors on malformed data
-      const list = Array.isArray(parsed) ? parsed : [];
-      this.obsSig.set(list as Observation[]);
-    } catch {
-      this.obsSig.set([]);
-    }
+    try { this._list.set(JSON.parse(raw)); } catch { this._list.set([]); }
+
+    // Auto-persist on any change
+    effect(() => {
+      localStorage.setItem(this.KEY, JSON.stringify(this._list()));
+    });
   }
 
-  private save() {
-    try { localStorage.setItem(this.KEY, JSON.stringify(this.obsSig())); } catch {}
+  /** Return current array snapshot (your components already call listSig()) */
+  listSig(): Observation[] {
+    return this._list();
   }
 
-  add(o: Omit<Observation, 'ObservationID'>): Observation {
-    // 🔵 Ensure VisitDate is set in `yyyy-MM-dd` format when omitted/blank
-    const visitDate = normalizeVisitDate(o.VisitDate);
-
-    const created: Observation = {
-      ObservationID: genId('OBS'),
-      ...o,
-      VisitDate: visitDate,
-    };
-
-    this.obsSig.set([created, ...this.obsSig()]);
-    this.save();
-
-    // Audit CREATE (fire-and-forget)
-    this.audit.append({
-      entityType: 'Observation',
-      entityId: created.ObservationID,
-      action: 'CREATE',
-      changedBy: currentUser(),
-      changedAt: new Date().toISOString(),
-      source: 'WEB_UI',
-      newValues: created,
-    }).catch(() => {});
-
+  /** Create a new observation */
+  add(e: Omit<Observation, 'ObservationID'>): Observation {
+    const created: Observation = { ObservationID: genId('OBS'), ...e };
+    this._list.set([created, ...this._list()]);
     return created;
   }
 
-  update(id: string, patch: Partial<Observation>): Observation | undefined {
-    let before: Observation | undefined;
-    let updated: Observation | undefined;
+  /**
+   * Update existing observation IN PLACE by ObservationID.
+   * - Does NOT generate a new id
+   * - Does NOT push a new row
+   * - Merges fields and keeps the original ObservationID
+   */
+  async update(updated: Observation): Promise<void> {
+    const list = this._list();
+    const idx = list.findIndex(o => String(o.ObservationID) === String(updated.ObservationID));
+    if (idx === -1) throw new Error('Observation not found');
 
-    this.obsSig.set(this.obsSig().map(x => {
-      if (x.ObservationID === id) {
-        before = { ...x };
-        updated = {
-          ...x,
-          ...patch,
-          // keep VisitDate normalized if patch changes it
-          VisitDate: patch.VisitDate ? normalizeVisitDate(patch.VisitDate) : x.VisitDate,
-        };
-        return updated!;
-      }
-      return x;
-    }));
-    this.save();
-
-    if (updated) {
-      this.audit.append({
-        entityType: 'Observation',
-        entityId: id,
-        action: 'UPDATE',
-        changedBy: currentUser(),
-        changedAt: new Date().toISOString(),
-        source: 'WEB_UI',
-        oldValues: before,
-        newValues: updated,
-      }).catch(() => {});
-    }
-    return updated;
+    const next = [...list];
+    // lock the ID to avoid accidental key changes
+    next[idx] = { ...list[idx], ...updated, ObservationID: list[idx].ObservationID };
+    this._list.set(next);
   }
 
+  /** Optional: update by id with a patch (if you prefer this signature) */
+  async updateById(id: string, patch: Partial<Observation>): Promise<void> {
+    const list = this._list();
+    const idx = list.findIndex(o => String(o.ObservationID) === String(id));
+    if (idx === -1) throw new Error('Observation not found');
+
+    const next = [...list];
+    next[idx] = { ...list[idx], ...patch, ObservationID: list[idx].ObservationID };
+    this._list.set(next);
+  }
+
+  /** Optional: find by id */
   find(id: string): Observation | undefined {
-    return this.obsSig().find(x => x.ObservationID === id);
+    return this._list().find(o => String(o.ObservationID) === String(id));
+  }
+
+  /** Optional: remove by id */
+  remove(id: string): void {
+    const next = this._list().filter(o => String(o.ObservationID) !== String(id));
+    this._list.set(next);
   }
 }
 
+/** Simple ID generator */
 function genId(prefix: string): string {
   const rand = Math.random().toString(36).slice(2, 6).toUpperCase();
-  const ts = Date.now().toString().slice(-6);
+  const ts = Date.now().toString(36).toUpperCase();
   return `${prefix}${ts}${rand}`;
-}
-
-function isoDate(d: Date): string {
-  const yyyy = d.getFullYear();
-  const mm = String(d.getMonth() + 1).padStart(2,'0');
-  const dd = String(d.getDate()).padStart(2,'0');
-  return `${yyyy}-${mm}-${dd}`;
-}
-
-// 🔵 Normalize any input to yyyy-MM-dd
-function normalizeVisitDate(input?: string): string {
-  if (!input || !input.trim()) return isoDate(new Date());
-  // If input looks like ISO date 'yyyy-MM-dd', keep it
-  const isoMatch = /^\d{4}-\d{2}-\d{2}$/.test(input);
-  if (isoMatch) return input;
-  // Otherwise try parsing and format to yyyy-MM-dd
-  const t = Date.parse(input);
-  if (!Number.isNaN(t)) return isoDate(new Date(t));
-  // Fallback to today if unable to parse
-  return isoDate(new Date());
-}
-
-function currentUser(): string {
-  return localStorage.getItem('currentUserId') || 'anonymous';
 }
