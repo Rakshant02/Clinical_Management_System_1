@@ -34,7 +34,7 @@ import { Router, RouterLink } from '@angular/router';
 export class CorrectiveActionComponent {
   constructor(private router: Router) {}
   goToReports() {
-    this.router.navigate(['/compliance/reports']);
+    this.router.navigate(['/compliance/audit-log']);
   }
 
   viewAction(_t79: any) {

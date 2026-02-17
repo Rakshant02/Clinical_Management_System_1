@@ -1,4 +1,4 @@
-<!-- Dashboard Summary -->
+
 <!-- Dashboard Summary -->
 <div class="dashboard">
   <!-- Total Logs Card -->
@@ -38,7 +38,7 @@
     <mat-card-content>
       <div class="card-content">
         <h2>
-          {{ auditLogs[auditLogs.length - 1]?.timestamp | date : "short" }}
+          {{ auditLogs[auditLogs.length - 1].timestamp | date : "short" }}
         </h2>
         <p>Most recent compliance report</p>
       </div>
@@ -133,7 +133,7 @@
 
   <!-- Reports Button -->
   <div class="reports-btn">
-    <button mat-raised-button color="primary" (click)="goToReports()">
+    <button mat-raised-button class="reports-button" (click)="goToReports()">
       <mat-icon>assessment</mat-icon> Go to Reports Log
     </button>
   </div>

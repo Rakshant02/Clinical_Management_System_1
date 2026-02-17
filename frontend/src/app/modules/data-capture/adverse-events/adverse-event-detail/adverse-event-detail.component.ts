@@ -12,8 +12,7 @@ import { SeverityBadgeDirective } from '../../../../shared/directives/severity-b
   imports: [
     CommonModule,
     RouterModule,
-    AuditPanelComponent,
-    SeverityBadgeDirective // ✅ required for [appSeverityBadge]
+    SeverityBadgeDirective // required for [appSeverityBadge]
   ],
   templateUrl: './adverse-event-detail.component.html',
   styleUrls: ['./adverse-event-detail.component.css']
